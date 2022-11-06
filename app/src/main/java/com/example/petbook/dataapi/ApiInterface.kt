@@ -1,21 +1,24 @@
 package com.example.petbook.dataapi
 
 import com.example.petbook.model.User
+import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Body
 import retrofit2.http.POST
 import retrofit2.http.Query
 
 interface ApiInterface {
 
 
-        @POST("signup")
-        fun Register(@Query("name") name: String,@Query("email") email: String, @Query("password") password: String): Call<User>
+        @POST("user/signup")
+        fun Register(@Body params: RequestBody): Call<User>
 
         companion object {
 
-            var BASE_URL = "http://192.168.1.22:5000/"
+            var BASE_URL = "http://192.168.1.10:9090/"
 
             fun create(): ApiInterface {
 
