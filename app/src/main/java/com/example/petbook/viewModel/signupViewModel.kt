@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModel
 import com.example.petbook.dataapi.ApiInterface
 import com.example.petbook.model.User
 import com.example.petbook.repository.UserRepository
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import org.json.JSONObject
 import retrofit2.Call
@@ -52,6 +53,6 @@ class signupViewModel : ViewModel() {
     }
     private fun createJsonRequestBody(vararg params: Pair<String, String>) =
         RequestBody.create(
-            okhttp3.MediaType.parse("application/json; charset=utf-8"),
+            "application/json; charset=utf-8".toMediaTypeOrNull(),
             JSONObject(mapOf(*params)).toString())
 }
