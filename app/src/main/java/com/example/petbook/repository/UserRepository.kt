@@ -15,11 +15,10 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class UserRepository {
-
-    fun userSignup(fullname: String, email: String, password: String): Int {
+    val SignuResult= MutableLiveData<Int>()
+    fun userSignup(fullname: String, email: String, password: String)  {
         val apiInterface = ApiInterface.create()
 
-var result:Int =0
 
         apiInterface.Register(createJsonRequestBody(    "username" to fullname, "password" to password, "email" to email)).enqueue(object : Callback<User> {
 
@@ -28,9 +27,9 @@ var result:Int =0
                 val user = response.body()
 
                 if (user != null){
-                  result =1
+                    SignuResult.postValue(1)
                 }else{
-                 result= 2
+                    SignuResult.postValue(2)
                 }
 
 
@@ -38,19 +37,14 @@ var result:Int =0
             }
 
             override fun onFailure(call: Call<User>, t: Throwable) {
-                result= 3
+        SignuResult.postValue(3)
             }
 
         })
-return result
+
     }
-
-
-
     private fun createJsonRequestBody(vararg params: Pair<String, String>) =
         RequestBody.create(
             okhttp3.MediaType.parse("application/json; charset=utf-8"),
             JSONObject(mapOf(*params)).toString())
-
-
 }
