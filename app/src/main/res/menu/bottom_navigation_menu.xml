@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu  xmlns:android="http://schemas.android.com/apk/res/android"
+   >
+    <item
+        android:id="@+id/page_1"
+
+        android:icon="@drawable/home_icon"
+        android:title="homeicon"/>
+    <item
+        android:id="@+id/page_2"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_map_24"
+        android:title="mapicon"/>
+    <item
+        android:id="@+id/page_3"
+        android:enabled="true"
+        android:icon="@drawable/explore_icon"
+        android:title="exploreicon"
+        />
+    <item
+        android:id="@+id/page_4"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_library_books_24"
+        android:title="icon"/>
+    <item
+        android:id="@+id/page_5"
+        android:enabled="true"
+        android:icon="@drawable/pets_icon"
+        android:title="petsicon"/>
+</menu>
