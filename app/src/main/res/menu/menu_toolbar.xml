@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+
+
+
+    <item
+        android:id="@+id/notif_iconid"
+        android:icon="@drawable/notif_icon"
+        android:title="Profile"
+
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/chat_iconid"
+        android:icon="@drawable/chat_icon"
+        android:title="Profile"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/profile_iconid"
+        android:icon="@drawable/profile_icon"
+        android:title="Profile"
+        app:showAsAction="always"
+        />
+
+</menu>

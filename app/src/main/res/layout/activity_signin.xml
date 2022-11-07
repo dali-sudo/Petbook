@@ -67,7 +67,7 @@
             />
 
         <ImageView
-            android:id="@+id/imageView4"
+            android:id="@+id/googleIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -219,7 +219,7 @@
             android:textSize="13sp" />
 
         <TextView
-            android:id="@+id/__p__Sign_Up"
+            android:id="@+id/goToSignUp"
             android:layout_width="50dp"
             android:layout_height="25.5dp"
             android:layout_gravity="center_horizontal|center"
