@@ -1,6 +1,7 @@
 package com.example.petbook.views
 
 import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_NO_HISTORY
 import android.os.Bundle
 import android.util.Patterns
 import android.widget.Toast
@@ -9,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.petbook.databinding.ActivitySigninBinding
 import com.example.petbook.model.BaseResponse
 import com.example.petbook.model.LoginResponse
+import com.example.petbook.model.User
+import com.example.petbook.repository.SessionManager
 import com.example.petbook.util.toast
 import com.example.petbook.viewModel.SigninViewModel
 import com.example.petbook.viewModel.signupViewModel
@@ -33,6 +36,11 @@ lateinit var password: String
         binding = ActivitySigninBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+        val token = SessionManager.getToken(this)
+        if (!token.isNullOrBlank()) {
+            navigateToHome()
+        }
 
         binding.goToSignUp.setOnClickListener(){
 
@@ -91,6 +99,16 @@ lateinit var password: String
 
 
     }
+    private fun navigateToHome() {
+
+
+
+        val intent = Intent(this, profil::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+        intent.addFlags(FLAG_ACTIVITY_NO_HISTORY)
+        startActivity(intent)
+
+    }
     fun showLoading() {
         toast("loading")
     }
@@ -100,8 +118,22 @@ lateinit var password: String
 
     fun processLogin(data: LoginResponse?) {
         toast("Success:" + data?.user)
+        if (data != null) {
+            SessionManager.saveString(this, "username" , data.user.username)
+            SessionManager.saveString(this,"email", data.user.email)
+        }
+
+        // if user got back we save its token for authentification
+        if (!data?.user?.token.isNullOrEmpty()) {
+            data?.user?.token?.let { SessionManager.saveAuthToken(this, it) }
+
+                navigateToHome()
+
+        }
 
     }
+
+
     fun processError(msg: String?) {
       toast("Error:" + msg)
     }
