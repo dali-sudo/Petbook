@@ -1,5 +1,6 @@
 package com.example.petbook.views
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Patterns.EMAIL_ADDRESS
@@ -27,10 +28,18 @@ class signup : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
         val SignupViewModel = signupViewModel()
+
+
+        binding.goToLogin.setOnClickListener(){
+
+            val intent = Intent(this,signin::class.java)
+            startActivity(intent)
+
+        }
         binding.progBar.visibility = View.INVISIBLE
         binding.register.setOnClickListener {
             if (validate()) {
-                val apiInterface = ApiInterface.create()
+
 
                 val email = binding.emailInput.text.toString()
 
