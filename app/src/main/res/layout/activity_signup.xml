@@ -177,6 +177,7 @@
         android:layout_height="28dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.636"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/register">
 
@@ -192,11 +193,12 @@
             android:textSize="13sp" />
 
         <TextView
-            android:id="@+id/__p__log_in"
+            android:id="@+id/goToLogin"
             android:layout_width="50dp"
             android:layout_height="25.5dp"
             android:layout_gravity="center_horizontal|center"
 
+            android:clickable="true"
             android:gravity="center"
             android:text="Log in"
             android:textColor="@color/gold"
@@ -235,7 +237,7 @@
         android:indeterminate="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.469"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
 </androidx.constraintlayout.widget.ConstraintLayout>
