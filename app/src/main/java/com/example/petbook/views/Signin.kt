@@ -7,7 +7,11 @@ import android.util.Patterns
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+
+import androidx.core.view.isVisible
+
 import com.example.petbook.R
+
 import com.example.petbook.databinding.ActivitySigninBinding
 import com.example.petbook.model.BaseResponse
 import com.example.petbook.model.LoginResponse
@@ -35,7 +39,9 @@ lateinit var password: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySigninBinding.inflate(layoutInflater)
+        binding.loadingAnimation.isVisible=false
         val view = binding.root
+
         setContentView(view)
 
         val token = SessionManager.getToken(this)
@@ -57,6 +63,7 @@ lateinit var password: String
 
             signIn();
 
+
         }
 
 
@@ -73,6 +80,7 @@ lateinit var password: String
 
                 is BaseResponse.Error -> {
                     processError(it.msg)
+                    stopLoading()
                 }
                 else -> {
                     stopLoading()
@@ -103,7 +111,6 @@ lateinit var password: String
     private fun navigateToHome() {
 
 
-
         val intent = Intent(this, profil::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
         intent.addFlags(FLAG_ACTIVITY_NO_HISTORY)
@@ -111,10 +118,13 @@ lateinit var password: String
 
     }
     fun showLoading() {
-        toast("loading")
+        binding.loadingAnimation.isVisible=true
+
     }
     fun stopLoading() {
-       toast("stopeed loading")
+
+
+        binding.loadingAnimation.isVisible=false
     }
 
     fun processLogin(data: LoginResponse?) {
