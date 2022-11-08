@@ -7,7 +7,11 @@ import android.util.Patterns
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+
 import androidx.core.view.isVisible
+
+import com.example.petbook.R
+
 import com.example.petbook.databinding.ActivitySigninBinding
 import com.example.petbook.model.BaseResponse
 import com.example.petbook.model.LoginResponse
@@ -53,11 +57,12 @@ lateinit var password: String
         }
         gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().requestIdToken("196512096964-98hd93oa1f64t27nrttk5364j5h9h6gr.apps.googleusercontent.com").build()
         gsc = GoogleSignIn.getClient(this, gso!!)
-        gsc?.signOut()
+
         binding.googleIcon.setOnClickListener()
         {
-            println("google")
-            signIn()
+
+            signIn();
+
 
         }
 
@@ -186,20 +191,19 @@ lateinit var password: String
                 val acct = GoogleSignIn.getLastSignedInAccount(this)
                 val personName = acct?.displayName
                 val personEmail = acct?.email
-                val token =acct?.idToken
-                println("token")
-                println(token.toString())
-             //   val res=SignupViewModel.userSignup(personName.toString(),personEmail.toString(),"googleacount")
-                println(personName.toString())
-                println(personEmail.toString())
+                val token = acct?.idToken
+                val res = SignupViewModel.userSignup(
+                    personName.toString(),
+                    personEmail.toString(),
+                    "googleacount"
+                )
             } catch (e: ApiException) {
                 Toast.makeText(applicationContext, "Something went wrong", Toast.LENGTH_SHORT)
                     .show()
-                println("error")
+
                 println(e)
             }
         }
-        else println("error")
     }
 }
 
