@@ -40,10 +40,6 @@ lateinit var password: String
 
         setContentView(view)
 
-        val token = SessionManager.getToken(this)
-        if (!token.isNullOrBlank()) {
-            navigateToHome()
-        }
 
         binding.goToSignUp.setOnClickListener(){
 
