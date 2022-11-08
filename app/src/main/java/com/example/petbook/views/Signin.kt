@@ -44,6 +44,7 @@ lateinit var password: String
 
         setContentView(view)
 
+
         val token = SessionManager.getToken(this)
         val acct = GoogleSignIn.getLastSignedInAccount(this)
         if(acct!=null){
@@ -53,6 +54,8 @@ lateinit var password: String
         if (!token.isNullOrBlank()) {
             navigateToHome()
         }
+
+
 
         binding.goToSignUp.setOnClickListener(){
 
