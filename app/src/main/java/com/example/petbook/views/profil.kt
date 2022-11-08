@@ -35,11 +35,12 @@ class profil : AppCompatActivity() {
         {
 
             SessionManager.clearData(this)
+            gsc?.signOut()
             val intent = Intent(this, signin::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
 
-            gsc?.signOut()
+
             startActivity(intent)
 
         }
