@@ -45,15 +45,13 @@ lateinit var password: String
         setContentView(view)
 
 
-        val token = SessionManager.getToken(this)
+
         val acct = GoogleSignIn.getLastSignedInAccount(this)
         if(acct!=null){
             navigateToHome()
         }
 
-        if (!token.isNullOrBlank()) {
-            navigateToHome()
-        }
+
 
 
 
