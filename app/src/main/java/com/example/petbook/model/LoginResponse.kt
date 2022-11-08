@@ -13,13 +13,15 @@ data class LoginResponse(
 )
   {
     data class Data(
-        @SerializedName("id")
+        @SerializedName("_id")
         var id: String,
         @SerializedName("email")
         var email: String,
         @SerializedName("username")
         var username: String,
-        @SerializedName("Token")
-        var password: String
+        @SerializedName("password")
+        var password: String,
+        @SerializedName("token")
+      var token: String
     )
 }
