@@ -45,6 +45,11 @@ lateinit var password: String
         setContentView(view)
 
         val token = SessionManager.getToken(this)
+        val acct = GoogleSignIn.getLastSignedInAccount(this)
+        if(acct!=null){
+            navigateToHome()
+        }
+
         if (!token.isNullOrBlank()) {
             navigateToHome()
         }
@@ -197,6 +202,7 @@ lateinit var password: String
                     personEmail.toString(),
                     "googleacount"
                 )
+                navigateToHome()
             } catch (e: ApiException) {
                 Toast.makeText(applicationContext, "Something went wrong", Toast.LENGTH_SHORT)
                     .show()
