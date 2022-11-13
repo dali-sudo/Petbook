@@ -5,9 +5,11 @@ import androidx.annotation.DrawableRes
 data class Post (
 
 
-    @DrawableRes
-    val PostImage : Int,
+val id:String,
+    val PostImage : List<String>,
     val PostUsername : String,
     val PostDate : String,
     val PostDesc : String,
+    val likesCount : String,
+    val likes:List<String>
 )
