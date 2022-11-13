@@ -55,23 +55,12 @@
         app:layout_constraintTop_toBottomOf="@+id/__p__welcome_back_please_enter_your_details">
 
         <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="130dp"
-            android:layout_marginEnd="20dp"
-            app:srcCompat="@drawable/facebook"
-            tools:layout_editor_absoluteX="144dp"
-            tools:layout_editor_absoluteY="232dp"
-            />
-
-        <ImageView
             android:id="@+id/googleIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             app:srcCompat="@drawable/google"
+            android:layout_marginStart="157dp"
             tools:layout_editor_absoluteX="213dp"
             tools:layout_editor_absoluteY="232dp" />
     </LinearLayout>
