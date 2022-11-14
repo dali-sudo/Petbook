@@ -22,6 +22,8 @@ data class LoginResponse(
         @SerializedName("password")
         var password: String,
         @SerializedName("token")
-      var token: String
+      var token: String,
+        @SerializedName("profilePic")
+        var img:String?=null
     )
 }

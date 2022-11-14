@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.petbook.R
 import com.example.petbook.databinding.FragmentHomeBinding
 import com.example.petbook.model.Post
+import com.example.petbook.repository.SessionManager
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

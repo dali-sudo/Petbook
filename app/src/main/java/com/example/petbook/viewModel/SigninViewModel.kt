@@ -26,6 +26,7 @@ class SigninViewModel(application: Application) : AndroidViewModel(application) 
     val userRepo = UserRepository()
     val loginResult: MutableLiveData<BaseResponse<LoginResponse>> = MutableLiveData()
 
+    // manage loading by setting the loginresult.value each case and sending it via livedata, when req/res set to loading, when code good get body, when not get error msg
     fun loginUser(email: String, pwd: String) {
 
         loginResult.value = BaseResponse.Loading()
