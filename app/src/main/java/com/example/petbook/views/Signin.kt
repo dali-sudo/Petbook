@@ -118,10 +118,13 @@ lateinit var password: String
     private fun navigateToHome() {
 
 
-        val intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this,MainActivity::class.java)
+
+
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
         intent.addFlags(FLAG_ACTIVITY_NO_HISTORY)
         startActivity(intent)
+        finish()
 
     }
     fun showLoading() {
@@ -139,6 +142,7 @@ lateinit var password: String
         if (data != null) {
             SessionManager.saveString(this, "username" , data.user.username)
             SessionManager.saveString(this,"email", data.user.email)
+            SessionManager.saveString(this,"id", data.user.id)
         }
 
         // if user got back we save its token for authentification

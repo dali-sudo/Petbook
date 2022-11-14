@@ -1,15 +1,21 @@
 package com.example.petbook.views
 
+import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.petbook.R
 import com.example.petbook.databinding.FragmentHomeBinding
+
+import com.example.petbook.model.PostResponse
+import com.example.petbook.viewModel.PostViewModel
+
 import com.example.petbook.model.Post
 import com.example.petbook.repository.SessionManager
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -36,6 +42,9 @@ class HomeFragment : Fragment() {
         }
     }
     private val binding get() = _binding!!
+    lateinit var posts : MutableList<PostResponse>
+    lateinit var PostList : MutableList<PostResponse>
+    private val viewModel by viewModels<PostViewModel>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -48,28 +57,57 @@ class HomeFragment : Fragment() {
 
 
 
+
+
+
         return view
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        PostList = ArrayList()
+        viewModel.getPosts()
+        var postAdpater = PostAdpater(requireView().context,PostList, viewModel)
+        viewModel.list.observe(viewLifecycleOwner) {
+            PostList = it
+            postAdpater = PostAdpater(requireView().context,PostList, viewModel)
+            postAdpater.notifyDataSetChanged()
+            binding.PostRv.adapter = postAdpater
+        }
 
-        var PostList : MutableList<Post> = ArrayList()
-        PostList.add(Post(PostImage = R.drawable.dogs, PostUsername = "khalil", PostDate = "5 min ago" , PostDesc = "Cute Dog"  ))
-        PostList.add(Post(PostImage = R.drawable.dogs, PostUsername = "khalil", PostDate = "5 min ago" , PostDesc = "Cute Dog"  ))
-        PostList.add(Post(PostImage = R.drawable.dogs, PostUsername = "khalil", PostDate = "5 min ago" , PostDesc = "Cute Dog"  ))
-        val postAdpater = PostAdpater(PostList)
-        binding.PostRv.layoutManager=LinearLayoutManager(requireView().context,LinearLayoutManager.VERTICAL,false)
-        binding.PostRv.adapter=postAdpater
+        binding.PostRv.layoutManager =
+            LinearLayoutManager(requireView().context, LinearLayoutManager.VERTICAL, false)
+        binding.PostRv.adapter = postAdpater
+        binding.swiperefresh.setOnRefreshListener {
+            viewModel.getPosts()
+            postAdpater = PostAdpater(requireView().context,PostList, viewModel)
+            postAdpater.notifyDataSetChanged()
+            binding.PostRv.adapter = postAdpater
+            binding.swiperefresh.setRefreshing(false)
+        }
 
 
-
+        binding.addPostBtn.setOnClickListener() {
+            val intent = Intent(context, AddPost::class.java)
+            startActivity(intent)
+        }
     }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+    fun process(data: MutableList<PostResponse>?) {
+
+        if (data != null) {
+            println("aaaaaaaaaaaaa")
+          println(data)
+        }
+
+
+
+
+    }
+
     companion object {
         /**
          * Use this factory method to create a new instance of
