@@ -12,6 +12,6 @@
         app:navigationIcon="@drawable/arrowback_icon"
 
         app:title="Create post"
-        app:titleTextColor="@color/white"/>
+        app:titleTextColor="@color/black" />
 
 </com.google.android.material.appbar.AppBarLayout>

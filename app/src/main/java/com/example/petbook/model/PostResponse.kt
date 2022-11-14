@@ -28,6 +28,8 @@ data class Owner(
     var id: String,
     @SerializedName("username")
     var username: String,
+    @SerializedName("avatar")
+    var avatar: String,
 
 )
 }

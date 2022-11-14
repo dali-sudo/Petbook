@@ -87,10 +87,7 @@ class HomeFragment : Fragment() {
         }
 
 
-        binding.addPostBtn.setOnClickListener() {
-            val intent = Intent(context, AddPost::class.java)
-            startActivity(intent)
-        }
+
     }
     override fun onDestroyView() {
         super.onDestroyView()
