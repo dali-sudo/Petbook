@@ -53,8 +53,8 @@
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/MainfragmentContainerView"
         android:name="com.example.petbook.views.HomeFragment"
-        android:layout_width="match_parent"
-        android:layout_height="624dp"
+        android:layout_width="410dp"
+        android:layout_height="551dp"
         android:layout_marginTop="16dp"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"

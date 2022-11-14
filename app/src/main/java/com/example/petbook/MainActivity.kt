@@ -15,7 +15,9 @@ import androidx.fragment.app.Fragment
 import com.example.petbook.databinding.ActivityMainBinding
 import com.example.petbook.databinding.ActivitySignupBinding
 import com.example.petbook.repository.SessionManager
+
 import com.example.petbook.views.AddPost
+
 import com.example.petbook.views.HomeFragment
 import com.example.petbook.views.profil
 import com.example.petbook.views.signin
@@ -42,7 +44,12 @@ class MainActivity : AppCompatActivity() {
             val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
             binding.userIcon.setImageBitmap(decodedImage)
 
+
         }
+
+
+
+
       binding.bottomNavigationView.setOnItemSelectedListener {
 
             when(it.itemId) {
