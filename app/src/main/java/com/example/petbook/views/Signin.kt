@@ -67,13 +67,13 @@ lateinit var password: String
 
         binding.googleIcon.setOnClickListener()
         {
-
+    //google sign in
             signIn();
 
 
         }
 
-
+ // to make loading and save data in shared pref
         viewModel.loginResult.observe(this) {
             when (it) {
                 is BaseResponse.Loading -> {
@@ -119,6 +119,8 @@ lateinit var password: String
 
 
         val intent = Intent(this,MainActivity::class.java)
+
+
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
         intent.addFlags(FLAG_ACTIVITY_NO_HISTORY)
         startActivity(intent)
@@ -134,7 +136,7 @@ lateinit var password: String
 
         binding.loadingAnimation.isVisible=false
     }
-
+// save  user/token in shared pref
     fun processLogin(data: LoginResponse?) {
         toast("Success:" + data?.user)
         if (data != null) {

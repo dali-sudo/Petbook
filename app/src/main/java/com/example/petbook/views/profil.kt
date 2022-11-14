@@ -1,8 +1,10 @@
 package com.example.petbook.views
 
 import android.content.Intent
+import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Base64
 import com.example.petbook.databinding.ActivityProfilBinding
 import com.example.petbook.databinding.ActivitySignupBinding
 import com.example.petbook.repository.SessionManager
@@ -20,6 +22,14 @@ class profil : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
+        if (SessionManager.getString(this,"profilePic") !=null )
+        {
+            val imageBytes = Base64.decode(SessionManager.getString(this,"profilePic"), Base64.DEFAULT)
+            val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+            binding.imageView.setImageBitmap(decodedImage)
+
+        }
+
         gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().requestIdToken("196512096964-98hd93oa1f64t27nrttk5364j5h9h6gr.apps.googleusercontent.com").build()
         gsc = GoogleSignIn.getClient(this, gso!!)
 
@@ -31,7 +41,7 @@ class profil : AppCompatActivity() {
         else{
         binding.fullnametxt.text = SessionManager.getString(this, "username")
         }
-        binding.linearLayout5.setOnClickListener()
+        binding.logoutLayout.setOnClickListener()
         {
 
             SessionManager.clearData(this)
@@ -46,6 +56,13 @@ class profil : AppCompatActivity() {
         }
         binding.profileBack.setOnClickListener() {
             finish()
+        }
+
+        binding.myAccLayout.setOnClickListener()
+        {
+            val intent = Intent(this,EditProfile::class.java)
+            startActivity(intent)
+
         }
 
 
