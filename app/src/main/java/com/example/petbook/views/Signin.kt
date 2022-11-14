@@ -143,9 +143,14 @@ lateinit var password: String
             SessionManager.saveString(this, "username" , data.user.username)
             SessionManager.saveString(this,"email", data.user.email)
             SessionManager.saveString(this,"id", data.user.id)
+
         }
 
         // if user got back we save its token for authentification
+    if (!data?.user?.img.isNullOrEmpty()) {
+        data?.user?.img?.let { SessionManager.saveString(this,"profilePic", it) }
+
+    }
         if (!data?.user?.token.isNullOrEmpty()) {
             data?.user?.token?.let { SessionManager.saveAuthToken(this, it) }
 

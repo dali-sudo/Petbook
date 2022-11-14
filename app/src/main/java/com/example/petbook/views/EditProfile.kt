@@ -13,6 +13,7 @@ import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.view.isVisible
+import com.example.petbook.MainActivity
 import com.example.petbook.databinding.ActivityEditProfileBinding
 import com.example.petbook.model.BaseResponse
 import com.example.petbook.model.LoginResponse
@@ -78,6 +79,12 @@ class EditProfile : AppCompatActivity() {
             }
         }
         binding.profileBack.setOnClickListener() {
+
+            val intent = Intent(this, MainActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+            startActivity(intent)
+
             finish()
         }
         binding.updateUserButton.setOnClickListener ()
@@ -85,6 +92,7 @@ class EditProfile : AppCompatActivity() {
 
 
             doUpdate()
+            navigateToProfile()
 
         }
 

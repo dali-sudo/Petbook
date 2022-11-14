@@ -1,10 +1,12 @@
 package com.example.petbook.views
 
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Base64
 import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.activity.viewModels
@@ -35,6 +37,16 @@ class AddPost : AppCompatActivity() {
         binding = ActivityAddPostBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+      if (SessionManager.getString(this,"profilePic") !=null )
+        {
+            val imageBytes = Base64.decode(SessionManager.getString(this,"profilePic"), Base64.DEFAULT)
+            val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+            binding.postProfileIcon.setImageBitmap(decodedImage)
+
+        }
+        
+
          images= ArrayList()
         binding.button.setOnClickListener(){
             val gallery = Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
@@ -45,8 +57,6 @@ class AddPost : AppCompatActivity() {
 
         setSupportActionBar(toolbar)
 toolbar.setNavigationOnClickListener(){
-    val intent = Intent(this, MainActivity::class.java)
-    startActivity(intent)
     finish()
 }
 
@@ -75,6 +85,8 @@ binding.username.text=SessionManager.getString(this,"username")!!
                     images,
                     SessionManager.getString(this,"id")!!
                 )
+
+                finish()
 
 
             }
