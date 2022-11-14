@@ -73,6 +73,15 @@ class HomeFragment : Fragment() {
         binding.PostRv.layoutManager =
             LinearLayoutManager(requireView().context, LinearLayoutManager.VERTICAL, false)
         binding.PostRv.adapter = postAdpater
+        binding.swiperefresh.setOnRefreshListener {
+            viewModel.getPosts()
+            postAdpater = PostAdpater(requireView().context,PostList, viewModel)
+            postAdpater.notifyDataSetChanged()
+            binding.PostRv.adapter = postAdpater
+            binding.swiperefresh.setRefreshing(false)
+        }
+
+
         binding.addPostBtn.setOnClickListener() {
             val intent = Intent(context, AddPost::class.java)
             startActivity(intent)
