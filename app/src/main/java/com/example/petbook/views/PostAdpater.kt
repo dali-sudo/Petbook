@@ -1,8 +1,10 @@
 package com.example.petbook.views
 
 import android.content.Context
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.net.Uri
+import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -58,6 +60,12 @@ if(post.PostImage.size>0)
       else{
       itemBinding.PostImage.setImageURI(Uri.parse(post.PostImage.get(i)))}
     itemBinding.PostImage.setImageURI(Uri.parse(post.PostImage.get(i)))
+    }
+
+    if(post.PostUserImage!=null) {
+        val imageBytes = Base64.decode(post.PostUserImage, Base64.DEFAULT)
+        val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+        itemBinding.userIcon.setImageBitmap(decodedImage)
     }
       itemBinding.PostDescreption.text=post.PostDesc
       val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" )
@@ -124,7 +132,8 @@ count++
         PostList[position].date,
         PostList[position].description,
         PostList[position].likescount,
-        PostList[position].likes
+        PostList[position].likes,
+          PostList[position].owner.avatar
       )
       holder.bindItem(post)
 

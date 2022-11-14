@@ -11,5 +11,6 @@ val id:String,
     val PostDate : String,
     val PostDesc : String,
     val likesCount : String,
-    val likes:List<String>
+    val likes:List<String>,
+    val PostUserImage:String
 )

@@ -1,9 +1,11 @@
 package com.example.petbook
 
 import android.content.Intent
+import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.ContactsContract
+import android.util.Base64
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -12,6 +14,8 @@ import androidx.annotation.NonNull
 import androidx.fragment.app.Fragment
 import com.example.petbook.databinding.ActivityMainBinding
 import com.example.petbook.databinding.ActivitySignupBinding
+import com.example.petbook.repository.SessionManager
+import com.example.petbook.views.AddPost
 import com.example.petbook.views.HomeFragment
 import com.example.petbook.views.profil
 import com.example.petbook.views.signin
@@ -28,7 +32,17 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
 
         setSupportActionBar(findViewById(R.id.app_bar))
+        binding.addPostBtn.setOnClickListener() {
+            val intent = Intent(this, AddPost::class.java)
+            startActivity(intent)
+        }
+        if (SessionManager.getString(this,"profilePic") !=null )
+        {
+            val imageBytes = Base64.decode(SessionManager.getString(this,"profilePic"), Base64.DEFAULT)
+            val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+            binding.userIcon.setImageBitmap(decodedImage)
 
+        }
       binding.bottomNavigationView.setOnItemSelectedListener {
 
             when(it.itemId) {
