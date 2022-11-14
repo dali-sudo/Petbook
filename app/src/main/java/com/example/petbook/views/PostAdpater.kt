@@ -18,6 +18,10 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.collections.ArrayList
 
+private const val SECOND_MILLIS = 1000
+private const val MINUTE_MILLIS = 60 * SECOND_MILLIS
+private const val HOUR_MILLIS = 60 * MINUTE_MILLIS
+private const val DAY_MILLIS = 24 * HOUR_MILLIS
 class   PostAdpater(val context:Context,val PostList: MutableList<PostResponse>,private val postViewModel: PostViewModel):RecyclerView.Adapter<PostAdpater.PostViewHolder>(){
 
   inner class PostViewHolder(val itemBinding:PostSingleItemBinding):RecyclerView.ViewHolder(itemBinding.root)
@@ -64,7 +68,7 @@ if(post.PostImage.size>0)
       val daten = Date()
       val current = sdf.format(daten)
 
-      itemBinding.postdateId.text=d.toString()
+      itemBinding.postdateId.text=getTimeAgo(date)
 
       itemBinding.likes.text=post.likesCount+" likes"
       for (item in post.likes) {
@@ -130,6 +134,29 @@ count++
   override fun getItemCount(): Int {
     return PostList.size
   }
+    fun getTimeAgo(date: Date): String {
+        var time = date.time
+        if (time < 1000000000000L) {
+            time *= 1000
+        }
 
+        val daten = Date()
+        val now = daten.time
+        if (time > now || time <= 0) {
+            return "in the future"
+        }
 
+        val diff = now - time
+        println(diff)
+        return when {
+            diff < MINUTE_MILLIS -> "moments ago"
+            diff < 2 * MINUTE_MILLIS -> "a minute ago"
+            diff < 60 * MINUTE_MILLIS -> "${diff / MINUTE_MILLIS} minutes ago"
+            diff < 2 * HOUR_MILLIS -> "an hour ago"
+            diff < 24 * HOUR_MILLIS -> "${diff / HOUR_MILLIS} hours ago"
+            diff < 48 * HOUR_MILLIS -> "yesterday"
+            else -> "${diff / DAY_MILLIS} days ago"
+        }
+
+    }
 }
