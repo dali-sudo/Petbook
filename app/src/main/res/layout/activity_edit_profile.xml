@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".views.EditProfile">
+
+    <LinearLayout
+        android:id="@+id/profilePicLayout"
+        android:layout_width="395dp"
+        android:layout_height="171dp"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <ImageView
+            android:id="@+id/profile_back"
+            android:layout_width="65dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+
+
+            app:srcCompat="@drawable/back_arrow"
+            app:tint="#FFFFFF" />
+
+        <LinearLayout
+            android:layout_width="239dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+
+                android:id="@+id/profilePicHolder"
+                android:layout_width="121dp"
+                android:layout_height="120dp"
+                android:layout_marginStart="70dp"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/profile_icon"
+                 />
+
+            <TextView
+                android:id="@+id/fullnameTxtView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:text="Username"
+                android:textStyle="bold"
+                android:layout_marginStart="95dp"
+                />
+        </LinearLayout>
+
+
+
+
+    </LinearLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/outlined_username"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="377dp"
+        android:layout_height="97dp"
+        android:layout_marginTop="16dp"
+
+
+        android:hint="Fullname"
+        app:boxStrokeColor="@color/colorPrimary"
+        app:errorEnabled="true"
+        app:hintTextColor="@color/colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profilePicLayout"
+        app:startIconDrawable="@drawable/ic_baseline_account_box_24"
+        app:startIconTint="@color/colorPrimary">
+
+        <com.google.android.material.textfield.TextInputEditText
+
+            android:id="@+id/username_text_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/black"/>
+
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/outlined_email"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="377dp"
+        android:layout_height="97dp"
+
+
+        android:layout_marginTop="24dp"
+        android:hint="Email"
+        app:boxStrokeColor="@color/colorPrimary"
+        app:errorEnabled="true"
+
+        app:hintTextColor="@color/colorPrimary"
+        app:layout_constraintEnd_toEndOf="@+id/outlined_username"
+        app:layout_constraintStart_toStartOf="@+id/outlined_username"
+        app:layout_constraintTop_toBottomOf="@+id/outlined_username"
+        app:startIconDrawable="@drawable/ic_baseline_email_24"
+        app:startIconTint="@color/colorPrimary">
+
+        <com.google.android.material.textfield.TextInputEditText
+
+            android:id="@+id/email_text_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/black"/>
+
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/outlined_password"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="377dp"
+        android:layout_height="97dp"
+
+
+        android:layout_marginTop="32dp"
+        android:hint="New password"
+
+        app:boxStrokeColor="@color/colorPrimary"
+
+        app:errorEnabled="true"
+        app:hintTextColor="@color/colorPrimary"
+        app:layout_constraintEnd_toEndOf="@+id/outlined_email"
+        app:layout_constraintStart_toStartOf="@+id/outlined_email"
+        app:layout_constraintTop_toBottomOf="@+id/outlined_email"
+        app:startIconDrawable="@drawable/ic_baseline_lock_24"
+        app:startIconTint="@color/colorPrimary">
+
+        <com.google.android.material.textfield.TextInputEditText
+
+            android:id="@+id/epassword_text_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:textColorHint="@color/black"/>
+
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/updateUserButton"
+        android:layout_width="339dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="32dp"
+        android:background="#fece2f"
+        android:fontFamily="@font/bungee"
+        android:text="UPDATE"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="@+id/outlined_password"
+        app:layout_constraintStart_toStartOf="@+id/outlined_password"
+        app:layout_constraintTop_toBottomOf="@+id/outlined_password" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/loadingAnimation"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/updateUserButton"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/loadingcat" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
