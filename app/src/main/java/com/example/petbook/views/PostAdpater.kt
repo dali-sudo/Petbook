@@ -31,7 +31,9 @@ class   PostAdpater(val context:Context,val PostList: MutableList<PostResponse>,
     fun bindItem(post:Post){
 var liked:Boolean=false
       var i=0
-      itemBinding.PostUsername.text=post.PostUsername
+        if(post.PostUsername!=null) {
+            itemBinding.PostUsername.text = post.PostUsername
+        }
 if(post.PostImage.size>0)
 {
       if(post.PostImage.size>1) {
@@ -61,6 +63,9 @@ if(post.PostImage.size>0)
       itemBinding.PostImage.setImageURI(Uri.parse(post.PostImage.get(i)))}
     itemBinding.PostImage.setImageURI(Uri.parse(post.PostImage.get(i)))
     }
+        else{
+    itemBinding.PostImage.visibility = View.GONE
+        }
 
     if(post.PostUserImage!=null) {
         val imageBytes = Base64.decode(post.PostUserImage, Base64.DEFAULT)
