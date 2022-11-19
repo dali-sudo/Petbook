@@ -9,6 +9,9 @@ import com.example.petbook.repository.PostRepository
 import com.example.petbook.repository.UserRepository
 import com.google.gson.annotations.SerializedName
 import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody
+import org.json.JSONObject
 
 class PostViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -117,11 +120,35 @@ val list:MutableLiveData<MutableList<PostResponse>> = MutableLiveData()
     }
 
 
+    fun getPostsByUser(id1:String) {
+
+        getpostResult.value = BaseResponse.Loading()
+        viewModelScope.launch {
+            try {
+                val postRequest = UserPostRequest(
+
+                    id = id1,
 
 
+                )
 
+                val response = postRepo.getPostByUser(postRequest)
+                if (response?.code() == 200) {
+                    list.value= response.body()
+                } else {
+                    getpostResult.value = BaseResponse.Error(response?.message())
+                }
 
-
-
+            } catch (ex: Exception) {
+                postResult.value = BaseResponse.Error(ex.message )
+                println(BaseResponse.Error(ex.message ))
+            }
+        }
+        //ex.message
+    }
 
 }
+
+
+
+

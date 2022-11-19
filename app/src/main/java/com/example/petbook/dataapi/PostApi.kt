@@ -1,10 +1,7 @@
 package com.example.petbook.dataapi
 
 
-import com.example.petbook.model.LikeRequest
-import com.example.petbook.model.LoginRequest
-import com.example.petbook.model.PostRequest
-import com.example.petbook.model.PostResponse
+import com.example.petbook.model.*
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
@@ -21,6 +18,8 @@ interface PostApi {
     suspend fun likePost(@Body likeRequest: LikeRequest): Response<PostResponse>
     @POST("/post/unlike")
     suspend fun unlikePost(@Body likeRequest: LikeRequest): Response<PostResponse>
+    @POST("/post/getPostByUser")
+    suspend fun getPostByUser(@Body userpostRequest: UserPostRequest): Response<MutableList<PostResponse>>
     companion object {
         fun getApi(): PostApi? {
             return ApiClient.client?.create(PostApi::class.java)

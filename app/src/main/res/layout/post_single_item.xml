@@ -10,7 +10,12 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         app:cardElevation="5dp"
-        app:cardUseCompatPadding="true">
+        app:cardUseCompatPadding="true"
+        android:background="@drawable/_bg__f_shape"
+        app:strokeColor="@color/grey"
+
+        app:cardCornerRadius="20dp"
+        android:elevation="100dp">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -25,7 +30,8 @@
                 android:layout_marginTop="8dp"
                 android:src="@drawable/profile_icon"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                />
 
             <TextView
                 android:id="@+id/PostUsername"
@@ -75,6 +81,7 @@
                 android:layout_width="32dp"
                 android:layout_height="34dp"
                 android:layout_marginTop="64dp"
+                android:layout_marginEnd="7dp"
                 android:layout_marginBottom="87dp"
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="@+id/PostImage"
