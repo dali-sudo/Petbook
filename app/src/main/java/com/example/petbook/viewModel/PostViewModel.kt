@@ -20,6 +20,10 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     val postResult: MutableLiveData<BaseResponse<PostResponse>> = MutableLiveData()
     val getpostResult: MutableLiveData<BaseResponse<PostResponse>> = MutableLiveData()
 val list:MutableLiveData<MutableList<PostResponse>> = MutableLiveData()
+    val userRepo = UserRepository()
+    val followResult: MutableLiveData<BaseResponse<FollowResponse>> = MutableLiveData()
+    val unfollowResult: MutableLiveData<BaseResponse<FollowResponse>> = MutableLiveData()
+
     fun AddPost(desc: String, List:List<String>,own:String) {
 
         postResult.value = BaseResponse.Loading()
@@ -146,8 +150,58 @@ val list:MutableLiveData<MutableList<PostResponse>> = MutableLiveData()
         }
         //ex.message
     }
+    fun Follow(myid: String, followedid: String) {
+
+        followResult.value = BaseResponse.Loading()
+        viewModelScope.launch {
+            try {
+
+                val followRequest = FollowRequest(
+                   id = myid,
+                    followed= followedid
+                )
+                val response = userRepo.FollowUser(followRequest)
+                if (response?.code() == 200) {
+                    followResult.value = BaseResponse.Success(response.body())
+                } else {
+                    followResult.value = BaseResponse.Error(response?.message())
+                }
+
+            } catch (ex: Exception) {
+                followResult.value = BaseResponse.Error(ex.message )
+            }
+        }
+        //ex.message
+    }
+
+
+    fun UnFollow(myid: String, followedid: String) {
+
+        unfollowResult.value = BaseResponse.Loading()
+        viewModelScope.launch {
+            try {
+
+                val followRequest = FollowRequest(
+                    id = myid,
+                    followed= followedid
+                )
+                val response = userRepo.FollowUser(followRequest)
+                if (response?.code() == 200) {
+                    unfollowResult.value= BaseResponse.Success(response.body())
+                } else {
+                    unfollowResult.value = BaseResponse.Error(response?.message())
+                }
+
+            } catch (ex: Exception) {
+                unfollowResult.value = BaseResponse.Error(ex.message )
+            }
+        }
+        //ex.message
+    }
 
 }
+
+
 
 
 

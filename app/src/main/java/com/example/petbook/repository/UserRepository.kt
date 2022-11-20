@@ -15,4 +15,13 @@ class UserRepository {
     suspend fun FindUsers(searchRequest: SearchRequest): Response<MutableList<SearchResponse>>? {
         return UserApi.getApi()?.findUser(searchRequest = searchRequest )
     }
+    suspend fun FollowUser(followRequest: FollowRequest): Response<FollowResponse>? {
+        return UserApi.getApi()?.Follow(followRequest = followRequest)
+    }
+    suspend fun UnFollowUser(followRequest: FollowRequest): Response<FollowResponse>? {
+        return UserApi.getApi()?.UnFollow(followRequest = followRequest)
+    }
+    suspend fun getUser(userPostRequest: UserPostRequest): Response<UserPostResponse>? {
+        return UserApi.getApi()?.getUser(userPostRequest= userPostRequest)
+    }
 }

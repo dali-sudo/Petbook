@@ -1,25 +1,18 @@
 package com.example.petbook.views
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.BitmapFactory
-import android.net.Uri
 import android.util.Base64
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.petbook.R
-import com.example.petbook.databinding.PostSingleItemBinding
 import com.example.petbook.databinding.UserSingleItemBinding
-import com.example.petbook.model.Post
-import com.example.petbook.model.PostResponse
 import com.example.petbook.model.SearchResponse
-import com.example.petbook.model.User
-import com.example.petbook.repository.SessionManager
-import com.example.petbook.viewModel.PostViewModel
+import com.example.petbook.viewModel.ProfilViewModel
 import com.example.petbook.viewModel.SearchUsersViewModel
-import java.text.SimpleDateFormat
 import java.util.*
+
 
 class SearchAdapter(val context: Context, val SearchList: MutableList<SearchResponse>, private val searchUsersViewModel: SearchUsersViewModel):
     RecyclerView.Adapter<SearchAdapter.SearchViewHolder>(){
@@ -35,6 +28,13 @@ class SearchAdapter(val context: Context, val SearchList: MutableList<SearchResp
 
                 itemBinding.searchUsername.text=user.username
 
+            itemBinding.userSearchlayout.setOnClickListener(){
+
+                val myIntent = Intent(context, ProfilPosts::class.java)
+                myIntent.putExtra("id", user.id) //Optional parameters
+
+                context.startActivity(myIntent)
+            }
 
         }}
 
@@ -44,7 +44,7 @@ class SearchAdapter(val context: Context, val SearchList: MutableList<SearchResp
 
     override fun onBindViewHolder(holder:  SearchViewHolder, position: Int) {
 
-        println("222222")
+
         var user = SearchResponse(
             SearchList[position].id,
             SearchList[position].username,
