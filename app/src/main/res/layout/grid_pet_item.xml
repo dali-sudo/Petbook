@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="@dimen/_2sdp"
+    app:cardCornerRadius="@dimen/_4sdp"
+    app:cardBackgroundColor="#fff"
+    android:layout_margin="@dimen/_2sdp">
+
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    >
+
+    <ImageView
+        android:id="@+id/petpostImage"
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
+        android:src="@drawable/sliderdog3"
+        android:scaleType="fitXY"
+       android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/petpostImage"
+        android:text="description"
+        />
+
+
+
+</RelativeLayout>
+
+
+</com.google.android.material.card.MaterialCardView>
