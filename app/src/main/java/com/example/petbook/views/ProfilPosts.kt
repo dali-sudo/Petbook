@@ -1,5 +1,6 @@
 package com.example.petbook.views
 
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Base64
@@ -51,20 +52,30 @@ var followed =false
                         }
 
                         is BaseResponse.Success -> {
-                            binding.profileusername.setText(it.data!!.username)
-                            binding.followerscount.setText(it.data.followerscount)
-                            binding.followingcount.setText(it.data.followingcount)
-                            val imageBytes = Base64.decode(it.data!!.avatar, Base64.DEFAULT)
-                            val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
-                            binding.profilicon.setImageBitmap(decodedImage)
-
+                            if(it.data!!.username!=null) {
+                            binding.profileusername.setText(it.data!!.username)}
+                            if(it.data.followerscount!=null) {
+                            binding.followerscount.setText(it.data.followerscount)}
+                            if(it.data.followingcount!=null) {
+                            binding.followingcount.setText(it.data.followingcount)}
+                            if(it.data.avatar!=null) {
+                                val imageBytes = Base64.decode(it.data!!.avatar, Base64.DEFAULT)
+                                val decodedImage =
+                                    BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+                                binding.profilicon.setImageBitmap(decodedImage)
+                            }
                             if( SessionManager.getString(this,"id")in it.data!!.followers )
                             {
                                 followed=true
 
                                 }
-                            if(value.toString()==SessionManager.getString(this,"id") ){
-                                binding.button3.setText("EDIT PROFILE")}
+                            if(value.toString()==SessionManager.getString(this,"id") ) {
+                                binding.button3.setText("EDIT PROFILE")
+                                binding.button3.setOnClickListener() {
+                                    val intent = Intent(this,EditProfile::class.java)
+                                    startActivity(intent)
+                                }
+                            }
                                 else if(followed){
 
                                         binding.button3.setText("Unfollow")

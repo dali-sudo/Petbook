@@ -31,7 +31,10 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(findViewById(R.id.app_bar))
 
-
+binding.floatingActionButton.setOnClickListener(){
+    val intent = Intent(this, AddPost::class.java)
+    startActivity(intent)
+}
 
       binding.bottomNavigationView.setOnItemSelectedListener {
 
