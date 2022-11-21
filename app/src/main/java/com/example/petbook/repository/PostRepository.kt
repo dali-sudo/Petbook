@@ -1,10 +1,7 @@
 package com.example.petbook.repository
 
 import com.example.petbook.dataapi.PostApi
-import com.example.petbook.model.LikeRequest
-import com.example.petbook.model.LoginRequest
-import com.example.petbook.model.PostRequest
-import com.example.petbook.model.PostResponse
+import com.example.petbook.model.*
 import retrofit2.Call
 import retrofit2.Response
 
@@ -22,5 +19,9 @@ class PostRepository {
     }
     suspend fun removeLike(likeRequest : LikeRequest): Response<PostResponse>? {
         return PostApi.getApi()?.unlikePost(likeRequest  = likeRequest )
+    }
+    suspend fun getPostByUser(userpostRequest: UserPostRequest): Response<MutableList<PostResponse>>? {
+        return PostApi.getApi()?.getPostByUser(userpostRequest =userpostRequest)
+
     }
 }

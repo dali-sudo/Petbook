@@ -60,8 +60,10 @@ class profil : AppCompatActivity() {
 
         binding.myAccLayout.setOnClickListener()
         {
-            val intent = Intent(this,EditProfile::class.java)
-            startActivity(intent)
+            val myIntent = Intent(this, ProfilPosts::class.java)
+            myIntent.putExtra("id",SessionManager.getString(this,"id") ) //Optional parameters
+
+            this.startActivity(myIntent)
 
         }
 

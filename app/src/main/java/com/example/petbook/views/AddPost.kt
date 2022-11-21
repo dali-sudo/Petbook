@@ -37,7 +37,7 @@ class AddPost : AppCompatActivity() {
         binding = ActivityAddPostBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-
+        binding.addpostImageView.visibility = View.GONE
       if (SessionManager.getString(this,"profilePic") !=null )
         {
             val imageBytes = Base64.decode(SessionManager.getString(this,"profilePic"), Base64.DEFAULT)
@@ -101,6 +101,7 @@ binding.username.text=SessionManager.getString(this,"username")!!
             imageUri = data?.data
             getContentResolver().takePersistableUriPermission(imageUri !!, Intent.FLAG_GRANT_READ_URI_PERMISSION);
            binding.addpostImageView.setImageURI(imageUri )
+            binding.addpostImageView.visibility = View.VISIBLE
             images.add(imageUri.toString())
             println(images.size)
             images.forEach{ println(it)

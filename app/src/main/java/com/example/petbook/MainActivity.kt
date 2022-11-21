@@ -1,32 +1,28 @@
 package com.example.petbook
 
 import android.content.Intent
-import android.graphics.BitmapFactory
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.ContactsContract
-import android.util.Base64
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
-import android.widget.Toolbar
-import androidx.annotation.NonNull
+import android.view.MotionEvent
+import android.view.View
+import android.view.View.OnTouchListener
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.example.petbook.databinding.ActivityMainBinding
-import com.example.petbook.databinding.ActivitySignupBinding
-import com.example.petbook.repository.SessionManager
+import com.example.petbook.viewModel.PostViewModel
+import com.example.petbook.viewModel.SearchUsersViewModel
+import com.example.petbook.views.*
 
-import com.example.petbook.views.AddPost
-
-import com.example.petbook.views.HomeFragment
-import com.example.petbook.views.profil
-import com.example.petbook.views.signin
-import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-
+    private val viewModel by viewModels<PostViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -34,21 +30,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
 
         setSupportActionBar(findViewById(R.id.app_bar))
-        binding.addPostBtn.setOnClickListener() {
-            val intent = Intent(this, AddPost::class.java)
-            startActivity(intent)
-        }
-        if (SessionManager.getString(this,"profilePic") !=null )
-        {
-            val imageBytes = Base64.decode(SessionManager.getString(this,"profilePic"), Base64.DEFAULT)
-            val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
-            binding.userIcon.setImageBitmap(decodedImage)
 
-
-        }
-
-
-
+binding.floatingActionButton.setOnClickListener(){
+    val intent = Intent(this, AddPost::class.java)
+    startActivity(intent)
+}
 
       binding.bottomNavigationView.setOnItemSelectedListener {
 
@@ -67,7 +53,43 @@ class MainActivity : AppCompatActivity() {
 
 
         supportFragmentManager.beginTransaction().add(R.id.MainfragmentContainerView, HomeFragment()).commit()
-        }
+
+var bool=true
+
+
+
+binding.backToHome.setOnClickListener(){
+    binding.backToHome.visibility = View.GONE
+    supportFragmentManager.beginTransaction().replace(R.id.MainfragmentContainerView, HomeFragment()).commit()
+    binding.SearchTextField2.setText("")
+    binding.SearchTextField2.clearFocus();
+
+}
+        var value = ""
+    binding.SearchTextField2.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {
+
+                value=s.toString()
+if(value!="") {
+    // Set the computed value to the other EditText
+    binding.backToHome.visibility = View.VISIBLE
+    val bundle = Bundle()
+    bundle.putString("search", value)
+
+    val fragobj = SearchFragment()
+    fragobj.setArguments(bundle)
+    supportFragmentManager.beginTransaction().replace(R.id.MainfragmentContainerView, fragobj)
+        .commit()
+}
+            }
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+        })
+
+    }
+
+
 
 
 
