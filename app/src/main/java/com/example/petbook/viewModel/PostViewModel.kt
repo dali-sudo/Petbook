@@ -9,6 +9,9 @@ import com.example.petbook.repository.PostRepository
 import com.example.petbook.repository.UserRepository
 import com.google.gson.annotations.SerializedName
 import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody
+import org.json.JSONObject
 
 class PostViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -17,6 +20,10 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     val postResult: MutableLiveData<BaseResponse<PostResponse>> = MutableLiveData()
     val getpostResult: MutableLiveData<BaseResponse<PostResponse>> = MutableLiveData()
 val list:MutableLiveData<MutableList<PostResponse>> = MutableLiveData()
+    val userRepo = UserRepository()
+    val followResult: MutableLiveData<BaseResponse<FollowResponse>> = MutableLiveData()
+    val unfollowResult: MutableLiveData<BaseResponse<FollowResponse>> = MutableLiveData()
+
     fun AddPost(desc: String, List:List<String>,own:String) {
 
         postResult.value = BaseResponse.Loading()
@@ -117,11 +124,85 @@ val list:MutableLiveData<MutableList<PostResponse>> = MutableLiveData()
     }
 
 
+    fun getPostsByUser(id1:String) {
+
+        getpostResult.value = BaseResponse.Loading()
+        viewModelScope.launch {
+            try {
+                val postRequest = UserPostRequest(
+
+                    id = id1,
 
 
+                )
+
+                val response = postRepo.getPostByUser(postRequest)
+                if (response?.code() == 200) {
+                    list.value= response.body()
+                } else {
+                    getpostResult.value = BaseResponse.Error(response?.message())
+                }
+
+            } catch (ex: Exception) {
+                postResult.value = BaseResponse.Error(ex.message )
+                println(BaseResponse.Error(ex.message ))
+            }
+        }
+        //ex.message
+    }
+    fun Follow(myid: String, followedid: String) {
+
+        followResult.value = BaseResponse.Loading()
+        viewModelScope.launch {
+            try {
+
+                val followRequest = FollowRequest(
+                   id = myid,
+                    followed= followedid
+                )
+                val response = userRepo.FollowUser(followRequest)
+                if (response?.code() == 200) {
+                    followResult.value = BaseResponse.Success(response.body())
+                } else {
+                    followResult.value = BaseResponse.Error(response?.message())
+                }
+
+            } catch (ex: Exception) {
+                followResult.value = BaseResponse.Error(ex.message )
+            }
+        }
+        //ex.message
+    }
 
 
+    fun UnFollow(myid: String, followedid: String) {
 
+        unfollowResult.value = BaseResponse.Loading()
+        viewModelScope.launch {
+            try {
 
+                val followRequest = FollowRequest(
+                    id = myid,
+                    followed= followedid
+                )
+                val response = userRepo.FollowUser(followRequest)
+                if (response?.code() == 200) {
+                    unfollowResult.value= BaseResponse.Success(response.body())
+                } else {
+                    unfollowResult.value = BaseResponse.Error(response?.message())
+                }
+
+            } catch (ex: Exception) {
+                unfollowResult.value = BaseResponse.Error(ex.message )
+            }
+        }
+        //ex.message
+    }
 
 }
+
+
+
+
+
+
