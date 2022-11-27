@@ -15,7 +15,7 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
     val list: MutableLiveData<ChatRoomResponse> = MutableLiveData()
     val Contacs: MutableLiveData<MutableList<ChatContactsResponse>> = MutableLiveData()
 
-
+val chatid: MutableLiveData<GetChatResponse> = MutableLiveData()
     fun get(id1:String) {
 
 
@@ -85,6 +85,32 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
                 val response = chatRepo.sendMessage(messageRequest)
                 if (response?.code() == 200) {
                     list.value= response.body()
+                } else {
+
+                }
+
+            } catch (ex: Exception) {
+
+                println(BaseResponse.Error(ex.message ))
+            }
+        }
+        //ex.message
+    }
+    fun findOrCreate(id1:String,id2:String) {
+
+
+        viewModelScope.launch {
+            try {
+                val getChatRequest = GetChatRequest (
+
+                    mid = id1,
+                    id=id2
+
+                    )
+
+                val response = chatRepo.findorcreate(getChatRequest)
+                if (response?.code() == 200) {
+                    chatid.value= response.body()
                 } else {
 
                 }

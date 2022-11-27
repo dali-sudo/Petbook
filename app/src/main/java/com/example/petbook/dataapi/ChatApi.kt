@@ -15,6 +15,10 @@ interface ChatApi {
     @POST("/chat/send")
     suspend fun sendmessage(@Body messageRequest: MessageRequest): Response<ChatRoomResponse>
 
+    @POST("/chat/findorcreate")
+    suspend fun findorcreate(@Body getChatRequest:GetChatRequest): Response<GetChatResponse>
+
+
     companion object {
         fun getApi(): ChatApi? {
             return ApiClient.client?.create(ChatApi::class.java)

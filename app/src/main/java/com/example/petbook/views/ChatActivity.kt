@@ -1,6 +1,7 @@
 package com.example.petbook.views
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,8 +15,8 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var binding: ActivityChatBinding
     private val viewModel by viewModels<ChatViewModel>()
     lateinit var List : ChatRoomResponse
-    lateinit var Chat : ChatRoomResponse.Data
     lateinit var Chat1 : List<ChatRoomResponse.Data>
+    lateinit var Users : List<ChatRoomResponse.Data2>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityChatBinding.inflate(layoutInflater)
@@ -34,33 +35,35 @@ mSocket.on("refresh"){
     if(value!=null) {
         viewModel.get(value)
         binding.chatRv.layoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true)
+            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
     }
 
 }
 
 
 
-        Chat=ChatRoomResponse.Data("1","1")
+
         Chat1=ArrayList()
+       Users=ArrayList()
 
 
-List= ChatRoomResponse("0",Chat1)
+List= ChatRoomResponse("0",Chat1,Users)
         if(value!=null) {
             viewModel.get(value)
         }
-        var chatAdpater = ChatAdapter(this, List.chat as MutableList<ChatRoomResponse.Data>)
+        var chatAdpater = ChatAdapter(this, List.chat as MutableList<ChatRoomResponse.Data>, List.Users as MutableList<ChatRoomResponse.Data2>)
         viewModel.list.observe(this) {
             List = it
 
             var chatAdpater = ChatAdapter(this,
-                List.chat as MutableList<ChatRoomResponse.Data>)
+                List.chat as MutableList<ChatRoomResponse.Data>,  List.Users as MutableList<ChatRoomResponse.Data2>)
             chatAdpater.notifyDataSetChanged()
             binding.chatRv.adapter = chatAdpater
+            binding.chatRv.scrollToPosition(List.chat.size-1)
         }
 
         binding.chatRv.layoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true)
+            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
 
         binding.chatRv.adapter = chatAdpater
@@ -72,6 +75,9 @@ List= ChatRoomResponse("0",Chat1)
                     viewModel.sendmessage(value.toString(), msg.toString(),  SessionManager.getString(this, "id").toString())
                     binding.messageEdit.setText("")
                     mSocket.emit("send",List.chat[0].sender_id)
+                    if (value != null) {
+                        viewModel.get(value)
+                    }
                 }
             }
         }

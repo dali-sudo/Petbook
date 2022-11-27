@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.petbook.databinding.ItemReceivedMessageBinding
 import com.example.petbook.model.ChatRoomResponse
@@ -12,27 +13,30 @@ import com.example.petbook.model.message
 import com.example.petbook.repository.SessionManager
 
 
-class ChatAdapter(val context: Context, val List: MutableList<ChatRoomResponse.Data>):
+class ChatAdapter(val context: Context, val List: MutableList<ChatRoomResponse.Data>,val users:MutableList<ChatRoomResponse.Data2>):
     RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
     inner class ChatViewHolder(val itemBinding: ItemReceivedMessageBinding ) :
         RecyclerView.ViewHolder(itemBinding.root) {
         fun bindItem(chat: message) {
 
             val id = SessionManager.getString(context, "id")
-            if(chat.id==id){
-                itemBinding.nameTxt.visibility=GONE
-                itemBinding.receivedTxt.visibility= GONE
-                itemBinding.sentTxt.visibility= VISIBLE
+            if (chat.id == id) {
+                itemBinding.nameTxt.visibility = GONE
+                itemBinding.receivedTxt.visibility = GONE
+                itemBinding.sentTxt.visibility = VISIBLE
 
                 itemBinding.sentTxt.setText(chat.message)
-            }
-            else {
+            } else {
                 itemBinding.nameTxt.visibility = VISIBLE
                 itemBinding.receivedTxt.visibility = VISIBLE
-                itemBinding.sentTxt.visibility= GONE
+                itemBinding.sentTxt.visibility = GONE
                 itemBinding.receivedTxt.setText(chat.message)
             }
-
+            users.forEach {
+                if (it.id == chat.id) {
+                    itemBinding.nameTxt.setText(it.username)
+                }
+            }
         }
     }
 

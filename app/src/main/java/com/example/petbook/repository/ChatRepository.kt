@@ -15,4 +15,7 @@ class ChatRepository {
     suspend fun sendMessage(messageRequest: MessageRequest): Response<ChatRoomResponse>? {
         return ChatApi.getApi()?.sendmessage(messageRequest=messageRequest)
     }
+    suspend fun findorcreate(getChatRequest: GetChatRequest): Response<GetChatResponse>? {
+        return ChatApi.getApi()?.findorcreate(getChatRequest =getChatRequest)
+    }
 }

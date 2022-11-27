@@ -28,7 +28,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-
         setSupportActionBar(findViewById(R.id.app_bar))
 
 binding.floatingActionButton.setOnClickListener(){
@@ -113,6 +112,10 @@ if(value!="") {
 
             R.id.profile_iconid -> {
                 val intent = Intent(this, profil::class.java)
+                startActivity(intent)
+            }
+            R.id.chat_iconid -> {
+                val intent = Intent(this, ChatContatcsActivity::class.java)
                 startActivity(intent)
             }
 

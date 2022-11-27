@@ -14,7 +14,8 @@
         android:id="@+id/chatRv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/messageEdit" />
+        android:layout_above="@id/messageEdit"
+        />
 
     <EditText
         android:layout_width="match_parent"

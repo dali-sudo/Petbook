@@ -2,7 +2,6 @@ package com.example.petbook.views
 
 import android.content.Context
 import android.graphics.BitmapFactory
-import android.graphics.Color
 import android.net.Uri
 import android.util.Base64
 import android.view.LayoutInflater
@@ -16,9 +15,7 @@ import com.example.petbook.model.PostResponse
 import com.example.petbook.repository.SessionManager
 import com.example.petbook.viewModel.PostViewModel
 import java.text.SimpleDateFormat
-import java.time.format.DateTimeFormatter
 import java.util.*
-import kotlin.collections.ArrayList
 
 private const val SECOND_MILLIS = 1000
 private const val MINUTE_MILLIS = 60 * SECOND_MILLIS
