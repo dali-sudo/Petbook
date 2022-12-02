@@ -10,6 +10,7 @@
     <color name="_bg__f_color">#d3d3d3 </color>
     <color name="gold"> #BCA738 </color>
     <color name="grey"> #5D6066 </color>
+    <color name="transparent"> #00000000 </color>
     #BCA738
     <color name="colorPrimary">#FFEA00</color>
     <color name="colorPrimaryDark">#FFD600</color>
