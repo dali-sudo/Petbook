@@ -7,16 +7,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Base64
-import android.util.Patterns
 import androidx.activity.viewModels
 import androidx.core.graphics.drawable.toBitmap
-import com.example.petbook.R
 import com.example.petbook.databinding.ActivityAddPetBinding
-import com.example.petbook.databinding.ActivityAddPostBinding
 import com.example.petbook.model.BaseResponse
 import com.example.petbook.repository.SessionManager
 import com.example.petbook.util.toast
-import com.example.petbook.viewModel.SigninViewModel
 import com.example.petbook.viewModel.petProfilesviewModel
 import java.io.ByteArrayOutputStream
 

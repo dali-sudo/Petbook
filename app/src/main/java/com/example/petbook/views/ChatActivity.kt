@@ -34,8 +34,7 @@ SocketHandler.setSocket()
 mSocket.on("refresh"){
     if(value!=null) {
         viewModel.get(value)
-        binding.chatRv.layoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+
     }
 
 }
@@ -74,7 +73,11 @@ List= ChatRoomResponse("0",Chat1,Users)
                 if (SessionManager.getString(this,"id") !=null ) {
                     viewModel.sendmessage(value.toString(), msg.toString(),  SessionManager.getString(this, "id").toString())
                     binding.messageEdit.setText("")
-                    mSocket.emit("send",List.chat[0].sender_id)
+                    for(i in List.chat){
+                        if(i.sender_id!= SessionManager.getString(this, "id").toString()){
+                        mSocket.emit("send", i.sender_id)
+                         break;}
+                    }
                     if (value != null) {
                         viewModel.get(value)
                     }

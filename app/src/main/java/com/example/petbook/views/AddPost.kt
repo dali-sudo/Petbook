@@ -10,16 +10,11 @@ import android.util.Base64
 import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.activity.viewModels
-import com.example.petbook.MainActivity
 import com.example.petbook.R
 import com.example.petbook.databinding.ActivityAddPostBinding
-import com.example.petbook.databinding.ActivityProfilBinding
-import com.example.petbook.model.BaseResponse
-import com.example.petbook.model.Post
 import com.example.petbook.model.PostResponse
 import com.example.petbook.repository.SessionManager
 import com.example.petbook.viewModel.PostViewModel
-import com.example.petbook.viewModel.SigninViewModel
 import java.util.*
 
 class AddPost : AppCompatActivity() {

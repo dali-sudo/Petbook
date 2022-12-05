@@ -20,10 +20,15 @@ interface PostApi {
     suspend fun unlikePost(@Body likeRequest: LikeRequest): Response<PostResponse>
     @POST("/post/getPostByUser")
     suspend fun getPostByUser(@Body userpostRequest: UserPostRequest): Response<MutableList<PostResponse>>
+    @POST("/post/discover")
+    suspend fun getDiscover(): Response<MutableList<DiscoverResponse>>
+    @POST("/post/discoverPost")
+    suspend fun getDiscoverPost(@Body userpostRequest: UserPostRequest): Response<PostResponse>
     companion object {
         fun getApi(): PostApi? {
             return ApiClient.client?.create(PostApi::class.java)
         }
+
 
     }
 
