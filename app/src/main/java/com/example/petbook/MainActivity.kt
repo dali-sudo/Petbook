@@ -8,8 +8,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
-import android.view.View.GONE
-import android.view.View.OnTouchListener
+import android.view.View.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -40,15 +39,22 @@ binding.floatingActionButton.setOnClickListener(){
       binding.bottomNavigationView.setOnItemSelectedListener {
 
             when(it.itemId) {
-                R.id.page_1 -> println("11111")
+                R.id.page_1 ->{
+                    supportFragmentManager.beginTransaction().replace(R.id.MainfragmentContainerView,HomeFragment()).commit()
+                    binding.SearchTextField.visibility= VISIBLE
+                    binding.floatingActionButton.visibility= VISIBLE
+                }
 
-                R.id.page_2 -> println("222222")
-                R.id.page_3 -> { supportFragmentManager.beginTransaction().replace(R.id.MainfragmentContainerView,DiscoverFragment()).commit()
-                binding.SearchTextField.visibility= GONE}
+                R.id.page_2 -> { supportFragmentManager.beginTransaction().replace(R.id.MainfragmentContainerView,DiscoverFragment()).commit()
+                    binding.SearchTextField.visibility= GONE
+                    binding.floatingActionButton.visibility=GONE}
+                R.id.page_3 -> println("map")
                 R.id.page_4 -> { supportFragmentManager.beginTransaction().replace(R.id.MainfragmentContainerView,ChatContactsFragment()).commit()
-                    binding.SearchTextField.visibility= GONE}
+                    binding.SearchTextField.visibility= GONE
+                    binding.floatingActionButton.visibility=GONE}
                 R.id.page_5-> { supportFragmentManager.beginTransaction().replace(R.id.MainfragmentContainerView,ProfilFragment()).commit()
-                    binding.SearchTextField.visibility= GONE}
+                    binding.SearchTextField.visibility= GONE
+                    binding.floatingActionButton.visibility=GONE}
                 else -> {
 
                 }
@@ -117,14 +123,7 @@ if(value!="") {
         when(item.itemId){
 
 
-            R.id.profile_iconid -> {
-                val intent = Intent(this, profil::class.java)
-                startActivity(intent)
-            }
-            R.id.chat_iconid -> {
-                val intent = Intent(this, ChatContatcsActivity::class.java)
-                startActivity(intent)
-            }
+
 
         }
         return super.onOptionsItemSelected(item)

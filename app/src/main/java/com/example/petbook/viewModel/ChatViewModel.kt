@@ -70,7 +70,7 @@ val chatid: MutableLiveData<GetChatResponse> = MutableLiveData()
     }
 
 
-    fun sendmessage(mid:String,msg:String,sender:String) {
+    fun sendmessage(mid:String,msg:String,sender:String,type:String) {
 
 
         viewModelScope.launch {
@@ -79,6 +79,7 @@ val chatid: MutableLiveData<GetChatResponse> = MutableLiveData()
 
                     id = mid,
                     message=msg,
+                    type=type,
                     senderid = sender
                     )
 

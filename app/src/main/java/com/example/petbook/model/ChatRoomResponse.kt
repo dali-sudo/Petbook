@@ -14,6 +14,8 @@ data class ChatRoomResponse(
     data class Data(
         @SerializedName("message")
         var message: String,
+        @SerializedName("type")
+        var type: String,
         @SerializedName("senderid")
         var sender_id: String,
     )

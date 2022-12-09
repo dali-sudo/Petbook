@@ -8,6 +8,8 @@ data class MessageRequest(
     var id : String?= null,
     @SerializedName("message")
     var message: String?= null,
+    @SerializedName("type")
+    var type: String?= null,
     @SerializedName("senderid")
     var senderid : String?= null,
 

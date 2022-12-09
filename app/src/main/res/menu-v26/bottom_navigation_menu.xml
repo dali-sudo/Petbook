@@ -24,12 +24,12 @@
         android:id="@+id/page_4"
         android:enabled="true"
         android:color="@color/grey"
-        android:icon="@drawable/ic_baseline_library_books_24"
+        android:icon="@drawable/chat_icon"
         android:title=""/>
     <item
         android:id="@+id/page_5"
         android:enabled="true"
         android:color="@color/grey"
-        android:icon="@drawable/pets_icon"
+        android:icon="@drawable/profile_icon"
         android:title=""/>
 </menu>
