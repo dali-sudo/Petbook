@@ -2,8 +2,6 @@ package com.example.petbook.views
 
 import android.content.Context
 import android.graphics.BitmapFactory
-import android.graphics.Color
-import android.net.Uri
 import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
@@ -16,9 +14,7 @@ import com.example.petbook.model.PostResponse
 import com.example.petbook.repository.SessionManager
 import com.example.petbook.viewModel.PostViewModel
 import java.text.SimpleDateFormat
-import java.time.format.DateTimeFormatter
 import java.util.*
-import kotlin.collections.ArrayList
 
 private const val SECOND_MILLIS = 1000
 private const val MINUTE_MILLIS = 60 * SECOND_MILLIS
@@ -29,11 +25,12 @@ class   PostAdpater(val context:Context,val PostList: MutableList<PostResponse>,
   inner class PostViewHolder(val itemBinding:PostSingleItemBinding):RecyclerView.ViewHolder(itemBinding.root)
   {
     fun bindItem(post:Post){
-var liked:Boolean=false
+var liked=false
       var i=0
         if(post.PostUsername!=null) {
             itemBinding.PostUsername.text = post.PostUsername
         }
+        println(post.PostImage.get(0))
 if(post.PostImage.size>0)
 {
       if(post.PostImage.size>1) {
@@ -46,8 +43,9 @@ if(post.PostImage.size>0)
           } else {
             i++
           }
-
-          itemBinding.PostImage.setImageURI(Uri.parse(post.PostImage.get(i)))
+            val imageBytes = Base64.decode(post.PostImage.get(i), Base64.DEFAULT)
+            val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+          itemBinding.PostImage.setImageBitmap(decodedImage)
         }
         itemBinding.imageView15.setOnClickListener() {
           if (i == 0) {
@@ -55,13 +53,18 @@ if(post.PostImage.size>0)
           } else {
             i--
           }
-
-          itemBinding.PostImage.setImageURI(Uri.parse(post.PostImage.get(i)))
+            val imageBytes = Base64.decode(post.PostImage.get(i), Base64.DEFAULT)
+            val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+            itemBinding.PostImage.setImageBitmap(decodedImage)
         }
       }
       else{
-      itemBinding.PostImage.setImageURI(Uri.parse(post.PostImage.get(i)))}
-    itemBinding.PostImage.setImageURI(Uri.parse(post.PostImage.get(i)))
+          val imageBytes = Base64.decode(post.PostImage.get(i), Base64.DEFAULT)
+          val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+          itemBinding.PostImage.setImageBitmap(decodedImage)}
+    val imageBytes = Base64.decode(post.PostImage.get(i), Base64.DEFAULT)
+    val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+    itemBinding.PostImage.setImageBitmap(decodedImage)
     }
         else{
     itemBinding.PostImage.visibility = View.GONE

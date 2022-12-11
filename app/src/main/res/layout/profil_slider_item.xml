@@ -61,7 +61,7 @@
                 android:layout_margin="8dp"
                 android:background="@drawable/shape_rect"
                 android:padding="5dp"
-                android:text="idk what m gonna put here"
+                android:text="Male"
                 android:textColor="#000" />
 
 

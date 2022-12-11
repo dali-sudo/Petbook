@@ -1,6 +1,7 @@
 package com.example.petbook.views
 
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
@@ -12,6 +13,7 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.viewModels
+
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
@@ -26,10 +28,20 @@ import com.example.petbook.viewModel.petProfilesviewModel
 import com.google.android.material.chip.Chip
 import java.util.regex.Matcher
 import java.util.regex.Pattern
-
+import androidx.core.graphics.drawable.toBitmap
+import com.example.petbook.R
+import com.example.petbook.databinding.ActivityAddPostBinding
+import com.example.petbook.model.PostResponse
+import com.example.petbook.repository.SessionManager
+import com.example.petbook.viewModel.PostViewModel
+import java.io.ByteArrayOutputStream
+import java.util.*
 
 class AddPost : AppCompatActivity() {
     private val petsviewModel by viewModels<petProfilesviewModel>()
+
+    private var encodedImage:String = "";
+
     lateinit var images : MutableList<String>
     lateinit var posts :MutableList< PostResponse>
     private lateinit var binding: ActivityAddPostBinding
@@ -133,16 +145,19 @@ binding.username.text=SessionManager.getString(this,"username")!!
                 if (index == images.size - 1) {
                     index = 0
                 } else index++
-                binding.addpostImageView.setImageURI(Uri.parse(images.get(index)))
-                println(images.get(index))
 
+                val imageBytes = Base64.decode(images.get(index), Base64.DEFAULT)
+                val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+                binding.addpostImageView.setImageBitmap(decodedImage)
             }
             binding.imageView20.setOnClickListener() {
                 if (index == 0) {
                     index = images.size - 1
                 } else index--
-                binding.addpostImageView.setImageURI(Uri.parse(images.get(index)))
-                println(images.get(index))
+
+                val imageBytes = Base64.decode(images.get(index), Base64.DEFAULT)
+                val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+                binding.addpostImageView.setImageBitmap(decodedImage)
 
             }
             binding.button2.setOnClickListener() {
@@ -183,7 +198,11 @@ binding.username.text=SessionManager.getString(this,"username")!!
             getContentResolver().takePersistableUriPermission(imageUri !!, Intent.FLAG_GRANT_READ_URI_PERMISSION);
            binding.addpostImageView.setImageURI(imageUri )
             binding.addpostImageView.visibility = View.VISIBLE
-            images.add(imageUri.toString())
+            val baos = ByteArrayOutputStream()
+            val bitmap = binding.addpostImageView.drawable.toBitmap()
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos)
+            encodedImage = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT)
+            images.add(encodedImage)
             println(images.size)
             images.forEach{ println(it)
                 if(images.size>1) {

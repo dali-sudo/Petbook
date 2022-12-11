@@ -9,20 +9,10 @@
     <item
         android:id="@+id/notif_iconid"
         android:icon="@drawable/notif_icon"
-        android:title="Profile"
+        android:title="notif"
 
         app:showAsAction="always" />
 
-    <item
-        android:id="@+id/chat_iconid"
-        android:icon="@drawable/chat_icon"
-        android:title="Profile"
-        app:showAsAction="always" />
-    <item
-        android:id="@+id/profile_iconid"
-        android:icon="@drawable/profile_icon"
-        android:title="Profile"
-        app:showAsAction="always"
-        />
+
 
 </menu>

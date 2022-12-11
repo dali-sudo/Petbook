@@ -24,4 +24,10 @@ class PostRepository {
         return PostApi.getApi()?.getPostByUser(userpostRequest =userpostRequest)
 
     }
+    suspend fun getDiscover(): Response<MutableList<DiscoverResponse>>? {
+        return PostApi.getApi()?.getDiscover()
+    }
+    suspend fun getDiscoverPost(userpostRequest:UserPostRequest): Response<PostResponse>? {
+        return PostApi.getApi()?.getDiscoverPost(userpostRequest=userpostRequest)
+    }
 }

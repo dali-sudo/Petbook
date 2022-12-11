@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Base64
 import com.example.petbook.databinding.ActivityProfilBinding
-import com.example.petbook.databinding.ActivitySignupBinding
 import com.example.petbook.repository.SessionManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -76,11 +75,21 @@ class profil : AppCompatActivity() {
         {
             val myIntent = Intent(this, ProfilPosts::class.java)
             myIntent.putExtra("id",SessionManager.getString(this,"id") ) //Optional parameters
-
             this.startActivity(myIntent)
 
         }
 
+        binding.petsButton.setOnClickListener()
+        {
 
+
+            val intent = Intent(this, PetsProfiles::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+
+
+            startActivity(intent)
+
+        }
     }
 }
