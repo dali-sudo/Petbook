@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".views.DiscoverFragment">
+<FrameLayout
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/Discoverswiperefresh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+      >
+    <GridView
+        android:id="@+id/DiscoverGridView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:numColumns="3"
+        android:verticalSpacing="2dp"
+        android:horizontalSpacing="2dp"
+        android:layout_marginTop="2dp"
+        />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</FrameLayout>
+    </layout>

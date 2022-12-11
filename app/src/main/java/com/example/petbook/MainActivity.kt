@@ -47,9 +47,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-
         setSupportActionBar(findViewById(R.id.app_bar))
 
+        val serviceintent = Intent(this, BackgroundService::class.java)
+        startService(serviceintent)
 
 binding.floatingActionButton.setOnClickListener(){
     val intent = Intent(this, AddPost::class.java)
@@ -60,6 +61,7 @@ binding.floatingActionButton.setOnClickListener(){
 
             when(it.itemId) {
                 R.id.page_1 ->{
+
                     println("11111")
                     binding.floatingActionButton.visibility = VISIBLE
 
@@ -70,15 +72,24 @@ binding.floatingActionButton.setOnClickListener(){
 
                 }
 
-                R.id.page_2 -> {
+            
+
+                R.id.page_2 -> { supportFragmentManager.beginTransaction().replace(R.id.MainfragmentContainerView,DiscoverFragment()).commit()
                     binding.SearchTextField.visibility= GONE
+                    binding.floatingActionButton.visibility=GONE}
+                R.id.page_3 ->{      binding.SearchTextField.visibility= GONE
 
                     binding.floatingActionButton.visibility= GONE
 
                     supportFragmentManager.beginTransaction().replace(R.id.MainfragmentContainerView, MapsFragment()).commit()
 
-                }
-
+                 }
+                R.id.page_4 -> { supportFragmentManager.beginTransaction().replace(R.id.MainfragmentContainerView,ChatContactsFragment()).commit()
+                    binding.SearchTextField.visibility= GONE
+                    binding.floatingActionButton.visibility=GONE}
+                R.id.page_5-> { supportFragmentManager.beginTransaction().replace(R.id.MainfragmentContainerView,ProfilFragment()).commit()
+                    binding.SearchTextField.visibility= GONE
+                    binding.floatingActionButton.visibility=GONE}
                 else -> {
 
                 }
@@ -127,6 +138,7 @@ if(value!="") {
 
 
 
+
     override fun onResume() {
         super.onResume()
 
@@ -140,7 +152,6 @@ if(value!="") {
         }
 */
     }
-
 
 
 
@@ -161,10 +172,12 @@ if(value!="") {
         when(item.itemId){
 
 
-            R.id.profile_iconid -> {
-                val intent = Intent(this, profil::class.java)
+            R.id.notif_iconid -> {
+                val intent = Intent(this, NotificationActivity::class.java)
                 startActivity(intent)
+
             }
+
 
         }
         return super.onOptionsItemSelected(item)
