@@ -83,9 +83,7 @@ binding.floatingActionButton.setOnClickListener(){
 
                     supportFragmentManager.beginTransaction().replace(R.id.MainfragmentContainerView, MapsFragment()).commit()
 
-                    supportFragmentManager.beginTransaction().replace(R.id.MainfragmentContainerView,HomeFragment()).commit()
-                    binding.SearchTextField.visibility= VISIBLE
-                    binding.floatingActionButton.visibility= VISIBLE}
+                 }
                 R.id.page_4 -> { supportFragmentManager.beginTransaction().replace(R.id.MainfragmentContainerView,ChatContactsFragment()).commit()
                     binding.SearchTextField.visibility= GONE
                     binding.floatingActionButton.visibility=GONE}

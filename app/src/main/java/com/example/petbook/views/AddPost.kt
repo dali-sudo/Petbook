@@ -29,11 +29,6 @@ import com.google.android.material.chip.Chip
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 import androidx.core.graphics.drawable.toBitmap
-import com.example.petbook.R
-import com.example.petbook.databinding.ActivityAddPostBinding
-import com.example.petbook.model.PostResponse
-import com.example.petbook.repository.SessionManager
-import com.example.petbook.viewModel.PostViewModel
 import java.io.ByteArrayOutputStream
 import java.util.*
 
