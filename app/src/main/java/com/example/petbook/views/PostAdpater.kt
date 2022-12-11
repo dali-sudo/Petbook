@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.petbook.R
 import com.example.petbook.databinding.PostSingleItemBinding
 import com.example.petbook.model.Post
@@ -24,13 +25,18 @@ class   PostAdpater(val context:Context,val PostList: MutableList<PostResponse>,
 
   inner class PostViewHolder(val itemBinding:PostSingleItemBinding):RecyclerView.ViewHolder(itemBinding.root)
   {
+
+
     fun bindItem(post:Post){
 var liked=false
       var i=0
+
         if(post.PostUsername!=null) {
             itemBinding.PostUsername.text = post.PostUsername
         }
+
         println(post.PostImage.get(0))
+
 if(post.PostImage.size>0)
 {
       if(post.PostImage.size>1) {
@@ -43,9 +49,11 @@ if(post.PostImage.size>0)
           } else {
             i++
           }
+
             val imageBytes = Base64.decode(post.PostImage.get(i), Base64.DEFAULT)
             val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
           itemBinding.PostImage.setImageBitmap(decodedImage)
+
         }
         itemBinding.imageView15.setOnClickListener() {
           if (i == 0) {
@@ -53,6 +61,7 @@ if(post.PostImage.size>0)
           } else {
             i--
           }
+
             val imageBytes = Base64.decode(post.PostImage.get(i), Base64.DEFAULT)
             val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
             itemBinding.PostImage.setImageBitmap(decodedImage)
@@ -65,16 +74,26 @@ if(post.PostImage.size>0)
     val imageBytes = Base64.decode(post.PostImage.get(i), Base64.DEFAULT)
     val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
     itemBinding.PostImage.setImageBitmap(decodedImage)
+
     }
         else{
     itemBinding.PostImage.visibility = View.GONE
         }
 
-    if(post.PostUserImage!=null) {
+  if(post.PostUserImage!=null) {
+
+
         val imageBytes = Base64.decode(post.PostUserImage, Base64.DEFAULT)
         val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
-        itemBinding.userIcon.setImageBitmap(decodedImage)
+        Glide.with(context).load(decodedImage).override(600, 200).into(itemBinding.userIcon)
+       // itemBinding.userIcon.setImageBitmap(decodedImage)
+
+
+
     }
+
+
+
       itemBinding.PostDescreption.text=post.PostDesc
       val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" )
       val date: Date = sdf.parse(post.PostDate)
@@ -124,7 +143,9 @@ count++
 
 
 
-  }}
+  }
+  }
+
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
    return  PostViewHolder(PostSingleItemBinding.inflate(LayoutInflater.from(parent.context),parent,false))
@@ -143,7 +164,7 @@ count++
         PostList[position].likes,
           PostList[position].owner.avatar
       )
-      holder.bindItem(post)
+     holder.bindItem(post)
 
 
   }
