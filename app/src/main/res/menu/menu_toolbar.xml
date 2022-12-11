@@ -6,7 +6,12 @@
 
 
 
+    <item
+        android:id="@+id/notif_iconid"
+        android:icon="@drawable/notif_icon"
+        android:title="notif"
 
+        app:showAsAction="always" />
 
 
 

@@ -2,8 +2,10 @@ package com.example.petbook.views
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.util.Base64
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -114,10 +116,9 @@ class DiscoverFragment : Fragment() {
             }
 
             var ImageView = view?.findViewById<ImageView>(R.id.DiscovergridImageView)
-
-
-            ImageView?.setImageURI(Uri.parse(itemModel[position].Image!!))
-
+            val imageBytes = Base64.decode(itemModel[position].Image, Base64.DEFAULT)
+            val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+            ImageView?.setImageBitmap(decodedImage)
             return view!!
 
         }

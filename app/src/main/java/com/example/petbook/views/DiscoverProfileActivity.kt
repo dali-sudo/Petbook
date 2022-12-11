@@ -67,7 +67,9 @@ class DiscoverProfileActivity : AppCompatActivity() {
                         if(it.data?.images?.size!! >1) {
                             binding.imageView16.visibility = View.VISIBLE
                             binding.imageView15.visibility = View.VISIBLE
-
+                            val imageBytes = Base64.decode(imgs?.get(i), Base64.DEFAULT)
+                            val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+                            binding.PostImage.setImageBitmap(decodedImage)
                             binding.imageView16.setOnClickListener() {
                               if (i == size!!- 1) {
                                     i = 0
@@ -76,7 +78,9 @@ class DiscoverProfileActivity : AppCompatActivity() {
                                 }
 
                                 if (imgs != null) {
-                                    binding.PostImage.setImageURI(Uri.parse(imgs.get(i)))
+                                    val imageBytes = Base64.decode(imgs.get(i), Base64.DEFAULT)
+                                    val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+                                    binding.PostImage.setImageBitmap(decodedImage)
                                 }
                             }
                             binding.imageView15.setOnClickListener() {
@@ -87,15 +91,20 @@ class DiscoverProfileActivity : AppCompatActivity() {
                                 }
 
                                 if (imgs != null) {
-                                    binding.PostImage.setImageURI(Uri.parse(imgs.get(i)))
+                                    val imageBytes = Base64.decode(imgs.get(i), Base64.DEFAULT)
+                                    val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+                                    binding.PostImage.setImageBitmap(decodedImage)
                                 }
                             }
                         }
                         else{
                             if (imgs != null) {
-                                binding.PostImage.setImageURI(Uri.parse(imgs.get(i)))
-                                binding.PostImage.setImageURI(Uri.parse(imgs.get(i)))
+                                val imageBytes = Base64.decode(imgs.get(i), Base64.DEFAULT)
+                                val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+                                binding.PostImage.setImageBitmap(decodedImage)
                             }
+
+
                         }
 
                     }

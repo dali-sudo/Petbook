@@ -39,7 +39,7 @@ class DiscoverViewModel (application: Application) : AndroidViewModel(applicatio
                 try {
                     val request = UserPostRequest(
 
-                        id = "6372637a0b5aa71a77ebf4f2",
+                        id = id,
 
 
                         )

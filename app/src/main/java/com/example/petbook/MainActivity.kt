@@ -30,7 +30,8 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
         setSupportActionBar(findViewById(R.id.app_bar))
-
+        val serviceintent = Intent(this, BackgroundService::class.java)
+        startService(serviceintent)
 binding.floatingActionButton.setOnClickListener(){
     val intent = Intent(this, AddPost::class.java)
     startActivity(intent)
@@ -103,11 +104,6 @@ if(value!="") {
 
 
 
-
-
-
-
-
     private fun loadFragment(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.MainfragmentContainerView, fragment)
@@ -123,6 +119,11 @@ if(value!="") {
         when(item.itemId){
 
 
+            R.id.notif_iconid -> {
+                val intent = Intent(this, NotificationActivity::class.java)
+                startActivity(intent)
+
+            }
 
 
         }
