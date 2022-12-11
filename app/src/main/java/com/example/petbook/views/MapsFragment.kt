@@ -184,9 +184,9 @@ class MapsFragment : Fragment() ,GoogleMap.OnMarkerClickListener {
 
 
   private fun getNearByPlace(placeType: String) {
-      val url2 = ("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="
+    /*  val url2 = ("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="
               + lastLocation.latitude + "," + lastLocation.longitude
-              + "&radius=" + radius + "&type=" + placeType + "&key=" + MAPS_API_KEY)
+              + "&radius=" + radius + "&type=" + placeType + "&key=" + MAPS_API_KEY)*/
 
       val url= ("https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer" +
               "/findAddressCandidates?category=" + placeType + "&location="+ lastLocation.longitude +"," + lastLocation.latitude + "&f=json&token" +

@@ -72,10 +72,15 @@ class AddPet : AppCompatActivity() {
             type=binding.typeTextField.text.toString()
             race=binding.raceTextField.text.toString()
             age=binding.ageTextField.text.toString()
+            if ( binding.MaleCheckbox.isChecked) {
+                gender= "Male"
+            }  else if ( binding.FemaleCheckbox.isChecked) {
+                gender= "Female"
+            }
 
 
 
-            viewModel.AddPet(name,type,"Male",race,age,encodedImage,SessionManager.getString(this,"id")!!)
+            viewModel.AddPet(name,type,gender,race,age,encodedImage,SessionManager.getString(this,"id")!!)
 
 
         }

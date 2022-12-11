@@ -1,7 +1,7 @@
 package com.example.petbook.model
 
 data class Pet(
-    var id: String,
+    var id: String?,
     val name : String?,
     val type : String?,
     val owner : String?,

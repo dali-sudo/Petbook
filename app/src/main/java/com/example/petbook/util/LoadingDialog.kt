@@ -5,7 +5,7 @@ import android.app.AlertDialog
 import android.view.LayoutInflater
 import com.example.petbook.R
 import com.example.petbook.databinding.DialogLayoutBinding
-
+ 
 class LoadingDialog(private val activity: Activity) {
 
     private var alertDialog: AlertDialog? = null
