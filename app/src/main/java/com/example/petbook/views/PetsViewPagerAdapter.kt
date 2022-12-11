@@ -68,6 +68,7 @@ class PetsViewPagerAdapter (val context: Context, val petList: MutableList<PetRe
         val imageView: ImageView = itemView.findViewById<View>(R.id.bannerImageView) as ImageView
         val title: TextView = itemView.findViewById<View>(R.id.titleTv) as TextView
         val race: TextView = itemView.findViewById<View>(R.id.descriptionTv) as TextView
+        val gender: TextView = itemView.findViewById<View>(R.id.genderTv) as TextView
 
         val singleProfile: LinearLayout = itemView.findViewById<LinearLayout>(R.id.clickableProfile) as LinearLayout
 
@@ -84,6 +85,9 @@ class PetsViewPagerAdapter (val context: Context, val petList: MutableList<PetRe
         }
         title.setText(petList.get(position).petName)
         race.setText(petList.get(position).race)
+        gender.setText(petList.get(position).sexe)
+
+
 
         singleProfile.setOnClickListener()  {
 

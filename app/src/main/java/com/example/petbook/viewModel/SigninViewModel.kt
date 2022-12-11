@@ -40,6 +40,7 @@ class SigninViewModel(application: Application) : AndroidViewModel(application) 
                 val response = userRepo.loginUser(loginRequest = loginRequest)
                 if (response?.code() == 200) {
                     loginResult.value = BaseResponse.Success(response.body())
+
                 } else {
                     loginResult.value = BaseResponse.Error(response?.message())
                 }

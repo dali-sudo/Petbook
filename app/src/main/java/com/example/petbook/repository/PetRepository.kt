@@ -19,4 +19,8 @@ class PetRepository {
     suspend fun addPet(petRequest : PetRequest): Response<PetResponse>? {
         return petApi.getApi()?.addPet(petRequest = petRequest)
     }
+
+    suspend fun getImages(petRequest : PetRequest): Response<PetResponse>? {
+        return petApi.getApi()?.getImgs(petRequest = petRequest)
+    }
 }

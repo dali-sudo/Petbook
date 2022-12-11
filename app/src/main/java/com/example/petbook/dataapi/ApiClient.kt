@@ -13,6 +13,7 @@ object ApiClient {
     var mOkHttpClient = OkHttpClient
         .Builder()
         .addInterceptor(mHttpLoggingInterceptor)
+        .retryOnConnectionFailure(true)
         .build()
 
     var mRetrofit: Retrofit? = null
@@ -25,6 +26,7 @@ object ApiClient {
                     .baseUrl(constant.Dali_BASE_URL)
                     .client(mOkHttpClient)
                     .addConverterFactory(GsonConverterFactory.create())
+
                     .build()
             }
             return mRetrofit

@@ -20,6 +20,9 @@ data class PostResponse(
         var likescount: String,
         @SerializedName("likes")
         var likes: List<String>,
+        @SerializedName("tags")
+        var tags: List<String>
+
     )
 
 {

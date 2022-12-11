@@ -24,7 +24,7 @@ val list:MutableLiveData<MutableList<PostResponse>> = MutableLiveData()
     val followResult: MutableLiveData<BaseResponse<FollowResponse>> = MutableLiveData()
     val unfollowResult: MutableLiveData<BaseResponse<FollowResponse>> = MutableLiveData()
 
-    fun AddPost(desc: String, List:List<String>,own:String) {
+    fun AddPost(desc: String, List:List<String>,own:String, TaggedList: ArrayList<String>) {
 
         postResult.value = BaseResponse.Loading()
         viewModelScope.launch {
@@ -36,7 +36,9 @@ val list:MutableLiveData<MutableList<PostResponse>> = MutableLiveData()
 
                     images = List,
 
-                    owner = own
+                    owner = own,
+
+                    tags = TaggedList
                 )
                 val response = postRepo.addPost(postRequest = postRequest)
                 if (response?.code() == 200) {

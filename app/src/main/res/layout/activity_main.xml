@@ -19,12 +19,14 @@
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/MainfragmentContainerView"
         android:name="com.example.petbook.views.HomeFragment"
-        android:layout_width="match_parent"
-        android:layout_height="626dp"
+        android:layout_width="410dp"
+        android:layout_height="548dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.529"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Search_textField" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
@@ -93,5 +95,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/plus_icon"
         tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

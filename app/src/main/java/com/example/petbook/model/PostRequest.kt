@@ -8,7 +8,9 @@ data class PostRequest(
     @SerializedName("images")
     var images:  List<String>,
     @SerializedName("owner")
-    var owner:String
+    var owner:String,
+    @SerializedName("tags")
+    var tags:  List<String>
 
 
 

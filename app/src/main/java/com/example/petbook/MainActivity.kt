@@ -6,23 +6,42 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
+
 import android.view.MotionEvent
 import android.view.View
-import android.view.View.OnTouchListener
+import android.view.View.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import android.widget.Toast
+import android.widget.Toolbar
+import androidx.activity.viewModels
+import androidx.annotation.NonNull
+import androidx.core.view.isVisible
+
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
 import com.example.petbook.databinding.ActivityMainBinding
+
 import com.example.petbook.viewModel.PostViewModel
 import com.example.petbook.viewModel.SearchUsersViewModel
 import com.example.petbook.views.*
+
+import com.example.petbook.databinding.ActivitySignupBinding
+import com.example.petbook.model.BaseResponse
+import com.example.petbook.repository.SessionManager
+import com.example.petbook.viewModel.EditUserViewModel
+import com.example.petbook.viewModel.SigninViewModel
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+
     private val viewModel by viewModels<PostViewModel>()
+
+ //   private val viewModel by viewModels<EditUserViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -30,6 +49,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
 
         setSupportActionBar(findViewById(R.id.app_bar))
+
 
 binding.floatingActionButton.setOnClickListener(){
     val intent = Intent(this, AddPost::class.java)
@@ -39,9 +59,25 @@ binding.floatingActionButton.setOnClickListener(){
       binding.bottomNavigationView.setOnItemSelectedListener {
 
             when(it.itemId) {
-                R.id.page_1 -> println("11111")
+                R.id.page_1 ->{
+                    println("11111")
+                    binding.floatingActionButton.visibility = VISIBLE
 
-                R.id.page_2 -> println("222222")
+                    binding.SearchTextField.visibility = VISIBLE
+
+
+                    supportFragmentManager.beginTransaction().replace(R.id.MainfragmentContainerView, HomeFragment()).commit()
+
+                }
+
+                R.id.page_2 -> {
+                    binding.SearchTextField.visibility= GONE
+
+                    binding.floatingActionButton.visibility= GONE
+
+                    supportFragmentManager.beginTransaction().replace(R.id.MainfragmentContainerView, MapsFragment()).commit()
+
+                }
 
                 else -> {
 
@@ -90,6 +126,20 @@ if(value!="") {
     }
 
 
+
+    override fun onResume() {
+        super.onResume()
+
+     /*   if (SessionManager.getString(this,"profilePic") !=null )
+        {
+            val imageBytes = Base64.decode(SessionManager.getString(this,"profilePic"), Base64.DEFAULT)
+            val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+            binding.userIcon.setImageBitmap(decodedImage)
+
+
+        }
+*/
+    }
 
 
 

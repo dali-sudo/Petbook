@@ -7,7 +7,7 @@ data class PetResponse(
 
 
     @SerializedName("_id")
-    var id: String,
+    var id: String?=null,
     @SerializedName("name")
     var petName : String?= null,
     @SerializedName("type")
@@ -21,5 +21,7 @@ data class PetResponse(
     @SerializedName("owner")
     var petOwner :String?= null,
     @SerializedName("age")
-    var petAge:String?=null
+    var petAge:String?=null,
+    @SerializedName("images")
+    var images: List<String>
 )

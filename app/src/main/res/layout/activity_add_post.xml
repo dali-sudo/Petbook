@@ -50,9 +50,11 @@
 
     <EditText
         android:id="@+id/editTextTextMultiLine"
-        android:layout_width="388dp"
+        android:layout_width="364dp"
         android:layout_height="105dp"
-        android:layout_marginTop="17dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
         android:ems="10"
         android:gravity="start|top"
         android:hint="Post Description"
@@ -61,16 +63,43 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout7" />
 
+
+    <TextView
+        android:id="@+id/label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Select your pet"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextMultiLine" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/tagLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/label"
+        app:singleLine="false"
+        />
+
+
+
+
+
+
     <Button
         android:id="@+id/button"
         android:layout_width="389dp"
         android:layout_height="54dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="8dp"
         android:text="Add Image"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextMultiLine" />
+        app:layout_constraintTop_toBottomOf="@+id/tagLayout" />
 
     <ImageView
         android:id="@+id/addpost_imageView"
