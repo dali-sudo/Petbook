@@ -15,6 +15,7 @@ import com.example.petbook.viewModel.petProfilesviewModel
 
 class singlePetProfile : AppCompatActivity() {
     private lateinit var binding : ActivitySinglePetProfileBinding
+    private val viewModel by viewModels<petProfilesviewModel>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +36,19 @@ class singlePetProfile : AppCompatActivity() {
 
             }
 
+            viewModel.getPetImages(extras.getString("petName")!!)
+            viewModel.getImageResult.observe(this) {
+
+                println(it)
+
+
+
+
+            }
+
         }
+
+
 
 
 

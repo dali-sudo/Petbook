@@ -11,6 +11,8 @@ interface petApi {
     suspend fun getAll(@Body petRequest: PetRequest): Response<MutableList<PetResponse>>
     @POST("/pet/addPet")
     suspend fun addPet(@Body petRequest: PetRequest): Response<PetResponse>
+    @POST("/pet/getPetImages")
+    suspend fun getImgs(@Body petRequest: PetRequest): Response<PetResponse>
 
 
 

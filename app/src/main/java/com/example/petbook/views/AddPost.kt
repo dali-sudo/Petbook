@@ -4,13 +4,30 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Base64
 import android.view.View
-import androidx.appcompat.widget.Toolbar
+import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.activity.viewModels
+
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.core.view.isVisible
+import com.example.petbook.R
+import com.example.petbook.databinding.ActivityAddPostBinding
+import com.example.petbook.databinding.ChoiceChipBinding
+import com.example.petbook.model.PetResponse
+import com.example.petbook.model.PostResponse
+import com.example.petbook.repository.SessionManager
+import com.example.petbook.viewModel.PostViewModel
+import com.example.petbook.viewModel.petProfilesviewModel
+import com.google.android.material.chip.Chip
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 import androidx.core.graphics.drawable.toBitmap
 import com.example.petbook.R
 import com.example.petbook.databinding.ActivityAddPostBinding
@@ -21,7 +38,10 @@ import java.io.ByteArrayOutputStream
 import java.util.*
 
 class AddPost : AppCompatActivity() {
+    private val petsviewModel by viewModels<petProfilesviewModel>()
+
     private var encodedImage:String = "";
+
     lateinit var images : MutableList<String>
     lateinit var posts :MutableList< PostResponse>
     private lateinit var binding: ActivityAddPostBinding
@@ -29,13 +49,72 @@ class AddPost : AppCompatActivity() {
     val pickImage = 100
     var index=0
     private val viewModel by viewModels<PostViewModel>()
+    lateinit var PetsList: MutableList<PetResponse>
+    lateinit var taggedList : ArrayList<String>
+
+    companion object {
+        private var loaded: Boolean = false
+    }
+
+
+    private fun setupChip() {
+
+        petsviewModel.getPets( SessionManager.getString(this,"id")!!)
+        petsviewModel.Petslist.observe(this) {
+
+            val nameList = it.mapTo(arrayListOf()) { it.petName }
+            for (name in nameList) {
+                val chip = createChip(name!!)
+                binding.tagLayout.addView(chip)
+            }
+        }
+
+        loaded = true
+
+    }
+
+    private fun createChip(label: String): Chip {
+        val chip = ChoiceChipBinding.inflate(layoutInflater).root
+        chip.text = label
+        return chip
+
+    }
+
+
+    private fun getTaggedChips() {
+
+        val chipsIds = binding.tagLayout.checkedChipIds
+        for (id in chipsIds)
+        {
+            val chip = binding.tagLayout.findViewById<Chip>(id)
+            taggedList.add(chip.text.toString())
+            println(taggedList)
+
+        }
+
+
+    }
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        taggedList= arrayListOf<String>()
 
 
         super.onCreate(savedInstanceState)
         binding = ActivityAddPostBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+    setupChip()
+
+
+
+
+
+
+
+
         binding.addpostImageView.visibility = View.GONE
       if (SessionManager.getString(this,"profilePic") !=null )
         {
@@ -82,10 +161,14 @@ binding.username.text=SessionManager.getString(this,"username")!!
 
             }
             binding.button2.setOnClickListener() {
+                taggedList.clear()
+                getTaggedChips()
                 viewModel.AddPost(
                     binding.editTextTextMultiLine.text.toString(),
                     images,
-                    SessionManager.getString(this,"id")!!
+                    SessionManager.getString(this,"id")!!,
+                    taggedList
+
                 )
 
                 finish()
@@ -94,7 +177,18 @@ binding.username.text=SessionManager.getString(this,"username")!!
             }
 
 
+
+
+
+
+
+
+
         }
+
+
+
+
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

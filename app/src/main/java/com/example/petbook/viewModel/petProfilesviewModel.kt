@@ -17,6 +17,7 @@ class petProfilesviewModel(application: Application) : AndroidViewModel(applicat
     val petRepo = PetRepository()
     val getPetsResult: MutableLiveData<BaseResponse<PetResponse>> = MutableLiveData()
     val addpetResult: MutableLiveData<BaseResponse<PetResponse>> = MutableLiveData()
+    val getImageResult: MutableLiveData<BaseResponse<PetResponse>> = MutableLiveData()
     val Petslist:MutableLiveData<MutableList<PetResponse>> = MutableLiveData()
 
     // manage loading by setting the loginresult.value each case and sending it via livedata, when req/res set to loading, when code good get body, when not get error msg
@@ -51,6 +52,28 @@ class petProfilesviewModel(application: Application) : AndroidViewModel(applicat
                 addpetResult.value = BaseResponse.Error(ex.message)
             }
         }
+    }
+
+    fun getPetImages(name: String) {
+
+        viewModelScope.launch {
+            try {
+
+                val petRequest = PetRequest(
+                    petName=name
+                )
+                val response = petRepo.getImages(petRequest = petRequest)
+                if (response?.code() == 200) {
+                    getImageResult.value = BaseResponse.Success(response.body())
+                } else {
+                    getImageResult.value = BaseResponse.Error(response?.message())
+                }
+
+            } catch (ex: Exception) {
+                getImageResult.value = BaseResponse.Error(ex.message)
+            }
+        }
+
     }
 
 
