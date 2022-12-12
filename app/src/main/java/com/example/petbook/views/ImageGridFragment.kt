@@ -1,7 +1,9 @@
 package com.example.petbook.views
 
 import android.content.Context
+import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Base64
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,10 +13,16 @@ import android.widget.BaseAdapter
 import android.widget.GridView
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.viewModels
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.petbook.R
 import com.example.petbook.databinding.ActivityPetsProfilesBinding
 import com.example.petbook.databinding.FragmentHomeBinding
+import com.example.petbook.model.PetResponse
+import com.example.petbook.model.PostResponse
+import com.example.petbook.viewModel.petProfilesviewModel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -29,6 +37,8 @@ private const val ARG_PARAM2 = "param2"
 class ImageGridFragment : Fragment() {
 
     var petGridList = ArrayList<gridItemModel>()
+    lateinit var ImgsListContainer : PetResponse
+    private val viewModel by viewModels<petProfilesviewModel>()
 
     var descriptions = arrayOf(
         "desc",
@@ -36,6 +46,8 @@ class ImageGridFragment : Fragment() {
         "desc",
         "desc"
     )
+
+
 
     var images = intArrayOf(
         R.drawable.sliderdog1,
@@ -74,37 +86,44 @@ class ImageGridFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        ImgsListContainer = PetResponse()
+            viewModel.getPetImages(singlePetProfile.name)
+            viewModel.singlePetImages.observe(viewLifecycleOwner) {
+                ImgsListContainer = it
+                println("Begin Receive")
+                println(it)
+                println("End Receive!!!!!!!!")
 
-        for (i in descriptions.indices)
-        {
-            petGridList.add(gridItemModel(descriptions[i],images[i]))
-        }
+                if ( ImgsListContainer.images?.size!!>0) {
 
-        var customAdapter =Adapter(petGridList,requireContext())
-        var gridview = view.findViewById<GridView>(R.id.petsProfileGridView)
-        gridview.adapter=customAdapter
+                    for (i in ImgsListContainer.images?.indices!!)
+                    {
+                        var imageString : String = ImgsListContainer.images!![i]
+                        petGridList.add(gridItemModel(imageString))
 
-        gridview.setOnItemClickListener { parent, view, position, id ->
+                    }
+                    println(petGridList)
+
+                    var customAdapter =Adapter(petGridList,requireContext())
+                    var gridview = view.findViewById<GridView>(R.id.petsProfileGridView)
+                    gridview.adapter=customAdapter
+
+                }
+            }
+
+
+
+
+     /*   gridview.setOnItemClickListener { parent, view, position, id ->
 
             Log.e("description", petGridList[position].description)
         }
-
+*/
 
 
 
 
     }
-
-
-
-
-
-
-
-
-
-
-
 
     class Adapter(
         var itemModel: ArrayList<gridItemModel>,
@@ -129,11 +148,17 @@ class ImageGridFragment : Fragment() {
             if (view == null) {
                 view=layoutInflater.inflate(R.layout.grid_pet_item,parent,false)
             }
-    var DescriptionTv = view?.findViewById<TextView>(R.id.desc)
+
     var ImageView = view?.findViewById<ImageView>(R.id.petpostImage)
 
-            DescriptionTv?.text= itemModel[position].description
-            ImageView?.setImageResource(itemModel[position].image!!)
+
+
+            if(itemModel[position].image!=null) {
+                val imageBytes = Base64.decode(itemModel[position].image, Base64.DEFAULT)
+                val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+                ImageView?.setImageBitmap(decodedImage)
+            }
+
 
             return view!!
 

@@ -16,6 +16,10 @@ import com.example.petbook.viewModel.petProfilesviewModel
 class singlePetProfile : AppCompatActivity() {
     private lateinit var binding : ActivitySinglePetProfileBinding
     private val viewModel by viewModels<petProfilesviewModel>()
+    companion object {
+
+        var name :String = ""
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,7 +30,32 @@ class singlePetProfile : AppCompatActivity() {
      //   setContentView(R.layout.activity_single_pet_profile)
 
         val extras = intent.extras
-        if (extras != null) {
+        name = extras?.getString("nameOfpet")!!
+        if ((extras.getString("nameOfpet")!=null) )
+        {
+
+            viewModel.getPetImages(extras.getString("nameOfpet")!!)
+            viewModel.getImageResult.observe(this) {
+
+                println(it)
+
+
+            }
+
+            viewModel.getSinglePet(extras.getString("nameOfpet")!!)
+
+            viewModel.SinglePet.observe(this) {
+
+                val imageBytes = Base64.decode(it.petPic, Base64.DEFAULT)
+                val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+                binding.petProfilePicHolder.setImageBitmap(decodedImage)
+
+            }
+
+        }
+
+        if (extras != null)
+        {
            binding.fullnameTxtView.setText(extras.getString("petName"))
             if (SessionManager.getString(this,"petPic") !=null)
             {
@@ -36,18 +65,8 @@ class singlePetProfile : AppCompatActivity() {
 
             }
 
-            viewModel.getPetImages(extras.getString("petName")!!)
-            viewModel.getImageResult.observe(this) {
-
-                println(it)
-
-
-
-
-            }
 
         }
-
 
 
 

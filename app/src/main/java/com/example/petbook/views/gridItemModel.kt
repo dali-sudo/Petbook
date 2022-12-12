@@ -2,13 +2,13 @@ package com.example.petbook.views
 
 class gridItemModel {
 
-    lateinit var description:String
-    var image:Int? = null
+
+    var image:String? = null
 
 
-    constructor(description:String,image:Int)
+    constructor(image:String)
     {
-        this.description= description
+
         this.image=image
     }
 }
