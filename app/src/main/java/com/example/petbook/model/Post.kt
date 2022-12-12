@@ -14,4 +14,5 @@ val id:String,
     val likes:List<String>,
     val PostUserImage:String? = null,
      val tags:List<String>?=null
+
 )

@@ -22,7 +22,14 @@ class NotificationAdapter (val context: Context, val List: MutableList<Notificat
                 val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
                 itemBinding.userIcon.setImageBitmap(decodedImage)
             }
+            itemBinding.userSearchlayout.setOnClickListener(){
 
+                val myIntent = Intent(context, ProfilPosts::class.java)
+                myIntent.putExtra("id", noti.sender!!.id) //Optional parameters
+
+                context.startActivity(myIntent)
+
+            }
             itemBinding.searchUsername.text=noti.title
 
 

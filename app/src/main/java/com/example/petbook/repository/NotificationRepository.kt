@@ -13,6 +13,9 @@ class NotificationRepository {
     suspend fun getAll(notificationRequest: NotificationRequest): Response<MutableList<NotificationResponse>>? {
         return NotificationApi.getApi()?.getAll(notificationRequest = notificationRequest)
     }
+    suspend fun getAllNotification(notificationRequest: NotificationRequest): Response<MutableList<NotificationResponse>>? {
+        return NotificationApi.getApi()?.getAllnotifications(notificationRequest = notificationRequest)
+    }
 
 
 }
