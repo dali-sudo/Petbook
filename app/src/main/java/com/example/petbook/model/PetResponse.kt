@@ -23,5 +23,5 @@ data class PetResponse(
     @SerializedName("age")
     var petAge:String?=null,
     @SerializedName("images")
-    var images: List<String>
+    var images: List<String>?=null
 )

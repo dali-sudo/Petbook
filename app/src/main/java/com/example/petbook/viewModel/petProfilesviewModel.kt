@@ -18,7 +18,10 @@ class petProfilesviewModel(application: Application) : AndroidViewModel(applicat
     val getPetsResult: MutableLiveData<BaseResponse<PetResponse>> = MutableLiveData()
     val addpetResult: MutableLiveData<BaseResponse<PetResponse>> = MutableLiveData()
     val getImageResult: MutableLiveData<BaseResponse<PetResponse>> = MutableLiveData()
+    val getSinglePetResult: MutableLiveData<BaseResponse<PetResponse>> = MutableLiveData()
     val Petslist:MutableLiveData<MutableList<PetResponse>> = MutableLiveData()
+    val SinglePet : MutableLiveData<PetResponse> = MutableLiveData()
+    val singlePetImages : MutableLiveData<PetResponse> = MutableLiveData()
 
     // manage loading by setting the loginresult.value each case and sending it via livedata, when req/res set to loading, when code good get body, when not get error msg
 
@@ -64,6 +67,8 @@ class petProfilesviewModel(application: Application) : AndroidViewModel(applicat
                 )
                 val response = petRepo.getImages(petRequest = petRequest)
                 if (response?.code() == 200) {
+
+                    singlePetImages.value = response.body()
                     getImageResult.value = BaseResponse.Success(response.body())
                 } else {
                     getImageResult.value = BaseResponse.Error(response?.message())
@@ -111,6 +116,32 @@ class petProfilesviewModel(application: Application) : AndroidViewModel(applicat
             }
         }
         //ex.message
+    }
+
+
+    fun getSinglePet(name: String) {
+
+        viewModelScope.launch {
+            try {
+
+                val petRequest = PetRequest(
+
+                    petName=name
+
+                )
+                val response = petRepo.getSinglePet(petRequest = petRequest)
+                if (response?.code() == 200) {
+                    SinglePet.value= response.body()
+                    getSinglePetResult.value = BaseResponse.Success(response.body())
+                } else {
+                    getSinglePetResult.value = BaseResponse.Error(response?.message())
+                }
+
+            } catch (ex: Exception) {
+                getSinglePetResult.value = BaseResponse.Error(ex.message)
+            }
+        }
+
     }
 
 
