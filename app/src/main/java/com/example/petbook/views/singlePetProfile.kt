@@ -30,9 +30,9 @@ class singlePetProfile : AppCompatActivity() {
      //   setContentView(R.layout.activity_single_pet_profile)
 
         val extras = intent.extras
-        name = extras?.getString("nameOfpet")!!
-        if ((extras.getString("nameOfpet")!=null) )
-        {
+
+        if ((extras?.getString("nameOfpet")!=null) )
+        { name = extras.getString("nameOfpet")!!
 
             viewModel.getPetImages(extras.getString("nameOfpet")!!)
             viewModel.getImageResult.observe(this) {
@@ -56,15 +56,29 @@ class singlePetProfile : AppCompatActivity() {
 
         if (extras != null)
         {
-           binding.fullnameTxtView.setText(extras.getString("petName"))
-            if (SessionManager.getString(this,"petPic") !=null)
-            {
-                val imageBytes = Base64.decode(SessionManager.getString(this,"petPic"), Base64.DEFAULT)
-                val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
-                binding.petProfilePicHolder.setImageBitmap(decodedImage)
+            if (extras.getString("petName")!=null) {
+                name = extras.getString("petName")!!
+                binding.fullnameTxtView.setText(extras.getString("petName"))
+                if (SessionManager.getString(this,"petPic") !=null)
+                {
+                    val imageBytes = Base64.decode(SessionManager.getString(this,"petPic"), Base64.DEFAULT)
+                    val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+                    binding.petProfilePicHolder.setImageBitmap(decodedImage)
+
+                }
+
+
+                viewModel.getPetImages(extras.getString("petName")!!)
+                viewModel.getImageResult.observe(this) {
+
+                    println(it)
+
+
+                }
+
+
 
             }
-
 
         }
 
