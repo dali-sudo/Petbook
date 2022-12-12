@@ -46,7 +46,7 @@ class BackgroundService : Service() {
             notificationManager.createNotificationChannel(channel)
         }
 
-      getNotifications(this)
+      getNotifications(this,"0")
         return super.onStartCommand(intent, flags, startId)
     }
 
@@ -55,13 +55,14 @@ class BackgroundService : Service() {
         TODO("Not yet implemented")
     }
 
-    fun getNotifications(context: Context) {
+    fun getNotifications(context: Context,count:String) {
         if (SessionManager.getString(context,"id") !=null ) {
         GlobalScope.launch {
             try {
 
                     val notificationRequest = NotificationRequest(
-                        id =SessionManager.getString(context,"id")
+                        id =SessionManager.getString(context,"id"),
+                        count
 
                     )
 
@@ -85,7 +86,7 @@ if(list.size>0) {
         notify(i, builder.build())}
     }
 }
-                } else {
+         getNotifications(context,"0")       } else {
 
                 }
 

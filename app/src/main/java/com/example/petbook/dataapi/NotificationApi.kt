@@ -14,6 +14,8 @@ interface NotificationApi {
 
     @POST("/notification/get")
     suspend fun getAll(@Body notificationRequest: NotificationRequest): Response<MutableList<NotificationResponse>>
+    @POST("/notification/getall")
+    suspend fun getAllnotifications(@Body notificationRequest: NotificationRequest): Response<MutableList<NotificationResponse>>
     companion object {
         fun getApi(): NotificationApi? {
             return ApiClient.client?.create(NotificationApi::class.java)

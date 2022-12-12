@@ -170,6 +170,13 @@ class DiscoverProfileActivity : AppCompatActivity() {
                         startActivity(myIntent)
 
                     }
+                    binding.userIcon.setOnClickListener(){
+
+                        val myIntent = Intent(this, ProfilPosts::class.java)
+                        myIntent.putExtra("id", post.owner.id) //Optional parameters
+                        startActivity(myIntent)
+
+                    }
 
                 }
                 else -> {}

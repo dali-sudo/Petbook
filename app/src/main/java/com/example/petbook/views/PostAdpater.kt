@@ -30,7 +30,7 @@ var liked=false
         if(post.PostUsername!=null) {
             itemBinding.PostUsername.text = post.PostUsername
         }
-        println(post.PostImage.get(0))
+
 if(post.PostImage.size>0)
 {
       if(post.PostImage.size>1) {
@@ -132,7 +132,7 @@ count++
 
   override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
 
-      println("222222")
+
       var post = Post(
         PostList[position].id,
         PostList[position].images,
