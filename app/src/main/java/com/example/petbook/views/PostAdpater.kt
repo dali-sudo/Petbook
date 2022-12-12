@@ -1,19 +1,24 @@
 package com.example.petbook.views
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.petbook.R
+import com.example.petbook.databinding.ChoiceChipBinding
 import com.example.petbook.databinding.PostSingleItemBinding
 import com.example.petbook.model.Post
 import com.example.petbook.model.PostResponse
 import com.example.petbook.repository.SessionManager
 import com.example.petbook.viewModel.PostViewModel
+import com.google.android.material.chip.Chip
+import kotlinx.coroutines.NonDisposableHandle.parent
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -25,6 +30,30 @@ class   PostAdpater(val context:Context,val PostList: MutableList<PostResponse>,
 
   inner class PostViewHolder(val itemBinding:PostSingleItemBinding):RecyclerView.ViewHolder(itemBinding.root)
   {
+      private fun createChip(label: String)  {
+
+          val chip = Chip(context)
+          chip.text = label
+          itemBinding.tagLayout.addView(chip)
+          println(chip.text)
+
+          chip.setOnClickListener() {
+              val intent = Intent(context, singlePetProfile::class.java)
+              intent.putExtra("nameOfpet",chip.text)
+              context.startActivity(intent)
+            println("clicked successfully")
+          }
+
+
+      }
+
+      fun setupChip(TaggedList : List<String>) {
+          //val nameList = TaggedList.mapTo(arrayListOf()) { it.petName }
+          for (name in TaggedList) {
+              createChip(name)
+          }
+      }
+
 
 
     fun bindItem(post:Post){
@@ -35,7 +64,11 @@ var liked=false
             itemBinding.PostUsername.text = post.PostUsername
         }
 
-        println(post.PostImage.get(0))
+        if (post.tags?.size!!>0)  {
+        setupChip(post.tags)
+        }
+
+
 
 if(post.PostImage.size>0)
 {
@@ -148,7 +181,7 @@ count++
 
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
-   return  PostViewHolder(PostSingleItemBinding.inflate(LayoutInflater.from(parent.context),parent,false))
+   return  PostViewHolder(PostSingleItemBinding.inflate(LayoutInflater.from(parent.context)))
   }
 
   override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
@@ -162,7 +195,8 @@ count++
         PostList[position].description,
         PostList[position].likescount,
         PostList[position].likes,
-          PostList[position].owner.avatar
+        PostList[position].owner.avatar,
+        PostList[position].tags
       )
      holder.bindItem(post)
 
@@ -197,4 +231,9 @@ count++
         }
 
     }
+
+
+
+
+
 }
