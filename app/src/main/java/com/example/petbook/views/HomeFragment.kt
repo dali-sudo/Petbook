@@ -1,20 +1,18 @@
 package com.example.petbook.views
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.petbook.databinding.FragmentHomeBinding
-
 import com.example.petbook.model.PostResponse
 import com.example.petbook.viewModel.PostViewModel
-
-import com.example.petbook.model.Post
-import com.example.petbook.repository.SessionManager
+import kotlinx.coroutines.flow.merge
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -42,9 +40,10 @@ class HomeFragment : Fragment() {
         }
     }
     private val binding get() = _binding!!
-    lateinit var posts : MutableList<PostResponse>
     lateinit var PostList : MutableList<PostResponse>
     private val viewModel by viewModels<PostViewModel>()
+    private var skip=0
+    private var skiped=false
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -66,44 +65,60 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         PostList = ArrayList()
-        viewModel.getPosts()
+         var recyclerViewState=binding.PostRv.layoutManager?.onSaveInstanceState()
+        viewModel.getPagination("3","0")
         var postAdpater = PostAdpater(requireView().context,PostList, viewModel)
         viewModel.list.observe(viewLifecycleOwner) {
-            PostList = it
-            postAdpater = PostAdpater(requireView().context,PostList, viewModel)
-            postAdpater.notifyDataSetChanged()
-            binding.PostRv.adapter = postAdpater
-        }
 
+            if (!it.isEmpty()) {
+                PostList.addAll(it)
+                postAdpater = PostAdpater(requireView().context, PostList, viewModel)
+                skip += it.size
+                recyclerViewState = binding.PostRv.layoutManager?.onSaveInstanceState()
+                postAdpater.notifyDataSetChanged()
+                binding.PostRv.layoutManager?.onRestoreInstanceState(recyclerViewState)
+                binding.PostRv.adapter = postAdpater
+
+                if (skiped) {
+                    skiped = false
+                }
+            }
+        }
+        viewModel.newlist.observe(viewLifecycleOwner) {
+
+            if (!it.isEmpty()) {
+                PostList=it
+                postAdpater = PostAdpater(requireView().context, PostList, viewModel)
+                postAdpater.notifyDataSetChanged()
+                binding.PostRv.adapter = postAdpater
+
+            }
+        }
         binding.PostRv.layoutManager =
             LinearLayoutManager(requireView().context, LinearLayoutManager.VERTICAL, false)
         binding.PostRv.adapter = postAdpater
         binding.swiperefresh.setOnRefreshListener {
-            viewModel.getPosts()
-            postAdpater = PostAdpater(requireView().context,PostList, viewModel)
-            postAdpater.notifyDataSetChanged()
-            binding.PostRv.adapter = postAdpater
+            viewModel.getnew()
+skip=0
             binding.swiperefresh.setRefreshing(false)
         }
-
-
+        binding.PostRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (!recyclerView.canScrollVertically(1)) {
+                    if(!skiped)
+                    viewModel.getPagination("3",(skip).toString())
+                    skiped=true
+                }
+            }
+        })
 
     }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-    fun process(data: MutableList<PostResponse>?) {
 
-        if (data != null) {
-            println("aaaaaaaaaaaaa")
-          println(data)
-        }
-
-
-
-
-    }
 
     companion object {
         /**

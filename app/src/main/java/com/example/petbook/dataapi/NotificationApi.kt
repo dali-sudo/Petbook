@@ -18,7 +18,7 @@ interface NotificationApi {
     suspend fun getAllnotifications(@Body notificationRequest: NotificationRequest): Response<MutableList<NotificationResponse>>
     companion object {
         fun getApi(): NotificationApi? {
-            return ApiClient.client?.create(NotificationApi::class.java)
+            return NotificationClient.client?.create(NotificationApi::class.java)
         }
 
     }

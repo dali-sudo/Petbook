@@ -29,7 +29,7 @@ class BackgroundService : Service() {
     lateinit var list: MutableList<NotificationResponse>
     val Repo = NotificationRepository()
 
-
+var j=0
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
 
@@ -45,7 +45,7 @@ class BackgroundService : Service() {
                 getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
-
+        getNotifications2(this,"0")
       getNotifications(this,"0")
         return super.onStartCommand(intent, flags, startId)
     }
@@ -80,14 +80,14 @@ if(list.size>0) {
         .setContentText(list[i].content)
         .setLargeIcon(decodedImage)
         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-
+j++
     with(NotificationManagerCompat.from(context)) {
         // notificationId is a unique int for each notification that you must define
-        notify(i, builder.build())}
+        notify(j, builder.build())}
     }
 }
          getNotifications(context,"0")       } else {
-
+                    getNotifications(context,"0")
                 }
 
             } catch (ex: Exception) {
@@ -99,4 +99,47 @@ if(list.size>0) {
     }
     }
 
+    fun getNotifications2(context: Context,count:String) {
+        if (SessionManager.getString(context,"id") !=null ) {
+            GlobalScope.launch {
+                try {
+
+                    val notificationRequest = NotificationRequest(
+                        id =SessionManager.getString(context,"id"),
+                        count
+
+                    )
+
+                    val response = Repo.getAllNotification(notificationRequest)
+
+                    if (response?.code() == 200) {
+                        list= response.body()!!
+                        if(list.size>0) {
+                            for(i in 0..list.size-1){
+                                val imageBytes = Base64.decode(list[i].sender!!.avatar, Base64.DEFAULT)
+                                val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+                                var builder = NotificationCompat.Builder(context, "notif")
+                                    .setSmallIcon(R.drawable.dogicon)
+                                    .setContentTitle(list[i].title)
+                                    .setContentText(list[i].content)
+                                    .setLargeIcon(decodedImage)
+                                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                                j++
+                                with(NotificationManagerCompat.from(context)) {
+                                    // notificationId is a unique int for each notification that you must define
+                                    notify(j, builder.build())}
+                            }
+                        }
+                           } else {
+
+                    }
+
+                } catch (ex: Exception) {
+
+                    println(BaseResponse.Error(ex.message ))
+                }
+            }
+            //ex.message
+        }
+    }
 }

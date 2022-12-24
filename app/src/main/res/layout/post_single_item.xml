@@ -7,7 +7,7 @@
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:background="@drawable/_bg__f_shape"
         android:elevation="100dp"
@@ -19,8 +19,8 @@
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="384dp"
-            android:layout_height="421dp">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/userIcon"
@@ -69,6 +69,8 @@
                 android:id="@+id/tagLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+
                 android:layout_marginBottom="8dp"
                 app:layout_constraintBottom_toTopOf="@+id/PostImage"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -81,10 +83,10 @@
                 android:id="@+id/PostImage"
                 android:layout_width="378dp"
                 android:layout_height="185dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="9dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/PostDescreption"
+                app:layout_constraintTop_toBottomOf="@+id/tagLayout"
                 tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
             <ImageView
