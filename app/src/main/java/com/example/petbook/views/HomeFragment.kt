@@ -1,10 +1,11 @@
 package com.example.petbook.views
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.petbook.databinding.FragmentHomeBinding
 import com.example.petbook.model.PostResponse
 import com.example.petbook.viewModel.PostViewModel
-import kotlinx.coroutines.flow.merge
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -31,7 +31,7 @@ class HomeFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    var _binding:FragmentHomeBinding? = null
+    private var _binding:FragmentHomeBinding? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -40,75 +40,70 @@ class HomeFragment : Fragment() {
         }
     }
     private val binding get() = _binding!!
-    lateinit var PostList : MutableList<PostResponse>
+    private lateinit var PostList : MutableList<PostResponse>
     private val viewModel by viewModels<PostViewModel>()
     private var skip=0
-    private var skiped=false
+    private var skipped=false
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
 
 
-          _binding=FragmentHomeBinding.inflate(inflater, container, false)
-        val view = binding.root
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-
-
-
-
-
-        return view
+        return binding.root
     }
+    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         PostList = ArrayList()
-         var recyclerViewState=binding.PostRv.layoutManager?.onSaveInstanceState()
+        var recyclerViewState: Parcelable?
         viewModel.getPagination("3","0")
-        var postAdpater = PostAdpater(requireView().context,PostList, viewModel)
+        var postAdapter = PostAdpater(requireView().context,PostList, viewModel)
         viewModel.list.observe(viewLifecycleOwner) {
 
-            if (!it.isEmpty()) {
+            if (it.isNotEmpty()) {
                 PostList.addAll(it)
-                postAdpater = PostAdpater(requireView().context, PostList, viewModel)
+                postAdapter = PostAdpater(requireView().context, PostList, viewModel)
                 skip += it.size
                 recyclerViewState = binding.PostRv.layoutManager?.onSaveInstanceState()
-                postAdpater.notifyDataSetChanged()
+                postAdapter.notifyDataSetChanged()
                 binding.PostRv.layoutManager?.onRestoreInstanceState(recyclerViewState)
-                binding.PostRv.adapter = postAdpater
+                binding.PostRv.adapter = postAdapter
 
-                if (skiped) {
-                    skiped = false
+                if (skipped) {
+                    skipped = false
                 }
             }
         }
         viewModel.newlist.observe(viewLifecycleOwner) {
 
-            if (!it.isEmpty()) {
+            if (it.isNotEmpty()) {
                 PostList=it
-                postAdpater = PostAdpater(requireView().context, PostList, viewModel)
-                postAdpater.notifyDataSetChanged()
-                binding.PostRv.adapter = postAdpater
+                postAdapter = PostAdpater(requireView().context, PostList, viewModel)
+                postAdapter.notifyDataSetChanged()
+                binding.PostRv.adapter = postAdapter
 
             }
         }
         binding.PostRv.layoutManager =
             LinearLayoutManager(requireView().context, LinearLayoutManager.VERTICAL, false)
-        binding.PostRv.adapter = postAdpater
+        binding.PostRv.adapter = postAdapter
         binding.swiperefresh.setOnRefreshListener {
             viewModel.getnew()
 skip=0
-            binding.swiperefresh.setRefreshing(false)
+            binding.swiperefresh.isRefreshing = false
         }
         binding.PostRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (!recyclerView.canScrollVertically(1)) {
-                    if(!skiped)
+                    if(!skipped)
                     viewModel.getPagination("3",(skip).toString())
-                    skiped=true
+                    skipped=true
                 }
             }
         })
