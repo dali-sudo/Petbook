@@ -9,8 +9,13 @@ import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Base64
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.widget.ArrayAdapter
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.viewModels
 
@@ -116,12 +121,17 @@ class AddPost : AppCompatActivity() {
             val imageBytes = Base64.decode(SessionManager.getString(this,"profilePic"), Base64.DEFAULT)
             val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
             binding.postProfileIcon.setImageBitmap(decodedImage)
-
+            binding.addpostImageView.setScaleType(ImageView.ScaleType.FIT_XY);
         }
         
 
          images= ArrayList()
-        binding.button.setOnClickListener(){
+        binding.addPhoto.setOnClickListener(){
+            val gallery = Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+            startActivityForResult(gallery, pickImage)
+
+        }
+        binding.addmoreLayout.setOnClickListener(){
             val gallery = Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
             startActivityForResult(gallery, pickImage)
 
@@ -144,6 +154,7 @@ binding.username.text=SessionManager.getString(this,"username")!!
                 val imageBytes = Base64.decode(images.get(index), Base64.DEFAULT)
                 val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
                 binding.addpostImageView.setImageBitmap(decodedImage)
+                binding.addpostImageView.setScaleType(ImageView.ScaleType.FIT_XY);
             }
             binding.imageView20.setOnClickListener() {
                 if (index == 0) {
@@ -153,9 +164,9 @@ binding.username.text=SessionManager.getString(this,"username")!!
                 val imageBytes = Base64.decode(images.get(index), Base64.DEFAULT)
                 val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
                 binding.addpostImageView.setImageBitmap(decodedImage)
-
+                binding.addpostImageView.setScaleType(ImageView.ScaleType.FIT_XY);
             }
-            binding.button2.setOnClickListener() {
+          /*  binding.button2.setOnClickListener() {
                 taggedList.clear()
                 getTaggedChips()
                 viewModel.AddPost(
@@ -170,7 +181,7 @@ binding.username.text=SessionManager.getString(this,"username")!!
 
 
             }
-
+*/
 
 
 
@@ -192,20 +203,58 @@ binding.username.text=SessionManager.getString(this,"username")!!
             imageUri = data?.data
             getContentResolver().takePersistableUriPermission(imageUri !!, Intent.FLAG_GRANT_READ_URI_PERMISSION);
            binding.addpostImageView.setImageURI(imageUri )
+            binding.addpostImageView.setScaleType(ImageView.ScaleType.FIT_XY);
             binding.addpostImageView.visibility = View.VISIBLE
             val baos = ByteArrayOutputStream()
             val bitmap = binding.addpostImageView.drawable.toBitmap()
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos)
             encodedImage = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT)
             images.add(encodedImage)
-            println(images.size)
-            images.forEach{ println(it)
+            if(images.size>0) {
+                binding.addPhoto.visibility = GONE
+                binding.divider.visibility = GONE
+                binding.addmoreLayout.visibility = VISIBLE
+            }
+            images.forEach{
                 if(images.size>1) {
-                    println("aaaaaaaaaaaaaa")
+
                     binding.imageView18.visibility = View.VISIBLE
                     binding.imageView20.visibility = View.VISIBLE
+
                 }
             index=images.size-1}
         }
+
+
     }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.post_toolbar,menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+
+
+
+            R.id.addpost_iconid -> {
+                taggedList.clear()
+                getTaggedChips()
+                viewModel.AddPost(
+                    binding.editTextTextMultiLine.text.toString(),
+                    images,
+                    SessionManager.getString(this,"id")!!,
+                    taggedList
+
+                )
+
+                finish()
+
+            }
+
+
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
 }

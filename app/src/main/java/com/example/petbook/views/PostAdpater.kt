@@ -7,6 +7,7 @@ import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -70,8 +71,8 @@ var liked=false
 
 
 
-if(post.PostImage!=null){
-if(post.PostImage.size>0)
+
+if(post.PostImage!!.size>0)
 {
       if(post.PostImage.size>1) {
         itemBinding.imageView16.visibility = View.VISIBLE
@@ -87,7 +88,7 @@ if(post.PostImage.size>0)
             val imageBytes = Base64.decode(post.PostImage.get(i), Base64.DEFAULT)
             val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
           itemBinding.PostImage.setImageBitmap(decodedImage)
-
+            itemBinding.PostImage.setScaleType(ImageView.ScaleType.FIT_XY)
         }
         itemBinding.imageView15.setOnClickListener() {
           if (i == 0) {
@@ -99,17 +100,19 @@ if(post.PostImage.size>0)
             val imageBytes = Base64.decode(post.PostImage.get(i), Base64.DEFAULT)
             val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
             itemBinding.PostImage.setImageBitmap(decodedImage)
+            itemBinding.PostImage.setScaleType(ImageView.ScaleType.FIT_CENTER);
         }
       }
       else{
           val imageBytes = Base64.decode(post.PostImage.get(i), Base64.DEFAULT)
           val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
-          itemBinding.PostImage.setImageBitmap(decodedImage)}
+          itemBinding.PostImage.setImageBitmap(decodedImage)
+          itemBinding.PostImage.setScaleType(ImageView.ScaleType.FIT_XY);}
     val imageBytes = Base64.decode(post.PostImage.get(i), Base64.DEFAULT)
     val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
     itemBinding.PostImage.setImageBitmap(decodedImage)
-
-    }}
+    itemBinding.PostImage.setScaleType(ImageView.ScaleType.FIT_XY);
+    }
         else{
     itemBinding.PostImage.visibility = View.GONE
         }

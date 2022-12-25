@@ -103,7 +103,7 @@ binding.floatingActionButton.setOnClickListener(){
 
         supportFragmentManager.beginTransaction().add(R.id.MainfragmentContainerView, HomeFragment()).commit()
 
-var bool=true
+
 
 
 

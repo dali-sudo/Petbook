@@ -10,8 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:navigationIcon="@drawable/arrowback_icon"
-
+        app:menu="@menu/post_toolbar"
         app:title="Create post"
         app:titleTextColor="@color/black" />
+
 
 </com.google.android.material.appbar.AppBarLayout>

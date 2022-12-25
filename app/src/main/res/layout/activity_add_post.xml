@@ -3,11 +3,36 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-    <ScrollView>
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".views.AddPost">
+
+    <LinearLayout
+        android:id="@+id/addPhoto"
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="71dp"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/photos_icon" />
+
+        <TextView
+            android:id="@+id/photosTV"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+
+            android:text="Photo"
+            android:textSize="16sp" />
+    </LinearLayout>
+
     <include
         android:id="@+id/toolbar"
         layout="@layout/back_arrow_toolbar"
@@ -19,7 +44,6 @@
         android:id="@+id/linearLayout7"
         android:layout_width="match_parent"
         android:layout_height="67dp"
-        android:layout_marginTop="36dp"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
@@ -29,12 +53,11 @@
             android:layout_width="79dp"
             android:layout_height="match_parent"
             android:layout_weight="0"
-            app:srcCompat="@drawable/profile_icon"
             app:civ_border_color="@color/white"
             app:civ_border_width="1dp"
-            app:civ_shadow_radius="4dp"
             app:civ_shadow_color="#3f51b5"
-           />
+            app:civ_shadow_radius="4dp"
+            app:srcCompat="@drawable/profile_icon" />
 
 
         <TextView
@@ -49,18 +72,16 @@
             android:textStyle="bold" />
     </LinearLayout>
 
+
     <EditText
         android:id="@+id/editTextTextMultiLine"
-        android:layout_width="364dp"
-        android:layout_height="105dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
-        android:ems="10"
+        android:layout_width="0dp"
+        android:layout_height="90dp"
         android:gravity="start|top"
-        android:hint="Post Description"
+        android:hint="Post description..."
         android:inputType="textMultiLine"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout7" />
 
@@ -68,63 +89,23 @@
     <TextView
         android:id="@+id/label"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
         android:text="Select your pet"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextTextMultiLine" />
 
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/tagLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/label"
-        app:singleLine="false"
-        />
-
-
-
-
-
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="389dp"
-        android:layout_height="54dp"
-        android:layout_marginTop="8dp"
-        android:text="Add Image"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tagLayout" />
-
     <ImageView
         android:id="@+id/addpost_imageView"
-        android:layout_width="391dp"
+        android:layout_width="match_parent"
         android:layout_height="320dp"
-        android:layout_marginTop="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_marginTop="48dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button"
-        app:srcCompat="@android:drawable/ic_menu_gallery"
-        tools:visibility="gone" />
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="120dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="12dp"
-        android:text="Add"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addpost_imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/tagLayout"
+        app:srcCompat="@android:drawable/ic_menu_gallery" />
 
     <ImageView
         android:id="@+id/imageView18"
@@ -151,6 +132,57 @@
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/leftarrow" />
 
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="3dp"
+        android:background="@color/colorPrimary"
+        app:layout_constraintBottom_toTopOf="@+id/addPhoto"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/addmoreLayout"
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:layout_marginTop="25dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/addpost_imageView"
+        tools:layout_editor_absoluteX="-37dp"
+        tools:visibility="visible">
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            app:srcCompat="@drawable/addphoto_icon" />
+
+        <TextView
+            android:id="@+id/addmoreTV"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+
+            android:text="Add More"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/tagLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.352"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/label"
+        app:singleLine="false" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+
 </layout>

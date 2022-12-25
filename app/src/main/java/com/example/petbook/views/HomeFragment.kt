@@ -93,21 +93,22 @@ class HomeFragment : Fragment() {
             LinearLayoutManager(requireView().context, LinearLayoutManager.VERTICAL, false)
         binding.PostRv.adapter = postAdapter
         binding.swiperefresh.setOnRefreshListener {
+            skip=0
             viewModel.getnew()
-skip=0
             binding.swiperefresh.isRefreshing = false
         }
         binding.PostRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (!recyclerView.canScrollVertically(1)) {
-                    if(!skipped)
-                    viewModel.getPagination("3",(skip).toString())
-                    skipped=true
-                }
-            }
-        })
 
+                    viewModel.getPagination("3",(skip).toString())
+
+
+            }
+        }
+
+    })
     }
     override fun onDestroyView() {
         super.onDestroyView()
