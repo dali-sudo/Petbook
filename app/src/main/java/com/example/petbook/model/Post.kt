@@ -13,5 +13,5 @@ val id:String,
     val likesCount : String,
     val likes:List<String>,
     val PostUserImage:String? = null,
-     val tags:List<String>?=null
+     val tags:Map<String,String>?=null
 )

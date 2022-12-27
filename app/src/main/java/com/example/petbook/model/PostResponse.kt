@@ -21,7 +21,7 @@ data class PostResponse(
         @SerializedName("likes")
         var likes: List<String>,
         @SerializedName("tags")
-        var tags: List<String>
+        var tags: List<Tag>
 
     )
 
@@ -35,4 +35,10 @@ data class Owner(
     var avatar: String,
 
 )
+    data class Tag (
+        @SerializedName("_id")
+        var id: String,
+        @SerializedName("name")
+        var petname: String,
+            )
 }

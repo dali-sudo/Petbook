@@ -50,11 +50,11 @@ class ImageGridFragment : Fragment() {
 
 
     var images = intArrayOf(
+
         R.drawable.sliderdog1,
         R.drawable.sliderdog2,
         R.drawable.sliderdog3,
         R.drawable.sliderdog4
-
     )
 
 
@@ -87,7 +87,7 @@ class ImageGridFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         ImgsListContainer = PetResponse()
-            viewModel.getPetImages(singlePetProfile.name)
+            viewModel.getPetImages(singlePetProfile.id)
             viewModel.singlePetImages.observe(viewLifecycleOwner) {
                 ImgsListContainer = it
                 println("Begin Receive")
