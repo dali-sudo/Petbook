@@ -50,7 +50,11 @@ class AddPost : AppCompatActivity() {
     var index=0
     private val viewModel by viewModels<PostViewModel>()
     lateinit var PetsList: MutableList<PetResponse>
+    lateinit var nameList:  ArrayList<String?>
     lateinit var taggedList : ArrayList<String>
+    lateinit var taggedList1 : Map<String,String>
+    lateinit var IdsList : ArrayList<String>
+
 
     companion object {
         private var loaded: Boolean = false
@@ -61,15 +65,24 @@ class AddPost : AppCompatActivity() {
 
         petsviewModel.getPets( SessionManager.getString(this,"id")!!)
         petsviewModel.Petslist.observe(this) {
+            PetsList = it
 
-            val nameList = it.mapTo(arrayListOf()) { it.petName }
-            for (name in nameList) {
-                val chip = createChip(name!!)
-                binding.tagLayout.addView(chip)
+               nameList = it.mapTo(arrayListOf()) { it.petName }
+
+
+            taggedList1 = it.map { it.petName!! to it.id!!}.toMap()
+            println(nameList + "**************")
+            if (!loaded) {
+                for (name in nameList) {
+                    val chip = createChip(name!!)
+                    binding.tagLayout.addView(chip)
+                }
+                loaded = true
             }
+
         }
 
-        loaded = true
+
 
     }
 
@@ -92,29 +105,34 @@ class AddPost : AppCompatActivity() {
 
         }
 
-
+        // check the tagged Ids and remove the rest
+        for (i in taggedList.indices)
+        {
+            for (key in taggedList1.keys)
+            {
+                if (key != taggedList[i])
+                {
+                    taggedList1.toMutableMap().remove(key)
+                }
+                else {
+                    IdsList.add(taggedList1[key]!!)
+                }
+            }
+        }
     }
 
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         taggedList= arrayListOf<String>()
+        IdsList= arrayListOf<String>()
 
 
         super.onCreate(savedInstanceState)
         binding = ActivityAddPostBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-
-    setupChip()
-
-
-
-
-
-
-
-
+        setupChip()
         binding.addpostImageView.visibility = View.GONE
       if (SessionManager.getString(this,"profilePic") !=null )
         {
@@ -166,16 +184,20 @@ binding.username.text=SessionManager.getString(this,"username")!!
                 binding.addpostImageView.setImageBitmap(decodedImage)
                 binding.addpostImageView.setScaleType(ImageView.ScaleType.FIT_XY);
             }
+
           /*  binding.button2.setOnClickListener() {
+
                 taggedList.clear()
+                IdsList.clear()
                 getTaggedChips()
                 viewModel.AddPost(
                     binding.editTextTextMultiLine.text.toString(),
                     images,
                     SessionManager.getString(this,"id")!!,
-                    taggedList
+                    IdsList
 
                 )
+
 
                 finish()
 
@@ -191,10 +213,6 @@ binding.username.text=SessionManager.getString(this,"username")!!
 
 
         }
-
-
-
-
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -227,6 +245,7 @@ binding.username.text=SessionManager.getString(this,"username")!!
 
 
     }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.post_toolbar,menu)
         return true
@@ -256,5 +275,6 @@ binding.username.text=SessionManager.getString(this,"username")!!
         }
         return super.onOptionsItemSelected(item)
     }
+
 
 }

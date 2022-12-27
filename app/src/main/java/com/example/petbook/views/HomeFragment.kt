@@ -1,18 +1,38 @@
 package com.example.petbook.views
 
+
+import android.content.Intent
+import android.graphics.BitmapFactory
+import android.os.Bundle
+import android.util.Base64
+
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Parcelable
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.petbook.databinding.FragmentHomeBinding
+
+import com.example.petbook.model.BaseResponse
+
 import com.example.petbook.model.PostResponse
 import com.example.petbook.viewModel.PostViewModel
+
+import com.example.petbook.model.Post
+import com.example.petbook.repository.SessionManager
+import com.example.petbook.viewModel.SigninViewModel
+
+
+import com.example.petbook.model.PostResponse
+import com.example.petbook.viewModel.PostViewModel
+
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -51,19 +71,22 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
 
 
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
-
+          _binding=FragmentHomeBinding.inflate(inflater, container, false)
+     
         return binding.root
     }
     @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+
         PostList = ArrayList()
         var recyclerViewState: Parcelable?
         viewModel.getPagination("3","0")
         var postAdapter = PostAdpater(requireView().context,PostList, viewModel)
         viewModel.list.observe(viewLifecycleOwner) {
+
 
             if (it.isNotEmpty()) {
                 PostList.addAll(it)
@@ -112,7 +135,10 @@ class HomeFragment : Fragment() {
     }
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+       _binding = null
+
+
+
     }
 
 

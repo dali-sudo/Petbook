@@ -23,7 +23,12 @@ class PetRepository {
     suspend fun getImages(petRequest : PetRequest): Response<PetResponse>? {
         return petApi.getApi()?.getImgs(petRequest = petRequest)
 
-    }suspend fun getSinglePet(petRequest : PetRequest): Response<PetResponse>? {
+    }
+    suspend fun getSinglePet(petRequest : PetRequest): Response<PetResponse>? {
         return petApi.getApi()?.getSinglePet(petRequest = petRequest)
+    }
+
+    suspend fun DeletePet(petRequest : PetRequest): Response<DeleteResponse>? {
+        return petApi.getApi()?.deletePet(petRequest = petRequest)
     }
 }

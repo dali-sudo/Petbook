@@ -94,6 +94,8 @@ class PetsViewPagerAdapter (val context: Context, val petList: MutableList<PetRe
             val intent = Intent(context, singlePetProfile::class.java)
             intent.putExtra("petName", petList.get(position).petName)
             intent.putExtra("petRace", petList.get(position).petName)
+            intent.putExtra("idPet", petList.get(position).id)
+
          if ( petList.get(position).petPic !=null){
              SessionManager.saveString(context,"petPic",petList.get(position).petPic!!)
          }

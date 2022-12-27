@@ -22,6 +22,7 @@ class petProfilesviewModel(application: Application) : AndroidViewModel(applicat
     val Petslist:MutableLiveData<MutableList<PetResponse>> = MutableLiveData()
     val SinglePet : MutableLiveData<PetResponse> = MutableLiveData()
     val singlePetImages : MutableLiveData<PetResponse> = MutableLiveData()
+    val Deleted : MutableLiveData<BaseResponse<DeleteResponse>> = MutableLiveData()
 
     // manage loading by setting the loginresult.value each case and sending it via livedata, when req/res set to loading, when code good get body, when not get error msg
 
@@ -57,13 +58,13 @@ class petProfilesviewModel(application: Application) : AndroidViewModel(applicat
         }
     }
 
-    fun getPetImages(name: String) {
+    fun getPetImages(id: String) {
 
         viewModelScope.launch {
             try {
 
                 val petRequest = PetRequest(
-                    petName=name
+                    petId=id
                 )
                 val response = petRepo.getImages(petRequest = petRequest)
                 if (response?.code() == 200) {
@@ -119,14 +120,14 @@ class petProfilesviewModel(application: Application) : AndroidViewModel(applicat
     }
 
 
-    fun getSinglePet(name: String) {
+    fun getSinglePet(id: String) {
 
         viewModelScope.launch {
             try {
 
                 val petRequest = PetRequest(
 
-                    petName=name
+                    petId=id
 
                 )
                 val response = petRepo.getSinglePet(petRequest = petRequest)
@@ -143,6 +144,31 @@ class petProfilesviewModel(application: Application) : AndroidViewModel(applicat
         }
 
     }
+    fun DeletePet(id: String) {
+
+        viewModelScope.launch {
+            try {
+
+                val petRequest = PetRequest(
+
+                    petId=id
+
+                )
+                val response = petRepo.DeletePet(petRequest = petRequest)
+                if (response?.code() == 200) {
+
+                    Deleted.value = BaseResponse.Success(response.body())
+                } else {
+                    Deleted.value = BaseResponse.Error(response?.message())
+                }
+
+            } catch (ex: Exception) {
+                getSinglePetResult.value = BaseResponse.Error(ex.message)
+            }
+        }
+
+    }
+
 
 
 
