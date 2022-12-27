@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.petbook.databinding.ActivitySinglePetProfileBinding
 import com.example.petbook.model.BaseResponse
 import com.example.petbook.repository.SessionManager
+import com.example.petbook.util.toast
 import com.example.petbook.viewModel.SigninViewModel
 import com.example.petbook.viewModel.petProfilesviewModel
 
@@ -18,8 +19,9 @@ class singlePetProfile : AppCompatActivity() {
     private val viewModel by viewModels<petProfilesviewModel>()
     companion object {
 
-        var name :String = ""
+        var id :String = ""
     }
+    lateinit var petname : String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,63 +33,81 @@ class singlePetProfile : AppCompatActivity() {
 
         val extras = intent.extras
 
-        if ((extras?.getString("nameOfpet")!=null) )
-        { name = extras.getString("nameOfpet")!!
 
-            viewModel.getPetImages(extras.getString("nameOfpet")!!)
-            viewModel.getImageResult.observe(this) {
+        if ((extras?.getString("petId")!=null) && (extras?.getString("nameOfpet")!=null) )
 
-                println(it)
-
-
-            }
-
-            viewModel.getSinglePet(extras.getString("nameOfpet")!!)
-
-            viewModel.SinglePet.observe(this) {
-
-                val imageBytes = Base64.decode(it.petPic, Base64.DEFAULT)
-                val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
-                binding.petProfilePicHolder.setImageBitmap(decodedImage)
-
-            }
-
-        }
-
-        if (extras != null)
         {
-            if (extras.getString("petName")!=null) {
-                name = extras.getString("petName")!!
-                binding.fullnameTxtView.setText(extras.getString("petName"))
-                if (SessionManager.getString(this,"petPic") !=null)
-                {
-                    val imageBytes = Base64.decode(SessionManager.getString(this,"petPic"), Base64.DEFAULT)
-                    val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
-                    binding.petProfilePicHolder.setImageBitmap(decodedImage)
+             id = extras.getString("petId")!!
+             petname = extras.getString("nameOfpet")!!
 
-                }
+        }
+        else if( (extras?.getString("petName")!=null) && (extras.getString("idPet")!=null ))
 
-
-                viewModel.getPetImages(extras.getString("petName")!!)
-                viewModel.getImageResult.observe(this) {
-
-                    println(it)
-
-
-                }
-
-
-
+        {
+                println("here from the pager intent")
+                id = extras.getString("idPet")!!
+            petname=extras.getString("petName")!!
             }
+
+
+        binding.fullnameTxtView.setText(petname)
+        //  viewModel.getPetImages(id!!)
+
+        viewModel.getImageResult.observe(this) {
+
+            println(it)
+
 
         }
 
+        viewModel.getSinglePet(id)
+        viewModel.SinglePet.observe(this) {
 
+            val imageBytes = Base64.decode(it.petPic, Base64.DEFAULT)
+            val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+            binding.petProfilePicHolder.setImageBitmap(decodedImage)
 
+        }
+
+       /* if (SessionManager.getString(this,"petPic") !=null)
+        {
+            val imageBytes = Base64.decode(SessionManager.getString(this,"petPic"), Base64.DEFAULT)
+            val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+            binding.petProfilePicHolder.setImageBitmap(decodedImage)
+
+        }
+*/
+        binding.DeleteButton.setOnClickListener {
+            DeletePet(id)
+
+        }
 
         binding.profileBack.setOnClickListener {
             finish()
         }
+    }
+    
+    fun DeletePet(PetId: String) {
+
+        viewModel.DeletePet(PetId)
+
+        viewModel.Deleted.observe(this) {
+
+            when (it) {
+                is BaseResponse.Loading -> {
+                    toast("Deleting !!")
+                }
+
+                is BaseResponse.Success -> {
+                    toast("Deleted Successfully!")
+                }
+                else -> toast("Couldnt Delete")
+
+            }
+
+        }
+
+finish()
     }
 
 

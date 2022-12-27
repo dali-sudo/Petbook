@@ -3,6 +3,8 @@ package com.example.petbook.model
 import com.google.gson.annotations.SerializedName
 
 data class PetRequest(
+    @SerializedName("_id")
+    var petId : String?= null,
     @SerializedName("name")
     var petName : String?= null,
     @SerializedName("type")

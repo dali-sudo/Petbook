@@ -15,6 +15,8 @@ interface petApi {
     suspend fun getImgs(@Body petRequest: PetRequest): Response<PetResponse>
     @POST("/pet/getSinglePet")
     suspend fun getSinglePet(@Body petRequest: PetRequest): Response<PetResponse>
+    @POST("/pet/deletePet")
+    suspend fun deletePet(@Body petRequest: PetRequest): Response<DeleteResponse>
 
 
 

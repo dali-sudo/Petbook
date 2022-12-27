@@ -30,16 +30,21 @@ class   PostAdpater(val context:Context,val PostList: MutableList<PostResponse>,
 
   inner class PostViewHolder(val itemBinding:PostSingleItemBinding):RecyclerView.ViewHolder(itemBinding.root)
   {
-      private fun createChip(label: String)  {
+
+
+      //TODO pass the id of the pet as a parameter and send it as extra instead of name of pet
+      private fun createChip(label: String, petId : String)  {
 
           val chip = Chip(context)
           chip.text = label
+
           itemBinding.tagLayout.addView(chip)
           println(chip.text)
 
           chip.setOnClickListener() {
               val intent = Intent(context, singlePetProfile::class.java)
               intent.putExtra("nameOfpet",chip.text)
+              intent.putExtra("petId",petId)
               context.startActivity(intent)
             println("clicked successfully")
           }
@@ -47,10 +52,15 @@ class   PostAdpater(val context:Context,val PostList: MutableList<PostResponse>,
 
       }
 
-      fun setupChip(TaggedList : List<String>) {
+      // TODO the tagged List needs to be of type petResponse and i get the petname and the pet id
+      fun setupChip(TaggedList : Map<String,String>) {
           //val nameList = TaggedList.mapTo(arrayListOf()) { it.petName }
-          for (name in TaggedList) {
-              createChip(name)
+
+
+          for (key in TaggedList.keys)
+          {
+              createChip(TaggedList[key]!!, key)
+              println(key + TaggedList[key])
           }
       }
 
@@ -65,7 +75,9 @@ var liked=false
         }
 
         if (post.tags?.size!!>0)  {
+
         setupChip(post.tags)
+
         }
 
 
@@ -197,7 +209,7 @@ count++
         PostList[position].likescount,
         PostList[position].likes,
         PostList[position].owner.avatar,
-        PostList[position].tags
+        PostList[position].tags.map { it.id to it.petname }.toMap()  // here i need a map of key : id and value petname
       )
      holder.bindItem(post)
 
