@@ -33,7 +33,7 @@ class NotificationViewModel (application: Application) : AndroidViewModel(applic
 
                     )
 
-                    val response = Repo.getAll(notificationRequest)
+                    val response = Repo.getAllNotification(notificationRequest)
 
                     if (response?.code() == 200) {
                         list.value= response.body()

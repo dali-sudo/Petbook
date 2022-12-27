@@ -10,7 +10,7 @@ data class UserPostResponse(
         @SerializedName("username")
         var username: String,
         @SerializedName("avatar")
-        var avatar: String,
+        var avatar: String?= null,
         @SerializedName("followerscount")
         var followerscount: String,
         @SerializedName("followingcount")
