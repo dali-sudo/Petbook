@@ -1,9 +1,15 @@
 package com.example.petbook.views
 
+
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Base64
+
+import android.annotation.SuppressLint
+import android.os.Bundle
+import android.os.Parcelable
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +17,9 @@ import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.petbook.databinding.FragmentHomeBinding
+
 import com.example.petbook.model.BaseResponse
 
 import com.example.petbook.model.PostResponse
@@ -20,6 +28,11 @@ import com.example.petbook.viewModel.PostViewModel
 import com.example.petbook.model.Post
 import com.example.petbook.repository.SessionManager
 import com.example.petbook.viewModel.SigninViewModel
+
+
+import com.example.petbook.model.PostResponse
+import com.example.petbook.viewModel.PostViewModel
+
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -38,7 +51,7 @@ class HomeFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    var _binding:FragmentHomeBinding? = null
+    private var _binding:FragmentHomeBinding? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -47,53 +60,78 @@ class HomeFragment : Fragment() {
         }
     }
     private val binding get() = _binding!!
-    lateinit var posts : MutableList<PostResponse>
-    lateinit var PostList : MutableList<PostResponse>
+    private lateinit var PostList : MutableList<PostResponse>
     private val viewModel by viewModels<PostViewModel>()
+    private var skip=0
+    private var skipped=false
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
 
 
           _binding=FragmentHomeBinding.inflate(inflater, container, false)
-        val view = binding.root
-
-
-
-
-        return view
+     
+        return binding.root
     }
+    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
 
 
         PostList = ArrayList()
-        viewModel.getPosts()
-        var postAdpater = PostAdpater(requireView().context,PostList, viewModel)
+        var recyclerViewState: Parcelable?
+        viewModel.getPagination("3","0")
+        var postAdapter = PostAdpater(requireView().context,PostList, viewModel)
         viewModel.list.observe(viewLifecycleOwner) {
-            PostList = it
-            postAdpater = PostAdpater(requireView().context,PostList, viewModel)
-            postAdpater.notifyDataSetChanged()
-            binding.PostRv.adapter = postAdpater
 
+
+            if (it.isNotEmpty()) {
+                PostList.addAll(it)
+                postAdapter = PostAdpater(requireView().context, PostList, viewModel)
+                skip += it.size
+                recyclerViewState = binding.PostRv.layoutManager?.onSaveInstanceState()
+                postAdapter.notifyDataSetChanged()
+                binding.PostRv.layoutManager?.onRestoreInstanceState(recyclerViewState)
+                binding.PostRv.adapter = postAdapter
+
+                if (skipped) {
+                    skipped = false
+                }
+            }
         }
+        viewModel.newlist.observe(viewLifecycleOwner) {
 
+            if (it.isNotEmpty()) {
+                PostList=it
+                postAdapter = PostAdpater(requireView().context, PostList, viewModel)
+                postAdapter.notifyDataSetChanged()
+                binding.PostRv.adapter = postAdapter
+
+            }
+        }
         binding.PostRv.layoutManager =
             LinearLayoutManager(requireView().context, LinearLayoutManager.VERTICAL, false)
-        binding.PostRv.adapter = postAdpater
+        binding.PostRv.adapter = postAdapter
         binding.swiperefresh.setOnRefreshListener {
-            viewModel.getPosts()
-            postAdpater = PostAdpater(requireView().context,PostList, viewModel)
-            postAdpater.notifyDataSetChanged()
-            binding.PostRv.adapter = postAdpater
-            binding.swiperefresh.setRefreshing(false)
+            skip=0
+            viewModel.getnew()
+            binding.swiperefresh.isRefreshing = false
+        }
+        binding.PostRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (!recyclerView.canScrollVertically(1)) {
+
+                    viewModel.getPagination("3",(skip).toString())
+
+
+            }
         }
 
-
-
+    })
     }
     override fun onDestroyView() {
         super.onDestroyView()
@@ -102,17 +140,7 @@ class HomeFragment : Fragment() {
 
 
     }
-    fun process(data: MutableList<PostResponse>?) {
 
-        if (data != null) {
-            println("aaaaaaaaaaaaa")
-          println(data)
-        }
-
-
-
-
-    }
 
     companion object {
         /**

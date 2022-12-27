@@ -9,7 +9,7 @@ data class LoginRequest(
     @SerializedName("email")
     var email: String,
     @SerializedName("password")
-    var password: String,
+    var password: String?= null,
     @SerializedName("token")
     var token :String?= null,
     @SerializedName("profilePic")

@@ -24,4 +24,7 @@ class UserRepository {
     suspend fun getUser(userPostRequest: UserPostRequest): Response<UserPostResponse>? {
         return UserApi.getApi()?.getUser(userPostRequest= userPostRequest)
     }
+    suspend fun GoogleloginUser(loginRequest: LoginRequest): Response<LoginResponse>? {
+        return UserApi.getApi()?.GoogleloginUser(loginRequest = loginRequest)
+    }
 }

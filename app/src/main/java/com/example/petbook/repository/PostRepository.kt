@@ -30,4 +30,8 @@ class PostRepository {
     suspend fun getDiscoverPost(userpostRequest:UserPostRequest): Response<PostResponse>? {
         return PostApi.getApi()?.getDiscoverPost(userpostRequest=userpostRequest)
     }
+    suspend fun getPagination(getPaginationRequest: getPaginationRequest): Response<MutableList<PostResponse>>? {
+        return PostApi.getApi()?.getPagination(getPaginationRequest =getPaginationRequest)
+
+    }
 }

@@ -20,6 +20,8 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     val postResult: MutableLiveData<BaseResponse<PostResponse>> = MutableLiveData()
     val getpostResult: MutableLiveData<BaseResponse<PostResponse>> = MutableLiveData()
 val list:MutableLiveData<MutableList<PostResponse>> = MutableLiveData()
+    val newlist:MutableLiveData<MutableList<PostResponse>> = MutableLiveData()
+
     val userRepo = UserRepository()
     val followResult: MutableLiveData<BaseResponse<FollowResponse>> = MutableLiveData()
     val unfollowResult: MutableLiveData<BaseResponse<FollowResponse>> = MutableLiveData()
@@ -200,7 +202,52 @@ val list:MutableLiveData<MutableList<PostResponse>> = MutableLiveData()
         }
         //ex.message
     }
+    fun getPagination(limit:String,skip:String) {
 
+        getpostResult.value = BaseResponse.Loading()
+        viewModelScope.launch {
+            try {
+val Request=getPaginationRequest(
+    limit=limit,
+    skip=skip
+)
+                val response = postRepo.getPagination(Request)
+                if (response?.code() == 200) {
+                    list.value= response.body()
+                } else {
+                    getpostResult.value = BaseResponse.Error(response?.message())
+                }
+
+            } catch (ex: Exception) {
+                postResult.value = BaseResponse.Error(ex.message )
+                println(BaseResponse.Error(ex.message ))
+            }
+        }
+        //ex.message
+    }
+    fun getnew() {
+
+        getpostResult.value = BaseResponse.Loading()
+        viewModelScope.launch {
+            try {
+                val Request=getPaginationRequest(
+                    limit="3",
+                    skip="0"
+                )
+                val response = postRepo.getPagination(Request)
+                if (response?.code() == 200) {
+                    newlist.value= response.body()
+                } else {
+                    getpostResult.value = BaseResponse.Error(response?.message())
+                }
+
+            } catch (ex: Exception) {
+                postResult.value = BaseResponse.Error(ex.message )
+                println(BaseResponse.Error(ex.message ))
+            }
+        }
+        //ex.message
+    }
 }
 
 

@@ -47,10 +47,7 @@ lateinit var password: String
 
 
 
-        val acct = GoogleSignIn.getLastSignedInAccount(this)
-        if(acct!=null){
-            navigateToHome()
-        }
+
 
 
 
@@ -198,7 +195,6 @@ lateinit var password: String
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        val SignupViewModel = signupViewModel()
         if (requestCode == 1000) {
             val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
@@ -207,18 +203,10 @@ lateinit var password: String
                 val acct = GoogleSignIn.getLastSignedInAccount(this)
                 val personName = acct?.displayName
                 val personEmail = acct?.email
-                val token = acct?.idToken
-                val res = SignupViewModel.userSignup(
-                    personName.toString(),
-                    personEmail.toString(),
-                    "googleacount"
-                )
-                navigateToHome()
+                viewModel.GoogleloginUser(email = personEmail.toString(), username=personName.toString())
             } catch (e: ApiException) {
                 Toast.makeText(applicationContext, "Something went wrong", Toast.LENGTH_SHORT)
                     .show()
-
-                println(e)
             }
         }
     }

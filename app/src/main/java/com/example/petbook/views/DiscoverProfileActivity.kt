@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Base64
 import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
@@ -70,6 +71,7 @@ class DiscoverProfileActivity : AppCompatActivity() {
                             val imageBytes = Base64.decode(imgs?.get(i), Base64.DEFAULT)
                             val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
                             binding.PostImage.setImageBitmap(decodedImage)
+                            binding.PostImage.setScaleType(ImageView.ScaleType.FIT_XY)
                             binding.imageView16.setOnClickListener() {
                               if (i == size!!- 1) {
                                     i = 0
@@ -81,6 +83,7 @@ class DiscoverProfileActivity : AppCompatActivity() {
                                     val imageBytes = Base64.decode(imgs.get(i), Base64.DEFAULT)
                                     val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
                                     binding.PostImage.setImageBitmap(decodedImage)
+                                    binding.PostImage.setScaleType(ImageView.ScaleType.FIT_XY)
                                 }
                             }
                             binding.imageView15.setOnClickListener() {
@@ -94,6 +97,7 @@ class DiscoverProfileActivity : AppCompatActivity() {
                                     val imageBytes = Base64.decode(imgs.get(i), Base64.DEFAULT)
                                     val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
                                     binding.PostImage.setImageBitmap(decodedImage)
+                                    binding.PostImage.setScaleType(ImageView.ScaleType.FIT_XY)
                                 }
                             }
                         }
@@ -102,6 +106,7 @@ class DiscoverProfileActivity : AppCompatActivity() {
                                 val imageBytes = Base64.decode(imgs.get(i), Base64.DEFAULT)
                                 val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
                                 binding.PostImage.setImageBitmap(decodedImage)
+                                binding.PostImage.setScaleType(ImageView.ScaleType.FIT_XY)
                             }
 
 

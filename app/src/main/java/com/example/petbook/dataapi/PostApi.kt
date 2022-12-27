@@ -24,6 +24,8 @@ interface PostApi {
     suspend fun getDiscover(): Response<MutableList<DiscoverResponse>>
     @POST("/post/discoverPost")
     suspend fun getDiscoverPost(@Body userpostRequest: UserPostRequest): Response<PostResponse>
+    @POST("/post/getPagination")
+    suspend fun getPagination(@Body getPaginationRequest: getPaginationRequest): Response<MutableList<PostResponse>>
     companion object {
         fun getApi(): PostApi? {
             return ApiClient.client?.create(PostApi::class.java)

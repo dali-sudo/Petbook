@@ -7,13 +7,11 @@ import android.os.Bundle
 import android.util.Base64
 import com.example.petbook.databinding.ActivityProfilBinding
 import com.example.petbook.repository.SessionManager
-import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+
 
 class profil : AppCompatActivity() {
     private lateinit var binding:ActivityProfilBinding
-    var gso: GoogleSignInOptions? = null
     var gsc: GoogleSignInClient? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,15 +24,6 @@ class profil : AppCompatActivity() {
             val imageBytes = Base64.decode(SessionManager.getString(this,"profilePic"), Base64.DEFAULT)
             val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
             binding.imageView.setImageBitmap(decodedImage)
-
-        }
-
-        gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().requestIdToken("196512096964-98hd93oa1f64t27nrttk5364j5h9h6gr.apps.googleusercontent.com").build()
-        gsc = GoogleSignIn.getClient(this, gso!!)
-
-        val acct = GoogleSignIn.getLastSignedInAccount(this)
-        if(acct!=null){
-            binding.fullnametxt.text = acct.displayName.toString()
 
         }
         else{
