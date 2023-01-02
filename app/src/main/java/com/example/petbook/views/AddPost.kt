@@ -36,6 +36,7 @@ import java.util.regex.Pattern
 import androidx.core.graphics.drawable.toBitmap
 import com.example.petbook.MainActivity
 import com.example.petbook.model.BaseResponse
+import com.example.petbook.util.LoadingDialog
 import java.io.ByteArrayOutputStream
 import java.util.*
 
