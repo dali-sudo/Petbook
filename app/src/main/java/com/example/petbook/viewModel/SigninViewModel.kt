@@ -51,5 +51,28 @@ class SigninViewModel(application: Application) : AndroidViewModel(application) 
         }
         //ex.message
     }
+    fun GoogleloginUser(email: String, username:String) {
 
+        loginResult.value = BaseResponse.Loading()
+        viewModelScope.launch {
+            try {
+
+                val loginRequest = LoginRequest(
+                    username = username,
+                    email = email
+                )
+                val response = userRepo.GoogleloginUser(loginRequest = loginRequest)
+                if (response?.code() == 200) {
+                    loginResult.value = BaseResponse.Success(response.body())
+
+                } else {
+                    loginResult.value = BaseResponse.Error(response?.message())
+                }
+
+            } catch (ex: Exception) {
+                loginResult.value = BaseResponse.Error(ex.message )
+            }
+        }
+        //ex.message
+    }
 }

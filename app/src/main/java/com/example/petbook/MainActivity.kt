@@ -62,7 +62,6 @@ binding.floatingActionButton.setOnClickListener(){
             when(it.itemId) {
                 R.id.page_1 ->{
 
-                    println("11111")
                     binding.floatingActionButton.visibility = VISIBLE
 
                     binding.SearchTextField.visibility = VISIBLE
@@ -76,9 +75,10 @@ binding.floatingActionButton.setOnClickListener(){
 
                 R.id.page_2 -> { supportFragmentManager.beginTransaction().replace(R.id.MainfragmentContainerView,DiscoverFragment()).commit()
                     binding.SearchTextField.visibility= GONE
-                    binding.floatingActionButton.visibility=GONE}
+                    binding.floatingActionButton.visibility=GONE
+                    binding.backToHome.visibility= GONE}
                 R.id.page_3 ->{      binding.SearchTextField.visibility= GONE
-
+                    binding.backToHome.visibility= GONE
                     binding.floatingActionButton.visibility= GONE
 
                     supportFragmentManager.beginTransaction().replace(R.id.MainfragmentContainerView, MapsFragment()).commit()
@@ -86,10 +86,12 @@ binding.floatingActionButton.setOnClickListener(){
                  }
                 R.id.page_4 -> { supportFragmentManager.beginTransaction().replace(R.id.MainfragmentContainerView,ChatContactsFragment()).commit()
                     binding.SearchTextField.visibility= GONE
-                    binding.floatingActionButton.visibility=GONE}
+                    binding.floatingActionButton.visibility=GONE
+                    binding.backToHome.visibility= GONE}
                 R.id.page_5-> { supportFragmentManager.beginTransaction().replace(R.id.MainfragmentContainerView,ProfilFragment()).commit()
                     binding.SearchTextField.visibility= GONE
-                    binding.floatingActionButton.visibility=GONE}
+                    binding.floatingActionButton.visibility=GONE
+                    binding.backToHome.visibility= GONE}
                 else -> {
 
                 }
@@ -101,7 +103,7 @@ binding.floatingActionButton.setOnClickListener(){
 
         supportFragmentManager.beginTransaction().add(R.id.MainfragmentContainerView, HomeFragment()).commit()
 
-var bool=true
+
 
 
 

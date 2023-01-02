@@ -12,9 +12,10 @@
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swiperefresh"
-            android:layout_width="393dp"
-            android:layout_height="603dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_marginTop="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -22,8 +23,8 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/PostRv"
-                android:layout_width="match_parent"
-                android:layout_height="528dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_margin="2dp"
                 android:layout_marginTop="312dp"
 
@@ -38,14 +39,14 @@
 
         <LinearLayout
             android:id="@+id/linearLayout8"
-            android:layout_width="match_parent"
-            android:layout_height="148dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
-                android:layout_width="142dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
@@ -58,8 +59,8 @@
 
                 <TextView
                     android:id="@+id/profileusername"
-                    android:layout_width="match_parent"
-                    android:layout_height="36dp"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
                     android:text="Username"
                     android:textAlignment="center"
                     android:textSize="16sp"
@@ -67,9 +68,9 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="100dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="40dp"
                 android:orientation="vertical">
 
                 <TextView
@@ -90,9 +91,9 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="100dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="40dp"
                 android:orientation="vertical">
 
                 <TextView
