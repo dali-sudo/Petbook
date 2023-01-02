@@ -30,7 +30,7 @@ data class Owner(
     @SerializedName("_id")
     var id: String,
     @SerializedName("username")
-    var username: String,
+    var username: String?= null,
     @SerializedName("avatar")
     var avatar: String?= null
 
