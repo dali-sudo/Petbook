@@ -4,6 +4,7 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.util.Base64
+import android.view.View.GONE
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isGone
@@ -63,7 +64,8 @@ class singlePetProfile : AppCompatActivity() {
         viewModel.getSinglePet(id)
         viewModel.SinglePet.observe(this) {
             if ( !it.petOwner.equals(SessionManager.getString(this,"id"))) {
-                binding.DeleteButton.isGone
+
+                binding.DeleteButton.visibility = GONE
 
             }
             val imageBytes = Base64.decode(it.petPic, Base64.DEFAULT)
