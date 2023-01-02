@@ -27,6 +27,8 @@ import com.example.petbook.viewModel.PostViewModel
 
 import com.example.petbook.model.Post
 import com.example.petbook.repository.SessionManager
+import com.example.petbook.util.LoadingDialog
+import com.example.petbook.util.toast
 import com.example.petbook.viewModel.SigninViewModel
 
 
@@ -63,6 +65,9 @@ class HomeFragment : Fragment() {
     private val viewModel by viewModels<PostViewModel>()
     private var skip=0
     private var skipped=false
+    private lateinit var loadingDialog: LoadingDialog
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -71,8 +76,9 @@ class HomeFragment : Fragment() {
 
 
           _binding=FragmentHomeBinding.inflate(inflater, container, false)
-     
+        loadingDialog = LoadingDialog(requireActivity())
         return binding.root
+
     }
     @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -87,10 +93,14 @@ class HomeFragment : Fragment() {
 
         PostList = ArrayList()
         var recyclerViewState: Parcelable?
+
         if(id!="") {
-            viewModel.getPagination("3",skip.toString(), id)
+            viewModel.getnew(id)
         }
+
         var postAdapter = PostAdpater(requireView().context,PostList, viewModel)
+
+
         viewModel.list.observe(viewLifecycleOwner) {
 
 
@@ -108,6 +118,7 @@ class HomeFragment : Fragment() {
                 }
             }
         }
+
         viewModel.newlist.observe(viewLifecycleOwner) {
 
             if (it.isNotEmpty()) {
@@ -118,6 +129,31 @@ class HomeFragment : Fragment() {
 
             }
         }
+
+        viewModel.getpostResult.observe(viewLifecycleOwner) {
+            when (it) {
+                is BaseResponse.Loading -> {
+                    loadingDialog.startLoading()
+                }
+
+                is BaseResponse.Success -> {
+                    loadingDialog.stopLoading()
+
+                }
+
+                is BaseResponse.Error -> {
+                    loadingDialog.stopLoading()
+
+                }
+                else -> {
+                    loadingDialog.stopLoading()
+
+                }
+            }
+        }
+
+
+
         binding.PostRv.layoutManager =
             LinearLayoutManager(requireView().context, LinearLayoutManager.VERTICAL, false)
         binding.PostRv.adapter = postAdapter
@@ -136,7 +172,6 @@ class HomeFragment : Fragment() {
                     if(id!="") {
                         viewModel.getPagination("3", skip.toString(),id)
                     }
-
 
             }
         }
