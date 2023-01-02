@@ -13,6 +13,7 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
     val chatRepo = ChatRepository()
 
     val list: MutableLiveData<ChatRoomResponse> = MutableLiveData()
+    val sent: MutableLiveData<BaseResponse<ChatRoomResponse>> = MutableLiveData()
     val Contacs: MutableLiveData<MutableList<ChatContactsResponse>> = MutableLiveData()
 
 val chatid: MutableLiveData<GetChatResponse> = MutableLiveData()
@@ -72,7 +73,7 @@ val chatid: MutableLiveData<GetChatResponse> = MutableLiveData()
 
     fun sendmessage(mid:String,msg:String,sender:String,type:String) {
 
-
+       sent.value = BaseResponse.Loading()
         viewModelScope.launch {
             try {
                 val messageRequest= MessageRequest (
@@ -85,9 +86,9 @@ val chatid: MutableLiveData<GetChatResponse> = MutableLiveData()
 
                 val response = chatRepo.sendMessage(messageRequest)
                 if (response?.code() == 200) {
-                    list.value= response.body()
+                    sent.value = BaseResponse.Success(response.body())
                 } else {
-
+                    sent.value = BaseResponse.Error(response?.message())
                 }
 
             } catch (ex: Exception) {

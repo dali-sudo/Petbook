@@ -19,12 +19,10 @@
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/MainfragmentContainerView"
         android:name="com.example.petbook.views.HomeFragment"
-        android:layout_width="410dp"
-        android:layout_height="548dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.529"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Search_textField" />
 
@@ -45,16 +43,17 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/Search_textField"
-        android:layout_width="315dp"
-        android:layout_height="50dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="10dp"
         android:background="@drawable/_bg__f_shape"
         android:hint="Search"
         app:boxStrokeWidth="0dp"
         app:boxStrokeWidthFocused="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
 
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/backToHome"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:startIconDrawable="@android:drawable/ic_menu_search">
@@ -62,7 +61,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/Search_textField2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:background="@drawable/_bg__f_shape"
 
             app:boxBackgroundMode="none" />
@@ -71,15 +70,15 @@
 
     <ImageView
         android:id="@+id/backToHome"
-        android:layout_width="45dp"
-        android:layout_height="38dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="14dp"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:srcCompat="@drawable/arrowback_icon"
-        tools:visibility="visible" />
+        tools:visibility="gone" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floating_action_button"

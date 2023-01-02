@@ -7,6 +7,7 @@ import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -83,7 +84,7 @@ var liked=false
 
 
 
-if(post.PostImage.size>0)
+if(post.PostImage!!.size>0)
 {
       if(post.PostImage.size>1) {
         itemBinding.imageView16.visibility = View.VISIBLE
@@ -99,7 +100,7 @@ if(post.PostImage.size>0)
             val imageBytes = Base64.decode(post.PostImage.get(i), Base64.DEFAULT)
             val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
           itemBinding.PostImage.setImageBitmap(decodedImage)
-
+            itemBinding.PostImage.setScaleType(ImageView.ScaleType.FIT_XY)
         }
         itemBinding.imageView15.setOnClickListener() {
           if (i == 0) {
@@ -111,16 +112,18 @@ if(post.PostImage.size>0)
             val imageBytes = Base64.decode(post.PostImage.get(i), Base64.DEFAULT)
             val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
             itemBinding.PostImage.setImageBitmap(decodedImage)
+            itemBinding.PostImage.setScaleType(ImageView.ScaleType.FIT_CENTER);
         }
       }
       else{
           val imageBytes = Base64.decode(post.PostImage.get(i), Base64.DEFAULT)
           val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
-          itemBinding.PostImage.setImageBitmap(decodedImage)}
+          itemBinding.PostImage.setImageBitmap(decodedImage)
+          itemBinding.PostImage.setScaleType(ImageView.ScaleType.FIT_XY);}
     val imageBytes = Base64.decode(post.PostImage.get(i), Base64.DEFAULT)
     val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
     itemBinding.PostImage.setImageBitmap(decodedImage)
-
+    itemBinding.PostImage.setScaleType(ImageView.ScaleType.FIT_XY);
     }
         else{
     itemBinding.PostImage.visibility = View.GONE
@@ -152,43 +155,55 @@ if(post.PostImage.size>0)
       itemBinding.postdateId.text=getTimeAgo(date)
 
       itemBinding.likes.text=post.likesCount+" likes"
-      for (item in post.likes) {
-        if (item.equals( SessionManager.getString(context,"id")!!)) {
+        if(post.likes!=null) {
+            for (item in post.likes) {
+                if(SessionManager.getString(context, "id")!=null) {
+                    if (item.equals(SessionManager.getString(context, "id")!!)) {
 
-          itemBinding.imageView2.setImageResource(R.drawable.liked_icon)
-          itemBinding.textView8.text = "Liked"
-          liked=true
-          break
+                        itemBinding.imageView2.setImageResource(R.drawable.liked_icon)
+                        itemBinding.textView8.text = "Liked"
+                        liked = true
+                        break
+                    }
+                }
+            }
         }
-      }
-itemBinding.imageView2.setOnClickListener(){
+itemBinding.imageView2.setOnClickListener() {
+    if (post.likesCount != null) {
+        var count = post.likesCount.toInt()
 
-var count=post.likesCount.toInt()
-  if(liked)
-  {
-      itemBinding.imageView2.setImageResource(R.drawable.like_icon)
-    itemBinding.textView8.text="Like"
-    postViewModel.UnlikePost(post.id,count.toString(), SessionManager.getString(context,"id")!!)
-      itemBinding.likes.text=count.toString()+" likes"
-    liked=false
+        if (liked) {
+            if (post.id != null) {
+                count--
+                itemBinding.imageView2.setImageResource(R.drawable.like_icon)
+                itemBinding.textView8.text = "Like"
+                postViewModel.UnlikePost(
+                    post.id,
+                    count.toString(),
+                    SessionManager.getString(context, "id")!!
+                )
+                itemBinding.likes.text = count.toString() + " likes"
+                liked = false
+            }
+        } else {
 
-  }
-    else
-    {
-println("yes")
-count++
-      itemBinding.imageView2.setImageResource(R.drawable.liked_icon)
-      itemBinding.textView8.text="Liked"
-        postViewModel.LikePost(post.id,count.toString(), SessionManager.getString(context,"id")!!)
-        itemBinding.likes.text=count.toString()+" likes"
-      liked=true
+            itemBinding.imageView2.setImageResource(R.drawable.liked_icon)
+            itemBinding.textView8.text = "Liked"
+            if (post.id != null) {
+                postViewModel.LikePost(
+                    post.id,
+                    count.toString(),
+                    SessionManager.getString(context, "id")!!
+                )
+                itemBinding.likes.text = count.toString() + " likes"
+                liked = true
+            }
+        }
+
     }
 
 
 }
-
-
-
   }
   }
 

@@ -18,6 +18,7 @@ import androidx.emoji2.text.EmojiCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.petbook.dataapi.SocketHandler
 import com.example.petbook.databinding.ActivityChatBinding
+import com.example.petbook.model.BaseResponse
 import com.example.petbook.model.ChatRoomResponse
 import com.example.petbook.repository.SessionManager
 import com.example.petbook.viewModel.ChatViewModel
@@ -80,7 +81,17 @@ List= ChatRoomResponse("0",Chat1,Users)
             binding.chatRv.adapter = chatAdpater
             binding.chatRv.scrollToPosition(List.chat.size-1)
         }
+        viewModel.sent.observe(this) {
+            when (it) {
+                is BaseResponse.Success -> {
+                    if (value != null) {
 
+                        viewModel.get(value)
+                    }
+                }
+                else -> {}
+            }
+        }
         binding.chatRv.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
@@ -137,9 +148,7 @@ List= ChatRoomResponse("0",Chat1,Users)
                     mSocket.emit("send", i.sender_id)
                     break;}
             }
-            if (value != null) {
-                viewModel.get(value)
-            }
+
 
         }
     }
