@@ -25,7 +25,8 @@ val list:MutableLiveData<MutableList<PostResponse>> = MutableLiveData()
     val userRepo = UserRepository()
     val followResult: MutableLiveData<BaseResponse<FollowResponse>> = MutableLiveData()
     val unfollowResult: MutableLiveData<BaseResponse<FollowResponse>> = MutableLiveData()
-
+    val Deleted : MutableLiveData<BaseResponse<DeleteResponse>> = MutableLiveData()
+    val getSinglePostResult: MutableLiveData<BaseResponse<PostResponse>> = MutableLiveData()
     fun AddPost(desc: String, List:List<String>,own:String, TaggedList: ArrayList<String>) {
 
         postResult.value = BaseResponse.Loading()
@@ -202,12 +203,13 @@ val list:MutableLiveData<MutableList<PostResponse>> = MutableLiveData()
         }
         //ex.message
     }
-    fun getPagination(limit:String,skip:String) {
+    fun getPagination(limit:String,skip:String,id: String) {
 
         getpostResult.value = BaseResponse.Loading()
         viewModelScope.launch {
             try {
 val Request=getPaginationRequest(
+    id=id,
     limit=limit,
     skip=skip
 )
@@ -225,12 +227,13 @@ val Request=getPaginationRequest(
         }
         //ex.message
     }
-    fun getnew() {
+    fun getnew(id1: String) {
 
         getpostResult.value = BaseResponse.Loading()
         viewModelScope.launch {
             try {
                 val Request=getPaginationRequest(
+                    id=id1,
                     limit="3",
                     skip="0"
                 )
@@ -248,6 +251,32 @@ val Request=getPaginationRequest(
         }
         //ex.message
     }
+    fun DeletePost(id: String) {
+
+        viewModelScope.launch {
+            try {
+
+                val userpostRequest=UserPostRequest(
+
+                    id=id
+
+                )
+                val response = postRepo.deletePost(userpostRequest = userpostRequest)
+                if (response?.code() == 200) {
+
+                    Deleted.value = BaseResponse.Success(response.body())
+                } else {
+                    Deleted.value = BaseResponse.Error(response?.message())
+                }
+
+            } catch (ex: Exception) {
+                getSinglePostResult.value = BaseResponse.Error(ex.message)
+            }
+        }
+
+    }
+
+
 }
 
 

@@ -1,11 +1,14 @@
 package com.example.petbook.views
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.content.ContextCompat.startActivity
@@ -163,47 +166,73 @@ if(post.PostImage!!.size>0)
                         itemBinding.imageView2.setImageResource(R.drawable.liked_icon)
                         itemBinding.textView8.text = "Liked"
                         liked = true
-                        break
+
                     }
                 }
             }
         }
+
+            var count = post.likesCount!!.toInt()
+
 itemBinding.imageView2.setOnClickListener() {
-    if (post.likesCount != null) {
-        var count = post.likesCount.toInt()
+    if (liked) {
+        if (post.id != null) {
+            count--
+            itemBinding.imageView2.setImageResource(R.drawable.like_icon)
+            itemBinding.textView8.text = "Like"
+            postViewModel.UnlikePost(
+                post.id,
+                count.toString(),
+                SessionManager.getString(context, "id")!!
+            )
+            itemBinding.likes.text = count.toString() + " likes"
+            liked = false
+        }
+    } else {
+        count++
+        itemBinding.imageView2.setImageResource(R.drawable.liked_icon)
+        itemBinding.textView8.text = "Liked"
+        if (post.id != null) {
+            postViewModel.LikePost(
+                post.id,
+                count.toString(),
+                SessionManager.getString(context, "id")!!
+            )
+            itemBinding.likes.text = count.toString() + " likes"
+            liked = true
+        }
+    }
+}
+    if (SessionManager.getString(context,"id") !=null ) {
+if(post.ownerid==SessionManager.getString(context,"id"))
+    itemBinding.deleteIcon.visibility=VISIBLE
+    }
+        itemBinding.deleteIcon.setOnClickListener() {
+            val builder1: AlertDialog.Builder = AlertDialog.Builder(context)
+            builder1.setTitle("Delete Post")
+            builder1.setMessage("Are you sure you want to delete this Post?")
+            builder1.setCancelable(true)
 
-        if (liked) {
-            if (post.id != null) {
-                count--
-                itemBinding.imageView2.setImageResource(R.drawable.like_icon)
-                itemBinding.textView8.text = "Like"
-                postViewModel.UnlikePost(
-                    post.id,
-                    count.toString(),
-                    SessionManager.getString(context, "id")!!
-                )
-                itemBinding.likes.text = count.toString() + " likes"
-                liked = false
-            }
-        } else {
+            builder1.setPositiveButton(
+                "Yes",
+                DialogInterface.OnClickListener { dialog, id ->
 
-            itemBinding.imageView2.setImageResource(R.drawable.liked_icon)
-            itemBinding.textView8.text = "Liked"
-            if (post.id != null) {
-                postViewModel.LikePost(
-                    post.id,
-                    count.toString(),
-                    SessionManager.getString(context, "id")!!
-                )
-                itemBinding.likes.text = count.toString() + " likes"
-                liked = true
-            }
+                 postViewModel.DeletePost(post.id.toString())
+                   PostList.removeAt(position)
+                    notifyDataSetChanged()
+                    dialog.cancel()})
+
+            builder1.setNegativeButton(
+                "No",
+                DialogInterface.OnClickListener { dialog, id -> dialog.cancel() })
+
+            val alert11: AlertDialog = builder1.create()
+            alert11.show()
         }
 
-    }
 
 
-}
+
   }
   }
 
@@ -224,7 +253,8 @@ itemBinding.imageView2.setOnClickListener() {
         PostList[position].likescount,
         PostList[position].likes,
         PostList[position].owner.avatar,
-        PostList[position].tags.map { it.id to it.petname }.toMap()  // here i need a map of key : id and value petname
+        PostList[position].tags.map { it.id to it.petname }.toMap(), // here i need a map of key : id and value petname
+          PostList[position].owner.id
       )
      holder.bindItem(post)
 
