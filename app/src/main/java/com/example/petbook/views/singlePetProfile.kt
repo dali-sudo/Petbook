@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Base64
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isGone
 import com.example.petbook.databinding.ActivitySinglePetProfileBinding
 import com.example.petbook.model.BaseResponse
 import com.example.petbook.repository.SessionManager
@@ -34,7 +35,7 @@ class singlePetProfile : AppCompatActivity() {
         val extras = intent.extras
 
 
-        if ((extras?.getString("petId")!=null) && (extras?.getString("nameOfpet")!=null) )
+        if ((extras?.getString("petId")!=null) && (extras.getString("nameOfpet")!=null) )
 
         {
              id = extras.getString("petId")!!
@@ -57,12 +58,14 @@ class singlePetProfile : AppCompatActivity() {
 
             println(it)
 
-
         }
 
         viewModel.getSinglePet(id)
         viewModel.SinglePet.observe(this) {
+            if ( !it.petOwner.equals(SessionManager.getString(this,"id"))) {
+                binding.DeleteButton.isGone
 
+            }
             val imageBytes = Base64.decode(it.petPic, Base64.DEFAULT)
             val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
             binding.petProfilePicHolder.setImageBitmap(decodedImage)
