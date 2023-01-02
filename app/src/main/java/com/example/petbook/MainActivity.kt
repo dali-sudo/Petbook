@@ -35,7 +35,9 @@ import com.example.petbook.viewModel.SigninViewModel
 
 
 class MainActivity : AppCompatActivity() {
-
+    companion object {
+  var  currentFragment="home"
+    }
     private lateinit var binding: ActivityMainBinding
 
     private val viewModel by viewModels<PostViewModel>()
@@ -46,6 +48,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
+
         setContentView(view)
         setSupportActionBar(findViewById(R.id.app_bar))
 
@@ -68,6 +71,7 @@ binding.floatingActionButton.setOnClickListener(){
 
 
                     supportFragmentManager.beginTransaction().replace(R.id.MainfragmentContainerView, HomeFragment()).commit()
+                    currentFragment="home"
 
                 }
 
@@ -76,22 +80,28 @@ binding.floatingActionButton.setOnClickListener(){
                 R.id.page_2 -> { supportFragmentManager.beginTransaction().replace(R.id.MainfragmentContainerView,DiscoverFragment()).commit()
                     binding.SearchTextField.visibility= GONE
                     binding.floatingActionButton.visibility=GONE
-                    binding.backToHome.visibility= GONE}
-                R.id.page_3 ->{      binding.SearchTextField.visibility= GONE
+                    binding.backToHome.visibility= GONE
+                    currentFragment="discover"}
+                R.id.page_3 ->{
+                    currentFragment="map"
+                    binding.SearchTextField.visibility= GONE
                     binding.backToHome.visibility= GONE
                     binding.floatingActionButton.visibility= GONE
 
                     supportFragmentManager.beginTransaction().replace(R.id.MainfragmentContainerView, MapsFragment()).commit()
 
                  }
-                R.id.page_4 -> { supportFragmentManager.beginTransaction().replace(R.id.MainfragmentContainerView,ChatContactsFragment()).commit()
+                R.id.page_4 -> {
+                    currentFragment="chat"
+                    supportFragmentManager.beginTransaction().replace(R.id.MainfragmentContainerView,ChatContactsFragment()).commit()
                     binding.SearchTextField.visibility= GONE
                     binding.floatingActionButton.visibility=GONE
                     binding.backToHome.visibility= GONE}
                 R.id.page_5-> { supportFragmentManager.beginTransaction().replace(R.id.MainfragmentContainerView,ProfilFragment()).commit()
                     binding.SearchTextField.visibility= GONE
                     binding.floatingActionButton.visibility=GONE
-                    binding.backToHome.visibility= GONE}
+                    binding.backToHome.visibility= GONE
+                    currentFragment="profil"}
                 else -> {
 
                 }
@@ -99,10 +109,35 @@ binding.floatingActionButton.setOnClickListener(){
           true
             }
 
-
-
+      if(currentFragment=="home")
         supportFragmentManager.beginTransaction().add(R.id.MainfragmentContainerView, HomeFragment()).commit()
-
+        if(currentFragment=="map") {
+            supportFragmentManager.beginTransaction().add(R.id.MainfragmentContainerView, MapsFragment()).commit()
+            binding.SearchTextField.visibility= GONE
+            binding.floatingActionButton.visibility=GONE
+            binding.backToHome.visibility= GONE
+        }
+        if(currentFragment=="discover") {
+            supportFragmentManager.beginTransaction()
+                .add(R.id.MainfragmentContainerView, DiscoverFragment()).commit()
+            binding.SearchTextField.visibility= GONE
+            binding.floatingActionButton.visibility=GONE
+            binding.backToHome.visibility= GONE
+        }
+        if(currentFragment=="chat") {
+            supportFragmentManager.beginTransaction()
+                .add(R.id.MainfragmentContainerView, ChatContactsFragment()).commit()
+            binding.SearchTextField.visibility= GONE
+            binding.floatingActionButton.visibility=GONE
+            binding.backToHome.visibility= GONE
+        }
+        if(currentFragment=="profil") {
+            supportFragmentManager.beginTransaction()
+                .add(R.id.MainfragmentContainerView, ProfilFragment()).commit()
+            binding.SearchTextField.visibility= GONE
+            binding.floatingActionButton.visibility=GONE
+            binding.backToHome.visibility= GONE
+        }
 
 
 

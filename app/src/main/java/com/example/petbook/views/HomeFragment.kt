@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.util.Base64
 
 import android.annotation.SuppressLint
-import android.os.Bundle
+
 import android.os.Parcelable
 
 import android.view.LayoutInflater
@@ -30,8 +30,7 @@ import com.example.petbook.repository.SessionManager
 import com.example.petbook.viewModel.SigninViewModel
 
 
-import com.example.petbook.model.PostResponse
-import com.example.petbook.viewModel.PostViewModel
+
 
 
 
@@ -78,12 +77,19 @@ class HomeFragment : Fragment() {
     @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        var id=""
+        if (SessionManager.getString(requireContext(),"id") !=null )
+        {
+            id=SessionManager.getString(requireContext(),"id").toString()
 
+        }
 
 
         PostList = ArrayList()
         var recyclerViewState: Parcelable?
-        viewModel.getPagination("3","0")
+        if(id!="") {
+            viewModel.getPagination("3",skip.toString(), id)
+        }
         var postAdapter = PostAdpater(requireView().context,PostList, viewModel)
         viewModel.list.observe(viewLifecycleOwner) {
 
@@ -116,8 +122,10 @@ class HomeFragment : Fragment() {
             LinearLayoutManager(requireView().context, LinearLayoutManager.VERTICAL, false)
         binding.PostRv.adapter = postAdapter
         binding.swiperefresh.setOnRefreshListener {
-            skip=0
-            viewModel.getnew()
+            skip=PostList.size
+            if(id!="") {
+                viewModel.getnew(id)
+            }
             binding.swiperefresh.isRefreshing = false
         }
         binding.PostRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -125,7 +133,9 @@ class HomeFragment : Fragment() {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (!recyclerView.canScrollVertically(1)) {
 
-                    viewModel.getPagination("3",(skip).toString())
+                    if(id!="") {
+                        viewModel.getPagination("3", skip.toString(),id)
+                    }
 
 
             }

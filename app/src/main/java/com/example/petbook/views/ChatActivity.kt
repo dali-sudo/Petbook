@@ -11,11 +11,14 @@ import android.util.Base64
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.graphics.drawable.toBitmap
 import androidx.emoji2.bundled.BundledEmojiCompatConfig
 import androidx.emoji2.text.EmojiCompat
 
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.petbook.MainActivity
+import com.example.petbook.R
 import com.example.petbook.dataapi.SocketHandler
 import com.example.petbook.databinding.ActivityChatBinding
 import com.example.petbook.model.BaseResponse
@@ -60,7 +63,16 @@ mSocket.on("refresh"){
 
 }
 
+        val toolbar: Toolbar = findViewById(R.id.app_bar2)
 
+        setSupportActionBar(toolbar)
+
+        toolbar.setTitle("Chat")
+        toolbar.setNavigationOnClickListener(){
+            mSocket.disconnect()
+
+            finish()
+        }
 
 
         Chat1=ArrayList()
@@ -87,6 +99,12 @@ List= ChatRoomResponse("0",Chat1,Users)
                     if (value != null) {
 
                         viewModel.get(value)
+                        for(i in List.chat){
+                            if(i.sender_id!= SessionManager.getString(this, "id").toString()){
+                                mSocket.emit("send", i.sender_id)
+                                ;}
+                        }
+
                     }
                 }
                 else -> {}
@@ -146,7 +164,7 @@ List= ChatRoomResponse("0",Chat1,Users)
             for(i in List.chat){
                 if(i.sender_id!= SessionManager.getString(this, "id").toString()){
                     mSocket.emit("send", i.sender_id)
-                    break;}
+                   ;}
             }
 
 

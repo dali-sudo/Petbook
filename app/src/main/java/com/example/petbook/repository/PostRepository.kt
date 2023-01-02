@@ -34,4 +34,7 @@ class PostRepository {
         return PostApi.getApi()?.getPagination(getPaginationRequest =getPaginationRequest)
 
     }
+    suspend fun deletePost(userpostRequest:UserPostRequest): Response<DeleteResponse>? {
+        return PostApi.getApi()?.deletePost(userpostRequest=userpostRequest)
+    }
 }

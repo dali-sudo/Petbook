@@ -26,6 +26,8 @@ interface PostApi {
     suspend fun getDiscoverPost(@Body userpostRequest: UserPostRequest): Response<PostResponse>
     @POST("/post/getPagination")
     suspend fun getPagination(@Body getPaginationRequest: getPaginationRequest): Response<MutableList<PostResponse>>
+    @POST("/post/deletePost")
+    suspend fun deletePost(@Body userpostRequest: UserPostRequest): Response<DeleteResponse>
     companion object {
         fun getApi(): PostApi? {
             return ApiClient.client?.create(PostApi::class.java)

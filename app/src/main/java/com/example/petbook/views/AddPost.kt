@@ -34,6 +34,7 @@ import com.google.android.material.chip.Chip
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 import androidx.core.graphics.drawable.toBitmap
+import com.example.petbook.MainActivity
 import java.io.ByteArrayOutputStream
 import java.util.*
 
@@ -158,6 +159,9 @@ class AddPost : AppCompatActivity() {
 
         setSupportActionBar(toolbar)
 toolbar.setNavigationOnClickListener(){
+    val intent = Intent(this, MainActivity::class.java)
+
+    startActivity(intent)
     finish()
 }
 
@@ -207,7 +211,47 @@ binding.username.text=SessionManager.getString(this,"username")!!
 
 
 
+        binding.removeIcon.setOnClickListener(){
 
+            images.removeAt(index)
+            if(images.size==0){
+                binding.removeIcon.visibility= GONE
+                binding.addPhoto.visibility = VISIBLE
+                binding.divider.visibility = VISIBLE
+                binding.addmoreLayout.visibility = GONE
+                binding.imageView18.visibility = GONE
+                binding.imageView20.visibility = GONE
+                binding.addpostImageView.visibility = GONE
+            }
+            else if (images.size==1) {
+                index = 0
+                val imageBytes = Base64.decode(images.get(index), Base64.DEFAULT)
+                val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+                binding.addpostImageView.setImageBitmap(decodedImage)
+                binding.addpostImageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                binding.imageView18.visibility = GONE
+                binding.imageView20.visibility = GONE
+            }
+            else{
+              if(index==0){
+                index=images.size-1
+                  val imageBytes = Base64.decode(images.get(index), Base64.DEFAULT)
+                  val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+                  binding.addpostImageView.setImageBitmap(decodedImage)
+                  binding.addpostImageView.setScaleType(ImageView.ScaleType.FIT_XY);
+              }
+                else{
+                  index--
+                  val imageBytes = Base64.decode(images.get(index), Base64.DEFAULT)
+                  val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+                  binding.addpostImageView.setImageBitmap(decodedImage)
+                  binding.addpostImageView.setScaleType(ImageView.ScaleType.FIT_XY);
+              }
+
+            }
+
+
+        }
 
 
 
@@ -241,6 +285,7 @@ binding.username.text=SessionManager.getString(this,"username")!!
 
                 }
             index=images.size-1}
+            binding.removeIcon.visibility= VISIBLE
         }
 
 
@@ -258,15 +303,19 @@ binding.username.text=SessionManager.getString(this,"username")!!
 
             R.id.addpost_iconid -> {
                 taggedList.clear()
+                IdsList.clear()
                 getTaggedChips()
                 viewModel.AddPost(
                     binding.editTextTextMultiLine.text.toString(),
                     images,
                     SessionManager.getString(this,"id")!!,
-                    taggedList
+                    IdsList
+
 
                 )
+                val intent = Intent(this, MainActivity::class.java)
 
+                startActivity(intent)
                 finish()
 
             }
