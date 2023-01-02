@@ -121,7 +121,7 @@ class petProfilesviewModel(application: Application) : AndroidViewModel(applicat
 
 
     fun getSinglePet(id: String) {
-
+        getSinglePetResult.value = BaseResponse.Loading()
         viewModelScope.launch {
             try {
 

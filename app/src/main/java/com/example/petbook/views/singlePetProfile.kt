@@ -1,5 +1,6 @@
 package com.example.petbook.views
 
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
@@ -11,6 +12,7 @@ import androidx.core.view.isGone
 import com.example.petbook.databinding.ActivitySinglePetProfileBinding
 import com.example.petbook.model.BaseResponse
 import com.example.petbook.repository.SessionManager
+import com.example.petbook.util.LoadingDialog
 import com.example.petbook.util.toast
 import com.example.petbook.viewModel.SigninViewModel
 import com.example.petbook.viewModel.petProfilesviewModel
@@ -19,6 +21,7 @@ import com.example.petbook.viewModel.petProfilesviewModel
 class singlePetProfile : AppCompatActivity() {
     private lateinit var binding : ActivitySinglePetProfileBinding
     private val viewModel by viewModels<petProfilesviewModel>()
+    private lateinit var loadingDialog: LoadingDialog
     companion object {
 
         var id :String = ""
@@ -28,6 +31,7 @@ class singlePetProfile : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        loadingDialog = LoadingDialog(this)
         binding = ActivitySinglePetProfileBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
@@ -72,6 +76,28 @@ class singlePetProfile : AppCompatActivity() {
             val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
             binding.petProfilePicHolder.setImageBitmap(decodedImage)
 
+        }
+
+        viewModel.getSinglePetResult.observe(this) {
+            when (it) {
+                is BaseResponse.Loading -> {
+                    loadingDialog.startLoading()
+                }
+
+                is BaseResponse.Success -> {
+                    loadingDialog.stopLoading()
+
+                }
+
+                is BaseResponse.Error -> {
+                    loadingDialog.stopLoading()
+
+                }
+                else -> {
+                    loadingDialog.stopLoading()
+
+                }
+            }
         }
 
        /* if (SessionManager.getString(this,"petPic") !=null)
