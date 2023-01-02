@@ -17,6 +17,8 @@ import com.example.petbook.databinding.ActivityAddPostBinding
 import com.example.petbook.databinding.ActivityDiscoverProfileBinding
 import com.example.petbook.model.BaseResponse
 import com.example.petbook.repository.SessionManager
+import com.example.petbook.util.LoadingDialog
+import com.example.petbook.util.toast
 import com.example.petbook.viewModel.DiscoverViewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -28,8 +30,10 @@ class DiscoverProfileActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDiscoverProfileBinding
     private val viewModel by viewModels<DiscoverViewModel>()
     private val postViewModel by viewModels<PostViewModel>()
+    private lateinit var loadingDialog: LoadingDialog
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        loadingDialog = LoadingDialog(this)
         binding = ActivityDiscoverProfileBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
@@ -185,6 +189,28 @@ class DiscoverProfileActivity : AppCompatActivity() {
 
                 }
                 else -> {}
+            }
+        }
+
+        viewModel.getDiscoverResult.observe(this) {
+            when (it) {
+                is BaseResponse.Loading -> {
+                    loadingDialog.startLoading()
+                }
+
+                is BaseResponse.Success -> {
+                    loadingDialog.stopLoading()
+
+                }
+
+                is BaseResponse.Error -> {
+                    loadingDialog.stopLoading()
+
+                }
+                else -> {
+                    loadingDialog.stopLoading()
+
+                }
             }
         }
 
