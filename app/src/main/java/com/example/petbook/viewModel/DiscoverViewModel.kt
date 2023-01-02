@@ -21,6 +21,7 @@ class DiscoverViewModel (application: Application) : AndroidViewModel(applicatio
 
                 val response = Repo.getDiscover()
                 if (response?.code() == 200) {
+                    getDiscoverResult.value = BaseResponse.Success()
                     list.value = response.body()
                 } else {
                     getDiscoverResult.value = BaseResponse.Error(response?.message())
@@ -45,6 +46,7 @@ class DiscoverViewModel (application: Application) : AndroidViewModel(applicatio
                         )
                     val response = Repo.getDiscoverPost(request)
                     if (response?.code() == 200) {
+                        getDiscoverResult.value = BaseResponse.Success()
                         DiscoverPost.value = BaseResponse.Success(response.body())
                     } else {
                         getDiscoverResult.value = BaseResponse.Error(response?.message())

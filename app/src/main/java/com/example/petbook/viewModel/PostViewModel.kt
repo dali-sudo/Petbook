@@ -143,6 +143,7 @@ val list:MutableLiveData<MutableList<PostResponse>> = MutableLiveData()
 
                 val response = postRepo.getPostByUser(postRequest)
                 if (response?.code() == 200) {
+                    getpostResult.value = BaseResponse.Success()
                     list.value= response.body()
                 } else {
                     getpostResult.value = BaseResponse.Error(response?.message())
@@ -245,6 +246,7 @@ val Request=getPaginationRequest(
                     getpostResult.value = BaseResponse.Success()
                     newlist.value= response.body()
                 } else {
+
                     getpostResult.value = BaseResponse.Error(response?.message())
                 }
 

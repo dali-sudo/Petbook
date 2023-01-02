@@ -17,7 +17,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 
 import com.example.petbook.R
+import com.example.petbook.model.BaseResponse
 import com.example.petbook.model.DiscoverResponse
+import com.example.petbook.util.LoadingDialog
+import com.example.petbook.util.toast
 import com.example.petbook.viewModel.DiscoverViewModel
 import com.example.petbook.viewModel.PostViewModel
 
@@ -45,6 +48,7 @@ class DiscoverFragment : Fragment() {
     }
     lateinit var List : MutableList<DiscoverResponse>
     private val viewModel by viewModels<DiscoverViewModel>()
+    private lateinit var loadingDialog: LoadingDialog
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -54,7 +58,7 @@ class DiscoverFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        loadingDialog = LoadingDialog(requireActivity())
        List = ArrayList()
 
 
@@ -73,6 +77,30 @@ class DiscoverFragment : Fragment() {
             adapter.notifyDataSetChanged()
             gridview.adapter=adapter
         }
+
+        viewModel.getDiscoverResult.observe(viewLifecycleOwner) {
+            when (it) {
+                is BaseResponse.Loading -> {
+                    loadingDialog.startLoading()
+                }
+
+                is BaseResponse.Success -> {
+                    loadingDialog.stopLoading()
+
+                }
+
+                is BaseResponse.Error -> {
+                    loadingDialog.stopLoading()
+
+                }
+                else -> {
+                    loadingDialog.stopLoading()
+
+                }
+            }
+        }
+
+
         var swipe= view.findViewById<SwipeRefreshLayout>(R.id.Discoverswiperefresh)
         swipe.setOnRefreshListener {
             viewModel.getDiscover()

@@ -17,6 +17,7 @@ import com.example.petbook.model.BaseResponse
 import com.example.petbook.model.PostResponse
 import com.example.petbook.repository.SessionManager
 import com.example.petbook.util.LoadingDialog
+import com.example.petbook.util.toast
 import com.example.petbook.viewModel.ChatViewModel
 import com.example.petbook.viewModel.PostViewModel
 import com.example.petbook.viewModel.ProfilViewModel
@@ -130,6 +131,30 @@ var followed =false
                     }
 
                 }
+
+
+                viewModel.postResult.observe(this) {
+                    when (it) {
+                        is BaseResponse.Loading -> {
+                            loadingDialog.startLoading()
+                        }
+
+                        is BaseResponse.Success -> {
+                            loadingDialog.stopLoading()
+
+                        }
+
+                        is BaseResponse.Error -> {
+                            loadingDialog.stopLoading()
+
+                        }
+                        else -> {
+                            loadingDialog.stopLoading()
+
+                        }
+                    }
+                }
+
 
             }
 
