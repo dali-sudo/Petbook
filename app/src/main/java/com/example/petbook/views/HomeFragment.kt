@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.util.Base64
 
 import android.annotation.SuppressLint
-import android.os.Bundle
+
 import android.os.Parcelable
 
 import android.view.LayoutInflater
@@ -30,8 +30,7 @@ import com.example.petbook.repository.SessionManager
 import com.example.petbook.viewModel.SigninViewModel
 
 
-import com.example.petbook.model.PostResponse
-import com.example.petbook.viewModel.PostViewModel
+
 
 
 

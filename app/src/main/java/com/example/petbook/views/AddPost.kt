@@ -34,6 +34,7 @@ import com.google.android.material.chip.Chip
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 import androidx.core.graphics.drawable.toBitmap
+import com.example.petbook.MainActivity
 import java.io.ByteArrayOutputStream
 import java.util.*
 
@@ -72,13 +73,13 @@ class AddPost : AppCompatActivity() {
 
             taggedList1 = it.map { it.petName!! to it.id!!}.toMap()
             println(nameList + "**************")
-            if (!loaded) {
+
                 for (name in nameList) {
                     val chip = createChip(name!!)
                     binding.tagLayout.addView(chip)
                 }
-                loaded = true
-            }
+
+
 
         }
 
@@ -158,6 +159,9 @@ class AddPost : AppCompatActivity() {
 
         setSupportActionBar(toolbar)
 toolbar.setNavigationOnClickListener(){
+
+    val intent = Intent(this, MainActivity::class.java)
+    startActivity(intent)
     finish()
 }
 
@@ -204,14 +208,6 @@ binding.username.text=SessionManager.getString(this,"username")!!
 
             }
 */
-
-
-
-
-
-
-
-
         }
 
 

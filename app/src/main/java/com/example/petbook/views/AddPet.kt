@@ -77,7 +77,7 @@ class AddPet : AppCompatActivity() {
 
 
             viewModel.AddPet(name,type,gender,race,age,encodedImage,SessionManager.getString(this,"id")!!)
-            finish()
+
 
 
         }
