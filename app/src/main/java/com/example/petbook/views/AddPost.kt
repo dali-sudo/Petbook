@@ -293,7 +293,7 @@ binding.username.text=SessionManager.getString(this,"username")!!
                     binding.editTextTextMultiLine.text.toString(),
                     images,
                     SessionManager.getString(this,"id")!!,
-                    taggedList
+                    IdsList
 
                 )
                 finish()
