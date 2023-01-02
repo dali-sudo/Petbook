@@ -202,9 +202,10 @@ val list:MutableLiveData<MutableList<PostResponse>> = MutableLiveData()
         }
         //ex.message
     }
+
     fun getPagination(limit:String,skip:String) {
 
-        getpostResult.value = BaseResponse.Loading()
+
         viewModelScope.launch {
             try {
 val Request=getPaginationRequest(
@@ -213,6 +214,7 @@ val Request=getPaginationRequest(
 )
                 val response = postRepo.getPagination(Request)
                 if (response?.code() == 200) {
+
                     list.value= response.body()
                 } else {
                     getpostResult.value = BaseResponse.Error(response?.message())
@@ -227,7 +229,7 @@ val Request=getPaginationRequest(
     }
     fun getnew() {
 
-        getpostResult.value = BaseResponse.Loading()
+       getpostResult.value = BaseResponse.Loading()
         viewModelScope.launch {
             try {
                 val Request=getPaginationRequest(
@@ -236,6 +238,7 @@ val Request=getPaginationRequest(
                 )
                 val response = postRepo.getPagination(Request)
                 if (response?.code() == 200) {
+                    getpostResult.value = BaseResponse.Success()
                     newlist.value= response.body()
                 } else {
                     getpostResult.value = BaseResponse.Error(response?.message())
@@ -243,7 +246,7 @@ val Request=getPaginationRequest(
 
             } catch (ex: Exception) {
                 postResult.value = BaseResponse.Error(ex.message )
-                println(BaseResponse.Error(ex.message ))
+                println(BaseResponse.Error(ex.message))
             }
         }
         //ex.message

@@ -13,6 +13,7 @@ import com.example.petbook.databinding.ActivityProfilPostsBinding
 import com.example.petbook.model.BaseResponse
 import com.example.petbook.model.PostResponse
 import com.example.petbook.repository.SessionManager
+import com.example.petbook.util.LoadingDialog
 import com.example.petbook.viewModel.ChatViewModel
 import com.example.petbook.viewModel.PostViewModel
 import com.example.petbook.viewModel.ProfilViewModel
@@ -24,20 +25,19 @@ class ProfilPosts : AppCompatActivity() {
     private val viewModel by viewModels<PostViewModel>()
     private val chatviewModel by viewModels<ChatViewModel>()
     private val profilviewModel by viewModels<ProfilViewModel>()
+    private lateinit var loadingDialog: LoadingDialog
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        loadingDialog = LoadingDialog(this)
         binding = ActivityProfilPostsBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
         PostList = ArrayList()
         val intent = intent
         val value = intent.getStringExtra("id")
         if (SessionManager.getString(this,"id") !=null )
         {
-
-
-
-
             viewModel.getPostsByUser(value.toString())
             var postAdpater = PostAdpater(this,PostList, viewModel)
             viewModel.list.observe(this) {
@@ -51,12 +51,14 @@ var followed =false
                 profilviewModel.userResult.observe(this) {
                     when (it) {
                         is BaseResponse.Loading -> {
-
+                            loadingDialog.startLoading()
                         }
 
                         is BaseResponse.Success -> {
+
                             if(it.data!!.username!=null) {
-                            binding.profileusername.setText(it.data!!.username)}
+                            binding.profileusername.setText(it.data!!.username)
+                            }
                             if(it.data.followerscount!=null) {
                             binding.followerscount.setText(it.data.followerscount)}
                             if(it.data.followingcount!=null) {
@@ -100,13 +102,15 @@ var followed =false
                                         }
 
                                     }
+                            loadingDialog.stopLoading()
 
                         }
 
                         is BaseResponse.Error -> {
-
+                            loadingDialog.stopLoading()
                         }
                         else -> {
+                            loadingDialog.stopLoading()
                         }
                     }
 
