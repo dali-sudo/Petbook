@@ -68,7 +68,7 @@ class profil : AppCompatActivity() {
 
         }
 
-        binding.petsButton.setOnClickListener()
+        binding.petlayout.setOnClickListener()
         {
 
 

@@ -72,14 +72,19 @@ var j=0
                     list= response.body()!!
 if(list.size>0) {
     for(i in 0..list.size-1){
-        val imageBytes = Base64.decode(list[i].sender!!.avatar, Base64.DEFAULT)
-        val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+
     var builder = NotificationCompat.Builder(context, "notif")
         .setSmallIcon(R.drawable.dogicon)
         .setContentTitle(list[i].title)
         .setContentText(list[i].content)
-        .setLargeIcon(decodedImage)
+
         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+        if(list[i].sender!!.avatar!=null) {
+            val imageBytes = Base64.decode(list[i].sender!!.avatar, Base64.DEFAULT)
+            val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+            builder.setLargeIcon(decodedImage)
+        }
 j++
     with(NotificationManagerCompat.from(context)) {
         // notificationId is a unique int for each notification that you must define
@@ -142,4 +147,7 @@ j++
             //ex.message
         }
     }
+
+
+
 }

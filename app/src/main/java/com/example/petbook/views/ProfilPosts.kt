@@ -8,7 +8,10 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.petbook.MainActivity
+import com.example.petbook.R
 import com.example.petbook.databinding.ActivityProfilPostsBinding
 import com.example.petbook.model.BaseResponse
 import com.example.petbook.model.PostResponse
@@ -29,6 +32,17 @@ class ProfilPosts : AppCompatActivity() {
         binding = ActivityProfilPostsBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+        val toolbar: Toolbar = findViewById(R.id.app_bar2)
+
+        setSupportActionBar(toolbar)
+
+        toolbar.setTitle("Profil")
+        toolbar.setNavigationOnClickListener(){
+            val intent = Intent(this, MainActivity::class.java)
+
+            startActivity(intent)
+            finish()
+        }
         PostList = ArrayList()
         val intent = intent
         val value = intent.getStringExtra("id")

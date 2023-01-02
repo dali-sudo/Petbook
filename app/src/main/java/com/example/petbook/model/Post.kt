@@ -13,6 +13,7 @@ val id:String? = null,
     val likesCount : String? = null,
     val likes:List<String>? = null,
     val PostUserImage:String? = null,
-     val tags:Map<String,String>?=null
+     val tags:Map<String,String>?=null,
+val ownerid : String? = null,
 
 )
