@@ -11,13 +11,13 @@
         android:id="@+id/page_2"
         android:enabled="true"
         android:color="@color/grey"
-        android:icon="@drawable/ic_baseline_map_24"
+        android:icon="@drawable/explore_icon"
         android:title=""/>
     <item
         android:id="@+id/page_3"
         android:enabled="true"
         android:color="@color/grey"
-        android:icon="@drawable/explore_icon"
+        android:icon="@drawable/ic_baseline_map_24"
         android:title=""
         />
     <item
