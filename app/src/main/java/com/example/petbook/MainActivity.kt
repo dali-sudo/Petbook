@@ -112,28 +112,28 @@ binding.floatingActionButton.setOnClickListener(){
       if(currentFragment=="home")
         supportFragmentManager.beginTransaction().add(R.id.MainfragmentContainerView, HomeFragment()).commit()
         if(currentFragment=="map") {
-            supportFragmentManager.beginTransaction().add(R.id.MainfragmentContainerView, MapsFragment()).commit()
+            supportFragmentManager.beginTransaction().replace(R.id.MainfragmentContainerView, MapsFragment()).commit()
             binding.SearchTextField.visibility= GONE
             binding.floatingActionButton.visibility=GONE
             binding.backToHome.visibility= GONE
         }
         if(currentFragment=="discover") {
             supportFragmentManager.beginTransaction()
-                .add(R.id.MainfragmentContainerView, DiscoverFragment()).commit()
+                .replace(R.id.MainfragmentContainerView, DiscoverFragment()).commit()
             binding.SearchTextField.visibility= GONE
             binding.floatingActionButton.visibility=GONE
             binding.backToHome.visibility= GONE
         }
         if(currentFragment=="chat") {
             supportFragmentManager.beginTransaction()
-                .add(R.id.MainfragmentContainerView, ChatContactsFragment()).commit()
+                .replace(R.id.MainfragmentContainerView, ChatContactsFragment()).commit()
             binding.SearchTextField.visibility= GONE
             binding.floatingActionButton.visibility=GONE
             binding.backToHome.visibility= GONE
         }
         if(currentFragment=="profil") {
             supportFragmentManager.beginTransaction()
-                .add(R.id.MainfragmentContainerView, ProfilFragment()).commit()
+                .replace(R.id.MainfragmentContainerView, ProfilFragment()).commit()
             binding.SearchTextField.visibility= GONE
             binding.floatingActionButton.visibility=GONE
             binding.backToHome.visibility= GONE
