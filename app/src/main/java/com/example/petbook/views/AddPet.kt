@@ -1,5 +1,6 @@
 package com.example.petbook.views
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
@@ -9,9 +10,11 @@ import android.provider.MediaStore
 import android.util.Base64
 import androidx.activity.viewModels
 import androidx.core.graphics.drawable.toBitmap
+import com.example.petbook.MainActivity
 import com.example.petbook.databinding.ActivityAddPetBinding
 import com.example.petbook.model.BaseResponse
 import com.example.petbook.repository.SessionManager
+import com.example.petbook.util.LoadingDialog
 import com.example.petbook.util.toast
 import com.example.petbook.viewModel.petProfilesviewModel
 import java.io.ByteArrayOutputStream
@@ -27,9 +30,11 @@ class AddPet : AppCompatActivity() {
     private lateinit var race : String
     private lateinit var age : String
     private lateinit var gender : String
+    private lateinit var loadingDialog: LoadingDialog
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
+        loadingDialog = LoadingDialog(this)
         binding = ActivityAddPetBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
@@ -44,19 +49,24 @@ class AddPet : AppCompatActivity() {
         viewModel.addpetResult.observe(this) {
             when (it) {
                 is BaseResponse.Loading -> {
-                    toast("loading!!!!!")
+                    loadingDialog.startLoading()
                 }
 
                 is BaseResponse.Success -> {
-                    toast("Successss!!!!!")
+                    loadingDialog.stopLoading()
                     toast(it.data.toString())
+                    val intent = Intent(this, PetsProfiles::class.java)
+                    startActivity(intent)
+                    finish()
                 }
 
                 is BaseResponse.Error -> {
+                    loadingDialog.stopLoading()
                     toast("erooooorr!!!")
                    toast(it.msg.toString())
                 }
                 else -> {
+                    loadingDialog.stopLoading()
                    toast("no state done!!!")
                 }
             }
