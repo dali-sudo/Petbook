@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.BindingBuildInfo
 import com.example.petbook.R
 import com.example.petbook.databinding.ActivityProfilBinding
 import com.example.petbook.databinding.FragmentHomeBinding
@@ -106,6 +107,12 @@ class ProfilFragment : Fragment() {
 
 
             startActivity(intent)
+
+        }
+        binding.blogsLayout.setOnClickListener(){
+            val intent = Intent(activity, GuideActivity::class.java)
+            startActivity(intent)
+
 
         }
     }

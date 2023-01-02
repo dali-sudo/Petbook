@@ -5,6 +5,11 @@ import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Base64
+import android.view.View.GONE
+import android.widget.ImageView
+import android.widget.Toast
+import com.example.petbook.MainActivity
+import com.example.petbook.R
 import com.example.petbook.databinding.ActivityProfilBinding
 import com.example.petbook.repository.SessionManager
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -38,8 +43,9 @@ class profil : AppCompatActivity() {
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
 
-
+     //MainActivity.currentfragment="home"
             startActivity(intent)
+            finish()
 
         }
 
@@ -68,6 +74,7 @@ class profil : AppCompatActivity() {
 
         }
 
+
         binding.petlayout.setOnClickListener()
         {
 
@@ -79,6 +86,16 @@ class profil : AppCompatActivity() {
 
             startActivity(intent)
 
+        }
+     var blog =findViewById<ImageView>(R.id.blogsimagev)
+        blog.visibility=GONE
+        blog.setOnClickListener(){
+            val intent = Intent(this, PetsProfiles::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+
+
+            startActivity(intent)
         }
     }
 }

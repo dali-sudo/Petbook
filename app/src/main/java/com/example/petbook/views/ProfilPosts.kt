@@ -67,7 +67,7 @@ var followed =false
                 profilviewModel.userResult.observe(this) {
                     when (it) {
                         is BaseResponse.Loading -> {
-                            loadingDialog.startLoading()
+
                         }
 
                         is BaseResponse.Success -> {
