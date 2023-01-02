@@ -11,7 +11,6 @@ interface UserApi{
 
 @POST("/user/signin")
 suspend fun loginUser(@Body loginRequest: LoginRequest): Response<LoginResponse>
-
 @PUT("/user/edit")
 suspend fun editUser(@Body loginRequest: LoginRequest): Response<LoginResponse>
 @POST("/user/Find")
@@ -23,10 +22,13 @@ suspend fun findUser(@Body searchRequest: SearchRequest): Response<MutableList<S
 
     @POST("/user/getUser")
     suspend fun getUser(@Body userPostRequest: UserPostRequest): Response<UserPostResponse>
+
     @POST("/user/GoogleSignin")
     suspend fun GoogleloginUser(@Body loginRequest: LoginRequest): Response<LoginResponse>
 
     companion object {
+
+
     fun getApi(): UserApi? {
         return ApiClient.client?.create(UserApi::class.java)
     }
