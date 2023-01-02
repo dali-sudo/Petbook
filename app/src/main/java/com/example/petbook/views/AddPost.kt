@@ -34,6 +34,10 @@ import com.google.android.material.chip.Chip
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 import androidx.core.graphics.drawable.toBitmap
+import com.example.petbook.MainActivity
+import com.example.petbook.model.BaseResponse
+import com.example.petbook.util.LoadingDialog
+import com.example.petbook.util.toast
 import java.io.ByteArrayOutputStream
 import java.util.*
 
@@ -54,6 +58,7 @@ class AddPost : AppCompatActivity() {
     lateinit var taggedList : ArrayList<String>
     lateinit var taggedList1 : Map<String,String>
     lateinit var IdsList : ArrayList<String>
+    private lateinit var loadingDialog: LoadingDialog
 
 
     companion object {
@@ -72,13 +77,13 @@ class AddPost : AppCompatActivity() {
 
             taggedList1 = it.map { it.petName!! to it.id!!}.toMap()
             println(nameList + "**************")
-            if (!loaded) {
+
                 for (name in nameList) {
                     val chip = createChip(name!!)
                     binding.tagLayout.addView(chip)
                 }
-                loaded = true
-            }
+
+
 
         }
 
@@ -128,7 +133,10 @@ class AddPost : AppCompatActivity() {
         IdsList= arrayListOf<String>()
 
 
+
         super.onCreate(savedInstanceState)
+
+        loadingDialog = LoadingDialog(this)
         binding = ActivityAddPostBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
@@ -158,6 +166,9 @@ class AddPost : AppCompatActivity() {
 
         setSupportActionBar(toolbar)
 toolbar.setNavigationOnClickListener(){
+
+    val intent = Intent(this, MainActivity::class.java)
+    startActivity(intent)
     finish()
 }
 
@@ -183,6 +194,7 @@ binding.username.text=SessionManager.getString(this,"username")!!
                 val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
                 binding.addpostImageView.setImageBitmap(decodedImage)
                 binding.addpostImageView.setScaleType(ImageView.ScaleType.FIT_XY);
+
             }
 
           /*  binding.button2.setOnClickListener() {
@@ -205,11 +217,27 @@ binding.username.text=SessionManager.getString(this,"username")!!
             }
 */
 
+        viewModel.postResult.observe(this) {
+            when (it) {
+                is BaseResponse.Loading -> {
+                    loadingDialog.startLoading()
+                }
 
+                is BaseResponse.Success -> {
+                    loadingDialog.stopLoading()
 
+                }
 
+                is BaseResponse.Error -> {
+                    loadingDialog.stopLoading()
 
+                }
+                else -> {
+                    loadingDialog.stopLoading()
 
+                }
+            }
+        }
 
 
         }
@@ -251,6 +279,8 @@ binding.username.text=SessionManager.getString(this,"username")!!
         return true
     }
 
+
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
 
@@ -266,9 +296,7 @@ binding.username.text=SessionManager.getString(this,"username")!!
                     taggedList
 
                 )
-
                 finish()
-
             }
 
 

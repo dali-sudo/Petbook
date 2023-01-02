@@ -48,7 +48,7 @@ class EditProfile : AppCompatActivity() {
         }
 
 
-
+        binding.fullnameTxtView.setText(SessionManager.getString(this,"username"))
         binding.usernameTextField.setText(SessionManager.getString(this,"username"), TextView.BufferType.EDITABLE)
         binding.emailTextField.setText(SessionManager.getString(this,"email"), TextView.BufferType.EDITABLE)
 
@@ -58,6 +58,7 @@ class EditProfile : AppCompatActivity() {
             startActivityForResult(gallery, pickImage)
 
         }
+
         viewModel.EditResult.observe(this) {
             when (it) {
                 is BaseResponse.Loading -> {
@@ -84,16 +85,12 @@ class EditProfile : AppCompatActivity() {
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
             startActivity(intent)
-
             finish()
         }
+
         binding.updateUserButton.setOnClickListener ()
         {
-
-
             doUpdate()
-            navigateToProfile()
-
         }
 
 
@@ -122,14 +119,16 @@ class EditProfile : AppCompatActivity() {
         if (validate())
         {
             viewModel.EditUser(username=username,email = email, pwd = password,token = SessionManager.getToken(this)!!, img = SessionManager.getString(this,"profilePic")!!)
-
+            SessionManager.saveString(this, "username" , username)
+            SessionManager.saveString(this,"email", email)
+            navigateToProfile()
         }
 
     }
     private fun navigateToProfile() {
 
 
-        val intent = Intent(this, profil::class.java)
+        val intent = Intent(this, MainActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
         startActivity(intent)
@@ -140,30 +139,17 @@ class EditProfile : AppCompatActivity() {
 
     }
     fun stopLoading() {
-
-
         binding.loadingAnimation.isVisible=false
     }
     // save  user/token in shared pref
     fun processEdit(data: LoginResponse?) {
-        toast("Success:" + data?.user)
+      //  toast("Success:" + data?.user)
         if (data != null) {
             SessionManager.saveString(this, "username" , data.user.username)
             SessionManager.saveString(this,"email", data.user.email)
            SessionManager.saveString(this,"profilePic",data.user.img!!)
-
-
         }
-
-            navigateToProfile()
-
-
-
-        // if user got back we save its token for authentification
-
-
-
-
+        // if user gotback we save its token for authentification
     }
 
 
